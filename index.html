@@ -1,71 +1,493 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hakkında</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-            color: #333;
-        }
-        .container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #2c3e50;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
-        }
-        p {
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-        a {
-            color: #3498db;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eksen Mühendislik | Kombi ve Doğalgaz Bilgilendirme</title>
+<meta name="description" content="Eksen Mühendislik - 30 yıllık tecrübe ile kombi ve doğalgaz sistemleri hakkında bilgilendirme. Makine Mühendisi Burak Kara.">
+<style>
+  :root{
+    --navy:#0f2740;
+    --navy-2:#16334f;
+    --blue:#2f7fd1;
+    --flame:#e8703a;
+    --flame-2:#f4934f;
+    --ink:#1c2b3a;
+    --muted:#5b6c7c;
+    --paper:#f6f8fa;
+    --white:#ffffff;
+    --line:#e3e8ee;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.6;
+  }
+  a{color:inherit;}
+  img{max-width:100%;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 20px;}
+
+  /* Header */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:var(--navy);
+    color:var(--white);
+    box-shadow:0 2px 10px rgba(0,0,0,.15);
+  }
+  .nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 0;
+  }
+  .brand{
+    display:flex;align-items:center;gap:10px;
+    font-weight:700;font-size:1.15rem;letter-spacing:.2px;
+    text-decoration:none;color:var(--white);
+  }
+  .brand .flame{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:34px;height:34px;border-radius:9px;
+    background:linear-gradient(135deg,var(--flame),var(--flame-2));
+    font-size:18px;
+  }
+  .brand small{display:block;font-weight:400;font-size:.68rem;color:#b9c8d6;letter-spacing:.4px;}
+  nav.links{display:flex;gap:26px;font-size:.95rem;}
+  nav.links a{text-decoration:none;color:#dce7f1;transition:color .15s;}
+  nav.links a:hover{color:var(--flame-2);}
+  .call-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--flame);color:#fff;
+    padding:9px 16px;border-radius:30px;
+    text-decoration:none;font-weight:600;font-size:.9rem;
+    white-space:nowrap;
+    transition:background .15s;
+  }
+  .call-btn:hover{background:var(--flame-2);}
+  .menu-toggle{display:none;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;}
+
+  /* Hero */
+  .hero{
+    background:
+      radial-gradient(circle at 85% 20%, rgba(232,112,58,.25), transparent 45%),
+      linear-gradient(160deg,var(--navy) 0%, var(--navy-2) 60%, #1c3f5e 100%);
+    color:#fff;
+    padding:64px 0 70px;
+  }
+  .hero-grid{display:flex;gap:40px;align-items:center;flex-wrap:wrap;}
+  .hero-text{flex:1 1 420px;}
+  .eyebrow{
+    display:inline-block;background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.2);
+    padding:6px 14px;border-radius:30px;font-size:.8rem;
+    letter-spacing:.5px;margin-bottom:18px;color:#d7e4ef;
+  }
+  .hero h1{font-size:2.4rem;line-height:1.25;margin:0 0 16px;}
+  .hero h1 span{color:var(--flame-2);}
+  .hero p.lead{color:#c3d3e0;font-size:1.05rem;max-width:520px;margin:0 0 26px;}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--flame);color:#fff;padding:13px 24px;border-radius:30px;
+    text-decoration:none;font-weight:600;display:inline-flex;align-items:center;gap:8px;
+    transition:background .15s, transform .15s;
+  }
+  .btn-primary:hover{background:var(--flame-2);transform:translateY(-1px);}
+  .btn-ghost{
+    border:1px solid rgba(255,255,255,.35);color:#fff;padding:13px 24px;border-radius:30px;
+    text-decoration:none;font-weight:600;
+    transition:background .15s;
+  }
+  .btn-ghost:hover{background:rgba(255,255,255,.1);}
+  .hero-stats{
+    flex:1 1 320px;display:grid;grid-template-columns:1fr 1fr;gap:16px;
+  }
+  .stat-card{
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.14);
+    border-radius:var(--radius);
+    padding:20px;
+    backdrop-filter:blur(2px);
+  }
+  .stat-card .num{font-size:1.9rem;font-weight:700;color:var(--flame-2);}
+  .stat-card .label{font-size:.85rem;color:#c3d3e0;margin-top:4px;}
+
+  /* Sections */
+  section{padding:64px 0;}
+  .section-head{max-width:640px;margin:0 auto 40px;text-align:center;}
+  .section-head .kicker{
+    color:var(--flame);font-weight:700;font-size:.8rem;
+    letter-spacing:1px;text-transform:uppercase;
+  }
+  .section-head h2{font-size:1.9rem;margin:8px 0 12px;color:var(--navy);}
+  .section-head p{color:var(--muted);margin:0;}
+
+  /* About */
+  .about{background:var(--white);}
+  .about-grid{display:flex;gap:44px;align-items:center;flex-wrap:wrap;}
+  .about-photo{
+    flex:1 1 300px;
+    background:linear-gradient(160deg,var(--navy),var(--blue));
+    border-radius:var(--radius);
+    padding:40px 30px;color:#fff;position:relative;overflow:hidden;
+    min-height:280px;display:flex;flex-direction:column;justify-content:flex-end;
+  }
+  .about-photo::before{
+    content:"🔧";
+    position:absolute;top:-20px;right:-10px;font-size:9rem;opacity:.15;
+  }
+  .about-photo .name{font-size:1.3rem;font-weight:700;}
+  .about-photo .role{color:#d7e4ef;font-size:.9rem;margin-top:4px;}
+  .about-photo .badge{
+    display:inline-block;margin-bottom:14px;background:rgba(255,255,255,.15);
+    padding:5px 12px;border-radius:20px;font-size:.75rem;letter-spacing:.4px;width:fit-content;
+  }
+  .about-text{flex:1 1 380px;}
+  .about-text h3{color:var(--navy);font-size:1.4rem;margin-top:0;}
+  .about-text p{color:var(--muted);}
+  .checklist{list-style:none;padding:0;margin:20px 0 0;display:grid;gap:12px;}
+  .checklist li{display:flex;gap:10px;align-items:flex-start;color:var(--ink);font-size:.95rem;}
+  .checklist li::before{
+    content:"✓";flex:0 0 auto;
+    width:22px;height:22px;border-radius:50%;
+    background:var(--flame);color:#fff;font-size:.75rem;
+    display:flex;align-items:center;justify-content:center;margin-top:2px;
+  }
+
+  /* Services */
+  .services{background:var(--paper);}
+  .service-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px;}
+  .service-card{
+    background:var(--white);border:1px solid var(--line);border-radius:var(--radius);
+    padding:26px 22px;
+  }
+  .service-card .ico{font-size:1.6rem;margin-bottom:12px;display:block;}
+  .service-card h4{margin:0 0 8px;color:var(--navy);font-size:1.05rem;}
+  .service-card p{margin:0;color:var(--muted);font-size:.9rem;}
+
+  /* Kombi models - informational, not salesy */
+  .models{background:var(--white);}
+  .model-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px;}
+  .model-card{
+    border:1px solid var(--line);border-radius:var(--radius);
+    padding:24px;position:relative;background:var(--paper);
+  }
+  .model-card .rank{
+    position:absolute;top:-12px;left:20px;
+    background:var(--navy);color:#fff;font-size:.72rem;font-weight:700;
+    padding:4px 10px;border-radius:20px;letter-spacing:.3px;
+  }
+  .model-card h4{margin:10px 0 2px;color:var(--navy);font-size:1.1rem;}
+  .model-card .brand-tag{color:var(--flame);font-size:.78rem;font-weight:700;letter-spacing:.3px;text-transform:uppercase;}
+  .model-card ul{padding-left:18px;margin:14px 0 0;color:var(--muted);font-size:.9rem;}
+  .model-card ul li{margin-bottom:6px;}
+  .models-note{
+    max-width:760px;margin:36px auto 0;text-align:center;color:var(--muted);
+    font-size:.88rem;background:var(--paper);border:1px dashed var(--line);
+    border-radius:var(--radius);padding:16px 20px;
+  }
+
+  /* Map / contact */
+  .contact{background:linear-gradient(160deg,var(--navy),var(--navy-2));color:#fff;}
+  .contact-grid{display:flex;gap:36px;flex-wrap:wrap;align-items:stretch;}
+  .contact-info{flex:1 1 320px;}
+  .contact-info h3{font-size:1.5rem;margin-top:0;}
+  .contact-info p{color:#c3d3e0;}
+  .info-row{
+    display:flex;gap:14px;align-items:flex-start;margin:20px 0;
+  }
+  .info-row .ico{
+    width:42px;height:42px;border-radius:10px;background:rgba(255,255,255,.1);
+    display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex:0 0 auto;
+  }
+  .info-row .txt strong{display:block;font-size:.95rem;}
+  .info-row .txt a{color:#fff;text-decoration:none;}
+  .info-row .txt a:hover{color:var(--flame-2);}
+  .info-row .txt span.sub{color:#aebfd0;font-size:.85rem;}
+  .map-embed{
+    flex:1 1 380px;border-radius:var(--radius);overflow:hidden;
+    min-height:320px;border:1px solid rgba(255,255,255,.15);
+  }
+  .map-embed iframe{width:100%;height:100%;min-height:320px;border:0;display:block;}
+
+  footer{
+    background:#0b1c2e;color:#93a5b6;padding:26px 0;text-align:center;font-size:.85rem;
+  }
+  footer strong{color:#fff;}
+  footer a{color:#c3d3e0;text-decoration:none;}
+
+  @media (max-width:760px){
+    nav.links{
+      position:absolute;top:100%;left:0;right:0;
+      background:var(--navy);flex-direction:column;gap:0;
+      max-height:0;overflow:hidden;transition:max-height .25s ease;
+    }
+    nav.links.open{max-height:320px;padding:10px 0;}
+    nav.links a{padding:12px 20px;border-top:1px solid rgba(255,255,255,.08);}
+    .menu-toggle{display:block;}
+    .hero h1{font-size:1.9rem;}
+    header{position:sticky;}
+    .nav{position:relative;}
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>Hakkında</h1>
-        
-        <p>
-            Hoş geldiniz! Bu, kombi ve doğal gaz konularında bilgi paylaşan basit bir websitesidir.
-        </p>
-        
-        <h2>Misyonumuz</h2>
-        <p>
-            Kombi ve doğal gaz sistemleri hakkında açık ve anlaşılır bilgi sağlamak, 
-            kullanıcıların güvenli ve verimli bir şekilde bu sistemleri kullanmalarına yardımcı olmaktır.
-        </p>
-        
-        <h2>İçerik</h2>
-        <p>
-            Sitemizde şunları bulabilirsiniz:
-        </p>
-        <ul>
-            <li>Kombi kullanım kılavuzu</li>
-            <li>Doğal gaz güvenliği</li>
-            <li>Bakım ve onarım ipuçları</li>
-            <li>Sıkça sorulan sorular</li>
-        </ul>
-        
-        <h2>İletişim</h2>
-        <p>
-            Sorularınız veya önerileriniz için bizimle <a href="mailto:info@example.com">iletişime geçin</a>.
-        </p>
+
+<header>
+  <div class="wrap nav">
+    <a href="#top" class="brand">
+      <span class="flame">🔥</span>
+      <span>Eksen Mühendislik<small>Kombi &amp; Doğalgaz Sistemleri</small></span>
+    </a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menüyü aç">☰</button>
+    <nav class="links" id="navLinks">
+      <a href="#hakkimizda">Hakkımızda</a>
+      <a href="#hizmetler">Hizmetler</a>
+      <a href="#kombiler">Kombi Bilgisi</a>
+      <a href="#iletisim">İletişim</a>
+    </nav>
+    <a class="call-btn" href="tel:+905322840750">📞 +90 532 284 07 50</a>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div class="hero-text">
+      <span class="eyebrow">30 YILLIK TECRÜBE</span>
+      <h1>Kombi ve doğalgaz sistemlerinde <span>güvenilir mühendislik bilgisi</span></h1>
+      <p class="lead">
+        Eksen Mühendislik, 30 yılı aşkın süredir kombi ve doğalgaz sistemleri alanında hizmet veriyor.
+        Firmamız, Makine Mühendisi Burak Kara liderliğinde; doğru bilgilendirme, teknik danışmanlık
+        ve güvenli tesisat anlayışıyla çalışır.
+      </p>
+      <div class="hero-cta">
+        <a class="btn-primary" href="tel:+905322840750">📞 Hemen Ara</a>
+        <a class="btn-ghost" href="#kombiler">Kombi Bilgilerini İncele</a>
+      </div>
     </div>
+    <div class="hero-stats">
+      <div class="stat-card">
+        <div class="num">30+</div>
+        <div class="label">Yıllık sektör tecrübesi</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">M.Müh.</div>
+        <div class="label">Makine Mühendisi denetiminde hizmet</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">7/24</div>
+        <div class="label">Telefonla ulaşılabilirlik</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">%100</div>
+        <div class="label">Yerel, güvenilir bilgi</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="hakkimizda">
+  <div class="wrap about-grid">
+    <div class="about-photo">
+      <span class="badge">FİRMA SAHİBİ</span>
+      <div class="name">Burak Kara</div>
+      <div class="role">Makine Mühendisi</div>
+    </div>
+    <div class="about-text">
+      <span class="section-head kicker" style="display:block;margin-bottom:6px;">HAKKIMIZDA</span>
+      <h3>30 yıllık geçmişe sahip bir mühendislik firması</h3>
+      <p>
+        Eksen Mühendislik, kurulduğu günden bu yana kombi ve doğalgaz sistemleri konusunda
+        30 yılı aşkın bir tecrübe biriktirmiştir. Firmamızın sahibi Burak Kara, Makine Mühendisi
+        olarak sektördeki teknik gelişmeleri yakından takip etmekte ve bu bilgi birikimini
+        müşterilerimizle paylaşmaktadır.
+      </p>
+      <p>
+        Amacımız; kombi ve doğalgaz konusunda doğru, anlaşılır ve güncel bilgi sunarak,
+        kullanıcıların bu sistemleri güvenli ve verimli şekilde kullanmasına destek olmaktır.
+      </p>
+      <ul class="checklist">
+        <li>30 yılı aşkın sektör tecrübesi</li>
+        <li>Makine Mühendisi gözetiminde teknik danışmanlık</li>
+        <li>Kombi ve doğalgaz sistemleri hakkında güncel bilgilendirme</li>
+        <li>Yerinde ve telefonla ulaşılabilir hizmet anlayışı</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="services" id="hizmetler">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">HİZMETLERİMİZ</span>
+      <h2>Neler için bize ulaşabilirsiniz?</h2>
+      <p>Kombi ve doğalgaz sistemleriyle ilgili konularda mühendislik bakış açısıyla yanınızdayız.</p>
+    </div>
+    <div class="service-grid">
+      <div class="service-card">
+        <span class="ico">🛠️</span>
+        <h4>Kombi Bakım &amp; Kontrol Danışmanlığı</h4>
+        <p>Kombinizin periyodik bakımı ve verimli çalışması için teknik yönlendirme.</p>
+      </div>
+      <div class="service-card">
+        <span class="ico">🔩</span>
+        <h4>Doğalgaz Tesisatı Bilgilendirmesi</h4>
+        <p>İç tesisat, güvenlik ve mevzuat konularında mühendislik desteği.</p>
+      </div>
+      <div class="service-card">
+        <span class="ico">📐</span>
+        <h4>Sistem Seçimi Danışmanlığı</h4>
+        <p>İhtiyacınıza uygun kombi tipi ve kapasitesinin belirlenmesinde yönlendirme.</p>
+      </div>
+      <div class="service-card">
+        <span class="ico">🧯</span>
+        <h4>Doğalgaz Güvenliği</h4>
+        <p>Güvenli kullanım, havalandırma ve olası risklere karşı bilgilendirme.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="models" id="kombiler">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">GENEL BİLGİLENDİRME</span>
+      <h2>Piyasada En Çok Tercih Edilen Kombi Modelleri</h2>
+      <p>
+        Türkiye genelinde yoğun tercih edilen bazı yoğuşmalı kombi marka ve modelleri ile öne çıkan
+        özellikleri; sadece bilgilendirme amaçlıdır.
+      </p>
+    </div>
+    <div class="model-grid">
+      <div class="model-card">
+        <span class="rank">1</span>
+        <span class="brand-tag">Vaillant</span>
+        <h4>ecoTEC / Duotec Compact</h4>
+        <ul>
+          <li>Tam yoğuşmalı, yüksek enerji verimliliği</li>
+          <li>Sessiz çalışma</li>
+          <li>Kompakt tasarım, yaygın servis ağı</li>
+        </ul>
+      </div>
+      <div class="model-card">
+        <span class="rank">2</span>
+        <span class="brand-tag">Demirdöküm</span>
+        <h4>Nitromix Serisi</h4>
+        <ul>
+          <li>Uzun yıllardır tercih edilen dayanıklı yapı</li>
+          <li>Yoğuşmalı teknoloji ile düşük yakıt tüketimi</li>
+          <li>Geniş yedek parça ve servis erişimi</li>
+        </ul>
+      </div>
+      <div class="model-card">
+        <span class="rank">3</span>
+        <span class="brand-tag">ECA</span>
+        <h4>Proteus Serisi</h4>
+        <ul>
+          <li>Uygun fiyat/performans dengesi</li>
+          <li>Yoğuşmalı model seçenekleri</li>
+          <li>Kolay kullanım ve bakım</li>
+        </ul>
+      </div>
+      <div class="model-card">
+        <span class="rank">4</span>
+        <span class="brand-tag">Baymak</span>
+        <h4>Duotec Serisi</h4>
+        <ul>
+          <li>Yoğuşmalı teknoloji, düşük emisyon</li>
+          <li>Kararlı ısınma performansı</li>
+          <li>Yerli üretim, yaygın satış sonrası destek</li>
+        </ul>
+      </div>
+      <div class="model-card">
+        <span class="rank">5</span>
+        <span class="brand-tag">Bosch</span>
+        <h4>Condens Serisi</h4>
+        <ul>
+          <li>Yüksek yapı kalitesi</li>
+          <li>Akıllı kontrol seçenekleri</li>
+          <li>Uzun ömürlü kullanım</li>
+        </ul>
+      </div>
+    </div>
+    <p class="models-note">
+      Not: Yukarıdaki bilgiler genel piyasa gözlemlerine dayalı, bağımsız bilgilendirme amaçlıdır;
+      belirli bir marka satışını temsil etmez. Sizin için en uygun kombi modelinin belirlenmesi
+      konusunda görüş almak isterseniz bizi arayabilirsiniz.
+    </p>
+  </div>
+</section>
+
+<section class="contact" id="iletisim">
+  <div class="wrap contact-grid">
+    <div class="contact-info">
+      <span class="kicker" style="color:var(--flame-2);">İLETİŞİM</span>
+      <h3>Bize Ulaşın</h3>
+      <p>Sorularınız için telefonla bize ulaşabilir veya haritadan adresimize göz atabilirsiniz.</p>
+
+      <div class="info-row">
+        <span class="ico">📞</span>
+        <div class="txt">
+          <strong>Telefon</strong>
+          <a href="tel:+905322840750">+90 532 284 07 50</a>
+        </div>
+      </div>
+      <div class="info-row">
+        <span class="ico">👤</span>
+        <div class="txt">
+          <strong>Firma Sahibi</strong>
+          <span class="sub">Burak Kara — Makine Mühendisi</span>
+        </div>
+      </div>
+      <div class="info-row">
+        <span class="ico">📍</span>
+        <div class="txt">
+          <strong>Adres</strong>
+          <a href="https://maps.app.goo.gl/5cwX4YQcc4YRJN5T6" target="_blank" rel="noopener">
+            Eksen Mühendislik — Haritada Görüntüle / Yol Tarifi Al
+          </a>
+        </div>
+      </div>
+      <div class="info-row">
+        <span class="ico">🏢</span>
+        <div class="txt">
+          <strong>Deneyim</strong>
+          <span class="sub">30 yılı aşkın süredir hizmet veren mühendislik firması</span>
+        </div>
+      </div>
+    </div>
+    <div class="map-embed">
+      <iframe
+        src="https://www.google.com/maps?q=Eksen+M%C3%BChendislik,41.016877,28.9454413&z=16&output=embed"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Eksen Mühendislik Konum">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><strong>Eksen Mühendislik</strong> — Kombi ve Doğalgaz Sistemleri Bilgilendirme<br>
+    30 yıllık tecrübe · Makine Mühendisi Burak Kara · <a href="tel:+905322840750">+90 532 284 07 50</a></p>
+    <p>© <span id="year"></span> Eksen Mühendislik. Tüm hakları saklıdır.</p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  var toggle = document.getElementById('menuToggle');
+  var links = document.getElementById('navLinks');
+  toggle.addEventListener('click', function(){
+    links.classList.toggle('open');
+  });
+  links.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ links.classList.remove('open'); });
+  });
+</script>
+
 </body>
 </html>

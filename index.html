@@ -81,8 +81,7 @@
     display:inline-flex;align-items:center;justify-content:center;
     width:40px;height:40px;border-radius:12px;
     background:var(--grad);
-    box-shadow:0 0 calc(18px + var(--heat) * 30px) rgba(255,106,43,calc(.45 + var(--heat) * .5)), inset 0 1px 0 rgba(255,255,255,.35);
-    animation:flicker 2.8s ease-in-out infinite;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.35);
   }
   .brand .flame svg{width:20px;height:20px;}
   .brand small{display:block;font-weight:500;font-size:.68rem;color:var(--muted);letter-spacing:.6px;text-transform:uppercase;}
@@ -106,11 +105,7 @@
   }
   .call-btn:hover{transform:translateY(-1px);box-shadow:0 10px 30px rgba(255,106,43,.5);}
   .call-btn .call-short{display:none;}
-  .call-btn::after{
-    content:"";position:absolute;top:0;bottom:0;left:0;width:40%;
-    background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);
-    animation:shine 4s ease-in-out infinite;
-  }
+  .i{width:1em;height:1em;flex:0 0 auto;}
   .menu-toggle{
     display:none;background:var(--glass);border:1px solid var(--stroke);color:var(--text);
     width:42px;height:42px;border-radius:12px;font-size:1.2rem;cursor:pointer;
@@ -123,71 +118,19 @@
     padding:140px 0 90px;text-align:center;
   }
   .orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;}
-  /* ---------- Canlı alev (kaydırdıkça harlanır) ---------- */
-  :root{--heat:0;}
-  /* Arka planda, sayfanın altında sabit duran alev: en üstte sönük, kaydırdıkça tutuşur */
-  .bg-fire{
-    position:fixed;left:50%;bottom:-30px;z-index:-1;pointer-events:none;
-    width:min(64vw,500px);height:min(70vw,520px);
-    transform:translateX(-50%) scale(calc(.3 + var(--heat) * .65));transform-origin:50% 100%;
-    opacity:min(.4, calc(var(--heat) * 1.8));
-  }
-  .bg-fire .fire{width:100%;height:100%;transform:none;}
-  /* Arka plandaki alev keskin değil, yumuşak bir kor ışığı gibi dursun */
-  .bg-fire .fire-svg{filter:blur(7px);}
-  .bg-fire .fl-inner{opacity:.45;}
-  /* Kart dışındaki yazılara koyu hale: alev arkadan geçse de okunur */
-  .section-head, .about-text, .contact-info, .hero .wrap{
-    text-shadow:0 1px 2px rgba(6,13,23,.9), 0 0 24px rgba(6,13,23,.85);
-  }
-  .grad-text{text-shadow:none;}
-  .bg-fire .fire-glow{width:160%;height:80%;left:-30%;margin-left:0;bottom:-15%;filter:blur(40px);}
-  .bg-fire .sparks i{width:6px;height:6px;margin-left:-3px;--rise:-420px;}
-  .fire{
-    position:relative;width:150px;height:200px;
-    transform:scale(calc(.8 + var(--heat) * .6));transform-origin:50% 100%;
-    filter:brightness(calc(1 + var(--heat) * .4)) saturate(calc(1 + var(--heat) * .4));
-    will-change:transform;
-  }
-  .fire-glow{
-    position:absolute;left:50%;bottom:-30px;width:420px;height:420px;margin-left:-210px;border-radius:50%;
-    background:radial-gradient(circle,rgba(255,106,43,.6),rgba(255,106,43,.15) 40%,transparent 65%);
-    filter:blur(24px);pointer-events:none;
-    opacity:calc(.45 + var(--heat) * .55);
-    animation:glowpulse 2.4s ease-in-out infinite;
-  }
-  .fire-svg{position:relative;width:100%;height:100%;overflow:visible;mix-blend-mode:screen;}
-  .fl{transform-box:fill-box;transform-origin:50% 100%;}
-  .fl-outer{animation:lick1 1.7s ease-in-out infinite alternate;}
-  .fl-mid{animation:lick2 1.25s ease-in-out infinite alternate;}
-  .fl-inner{animation:lick3 .9s ease-in-out infinite alternate;}
-  .fl-blue{animation:bluepulse 1.1s ease-in-out infinite alternate;}
-  .sparks{position:absolute;inset:0;pointer-events:none;opacity:calc(.2 + var(--heat) * .8);}
-  .sparks i{
-    position:absolute;bottom:28%;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:50%;
-    background:#ffd27a;box-shadow:0 0 8px 2px rgba(255,138,61,.9);opacity:0;
-    animation:spark var(--t,2.2s) linear infinite;animation-delay:var(--d,0s);
-  }
 
-  /* Sağ altta, sayfa boyunca yanan küçük alev (başa döner) */
-  .fire-fab{
+  /* Sağ altta başa dön butonu */
+  .to-top{
     position:fixed;right:20px;bottom:20px;z-index:60;
-    width:64px;height:64px;border-radius:50%;
-    display:flex;align-items:flex-end;justify-content:center;overflow:hidden;
-    background:rgba(10,21,34,.75);border:1px solid var(--stroke-2);
-    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-    box-shadow:0 0 calc(10px + var(--heat) * 40px) rgba(255,106,43,calc(.25 + var(--heat) * .6));
-    opacity:0;transform:translateY(20px) scale(.8);pointer-events:none;
-    transition:opacity .35s, transform .35s;
+    width:48px;height:48px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(10,21,34,.85);border:1px solid var(--stroke-2);color:var(--text);
+    text-decoration:none;font-weight:800;font-size:1.1rem;
+    opacity:0;transform:translateY(12px);pointer-events:none;
+    transition:opacity .3s, transform .3s, border-color .2s;
   }
-  .fire-fab.show{opacity:1;transform:none;pointer-events:auto;}
-  .fire-fab .fire{width:40px;height:54px;margin-bottom:4px;transform:scale(calc(.75 + var(--heat) * .3));}
-  .fire-fab .fire-glow{width:90px;height:90px;margin-left:-45px;bottom:-20px;filter:blur(10px);}
-  .fire-fab::after{
-    content:"↑";position:absolute;top:4px;left:0;right:0;text-align:center;
-    font-size:.7rem;font-weight:800;color:var(--muted);opacity:0;transition:opacity .2s;
-  }
-  .fire-fab:hover::after{opacity:1;}
+  .to-top.show{opacity:1;transform:none;pointer-events:auto;}
+  .to-top:hover{border-color:rgba(255,162,76,.5);}
 
   .orb.o2{
     width:420px;height:420px;right:-120px;top:-80px;
@@ -212,13 +155,10 @@
     display:inline-flex;align-items:center;justify-content:center;font-size:.7rem;color:#1a0b02;
   }
   .hero h1{
-    font-size:clamp(2.3rem,6vw,4.6rem);line-height:1.05;letter-spacing:-2px;
-    font-weight:800;margin:0 auto 22px;max-width:920px;
+    font-size:clamp(2.2rem,5.4vw,4.2rem);line-height:1.08;letter-spacing:-2px;
+    font-weight:800;margin:0 auto 22px;max-width:920px;text-wrap:balance;
   }
-  .hero h1 .grad-text{
-    background-image:linear-gradient(90deg,var(--flame),var(--gold),var(--flame-2),var(--flame));
-    background-size:250% auto;animation:shimmer 7s linear infinite;
-  }
+  @media (min-width:700px){ .nowrap{white-space:nowrap;} }
   .hero p.lead{color:var(--muted);font-size:1.12rem;max-width:640px;margin:0 auto 36px;}
   .hero-cta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;}
   .btn-primary{
@@ -227,7 +167,6 @@
     text-decoration:none;font-weight:800;display:inline-flex;align-items:center;gap:10px;
     box-shadow:0 10px 40px rgba(255,106,43,.45);
     transition:transform .2s, box-shadow .2s;
-    animation:pulse-ring 2.6s ease-out infinite;
   }
   .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 50px rgba(255,106,43,.6);}
   .btn-ghost{
@@ -303,14 +242,14 @@
     content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .35s;
     background:radial-gradient(380px circle at var(--mx,50%) var(--my,50%),rgba(255,140,60,.14),transparent 45%);
   }
-  .glass:hover{transform:translateY(-6px);border-color:rgba(255,162,76,.35);box-shadow:0 24px 60px rgba(0,0,0,.45);}
+  .glass:hover{transform:translateY(-3px);border-color:rgba(255,162,76,.35);box-shadow:0 24px 60px rgba(0,0,0,.45);}
   .glass:hover::before{opacity:1;}
 
   /* ---------- About ---------- */
   .about{background:transparent;}
-  .about-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:60px;align-items:center;}
+  .about-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:60px;align-items:start;}
   .about-photo{
-    position:relative;overflow:hidden;border-radius:28px;padding:40px;min-height:440px;
+    position:sticky;top:110px;overflow:hidden;border-radius:28px;padding:40px;min-height:440px;
     background:
       radial-gradient(circle at 80% 15%,rgba(255,106,43,.45),transparent 50%),
       radial-gradient(circle at 10% 90%,rgba(59,143,240,.3),transparent 55%),
@@ -318,11 +257,6 @@
     border:1px solid var(--stroke-2);
     display:flex;flex-direction:column;justify-content:space-between;
     box-shadow:0 30px 80px rgba(0,0,0,.5);
-  }
-  .about-photo::after{
-    content:"";position:absolute;top:0;bottom:0;left:0;width:45%;
-    background:linear-gradient(90deg,transparent,rgba(255,255,255,.07),transparent);
-    animation:shine 6s ease-in-out infinite;
   }
   .about-photo .big{
     font-size:clamp(5rem,11vw,8.5rem);font-weight:800;line-height:.9;letter-spacing:-5px;
@@ -356,15 +290,12 @@
   .services{background:rgba(10,21,34,.4);}
   .service-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:18px;}
   .service-card{grid-column:span 2;padding:32px 28px;}
-  .service-card:nth-child(4),.service-card:nth-child(5){grid-column:span 3;}
   .service-card .ico{
     width:58px;height:58px;border-radius:16px;margin-bottom:22px;
-    display:flex;align-items:center;justify-content:center;font-size:1.6rem;
-    background:linear-gradient(135deg,rgba(255,106,43,.22),rgba(255,162,76,.06));
-    border:1px solid rgba(255,162,76,.25);
-    transition:transform .35s;
+    display:flex;align-items:center;justify-content:center;font-size:1.6rem;color:var(--flame-2);
+    background:rgba(255,106,43,.1);
+    border:1px solid rgba(255,162,76,.22);
   }
-  .service-card:hover .ico{transform:rotate(-8deg) scale(1.08);}
   .service-card h4{margin:0 0 10px;font-size:1.12rem;letter-spacing:-.2px;}
   .service-card p{margin:0;color:var(--muted);font-size:.93rem;}
   .note{
@@ -376,7 +307,7 @@
 
   /* ---------- Models ---------- */
   .models{background:transparent;}
-  .model-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;}
+  .model-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;}
   .model-card{padding:28px;}
   .model-card .top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px;}
   .model-card .rank{
@@ -394,19 +325,31 @@
   .model-card:hover .model-icon{transform:scale(1.08) rotate(-5deg);}
   .model-card .brand-tag{color:var(--flame-2);font-size:.75rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;}
   .model-card h4{margin:4px 0 0;font-size:1.2rem;letter-spacing:-.3px;}
-  .model-card ul{list-style:none;padding:0;margin:18px 0 0;color:var(--muted);font-size:.9rem;}
-  .model-card ul li{position:relative;padding-left:18px;margin-bottom:8px;}
-  .model-card ul li::before{
-    content:"";position:absolute;left:0;top:.62em;width:6px;height:6px;border-radius:50%;background:var(--flame-2);
+  .model-card .warranty{
+    display:inline-flex;align-items:center;gap:6px;margin-top:16px;
+    padding:6px 12px;border-radius:30px;font-size:.82rem;font-weight:800;
+    background:rgba(255,162,76,.12);border:1px solid rgba(255,162,76,.3);color:var(--gold);
   }
 
   /* ---------- References ---------- */
   .references{background:rgba(10,21,34,.4);}
-  .references-placeholder{
-    max-width:680px;margin:0 auto;text-align:center;padding:56px 24px;
-    color:var(--muted);font-weight:600;
+  .ref-total{
+    display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;
+    max-width:760px;margin:0 auto 36px;text-align:center;
+    color:#c4d2e0;font-weight:600;
   }
-  .references-placeholder .ico{font-size:2rem;display:block;margin-bottom:10px;}
+  .ref-total .num{font-size:2.4rem;font-weight:800;letter-spacing:-1px;}
+  .ref-grid{
+    list-style:none;margin:0;padding:0;
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px;
+  }
+  .ref-grid li{
+    display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+    padding:14px 18px;border-radius:14px;
+    background:rgba(14,27,43,.82);border:1px solid var(--stroke);
+  }
+  .ref-name{font-weight:700;font-size:.93rem;}
+  .ref-loc{color:var(--muted);font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;white-space:nowrap;}
 
   /* ---------- CTA band ---------- */
   .cta-band{padding:0;background:transparent;}
@@ -421,6 +364,7 @@
   .cta-inner h3{font-size:clamp(1.6rem,3.4vw,2.5rem);line-height:1.1;letter-spacing:-1px;margin:0 0 8px;}
   .cta-inner p{margin:0;font-weight:600;opacity:.8;}
   .cta-inner a{
+    display:inline-flex;align-items:center;gap:10px;
     background:#0a1522;color:#fff;text-decoration:none;font-weight:800;
     padding:18px 30px;border-radius:40px;font-size:1.1rem;white-space:nowrap;
     box-shadow:0 10px 30px rgba(0,0,0,.3);transition:transform .2s;
@@ -441,10 +385,9 @@
   .info-row:first-of-type{border-top:0;}
   .info-row .ico{
     width:44px;height:44px;border-radius:12px;background:var(--glass-2);border:1px solid var(--stroke);
-    display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex:0 0 auto;
-    transition:background .25s, transform .25s;
+    display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex:0 0 auto;
+    color:var(--flame-2);
   }
-  .info-row:hover .ico{background:rgba(255,106,43,.2);transform:scale(1.06);}
   .info-row .txt strong{display:block;font-size:.78rem;color:var(--muted-2);text-transform:uppercase;letter-spacing:1px;font-weight:800;}
   .info-row .txt a{color:var(--text);text-decoration:none;font-weight:700;transition:color .2s;}
   .info-row .txt a:hover{color:var(--flame-2);}
@@ -468,55 +411,12 @@
   footer a:hover{color:var(--flame-2);}
 
   /* ---------- Animasyonlar ---------- */
-  @keyframes flicker{
-    0%,100%{transform:scale(1) rotate(0);filter:brightness(1);}
-    25%{transform:scale(1.06) rotate(-3deg);filter:brightness(1.15);}
-    50%{transform:scale(.97) rotate(2deg);}
-    75%{transform:scale(1.04) rotate(-1deg);filter:brightness(1.1);}
-  }
   @keyframes float{
     0%,100%{transform:translate(0,0) scale(1);}
     50%{transform:translate(-40px,30px) scale(1.1);}
   }
-  @keyframes breathe{
-    0%,100%{transform:scale(1);opacity:.85;}
-    50%{transform:scale(1.15);opacity:1;}
-  }
-  @keyframes shimmer{from{background-position:0% 50%;}to{background-position:250% 50%;}}
-  @keyframes pulse-ring{
-    0%{box-shadow:0 10px 40px rgba(255,106,43,.45),0 0 0 0 rgba(255,106,43,.5);}
-    70%{box-shadow:0 10px 40px rgba(255,106,43,.45),0 0 0 16px rgba(255,106,43,0);}
-    100%{box-shadow:0 10px 40px rgba(255,106,43,.45),0 0 0 0 rgba(255,106,43,0);}
-  }
   @keyframes rise{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:none;}}
-  @keyframes shine{
-    0%{transform:translateX(-120%) skewX(-20deg);}
-    60%,100%{transform:translateX(260%) skewX(-20deg);}
-  }
   @keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
-  @keyframes lick1{
-    0%{transform:scale(1,1) skewX(0);}
-    33%{transform:scale(1.05,.93) skewX(3deg);}
-    66%{transform:scale(.95,1.07) skewX(-4deg);}
-    100%{transform:scale(1.02,.97) skewX(2deg);}
-  }
-  @keyframes lick2{
-    0%{transform:scale(1,1) skewX(0);}
-    40%{transform:scale(.93,1.08) skewX(-5deg);}
-    100%{transform:scale(1.06,.94) skewX(4deg);}
-  }
-  @keyframes lick3{
-    0%{transform:scale(1,.95) skewX(2deg);}
-    50%{transform:scale(.92,1.1) skewX(-3deg);}
-    100%{transform:scale(1.05,1) skewX(3deg);}
-  }
-  @keyframes bluepulse{from{opacity:.7;}to{opacity:1;}}
-  @keyframes glowpulse{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
-  @keyframes spark{
-    0%{opacity:0;transform:translate(0,0) scale(1);}
-    15%{opacity:1;}
-    100%{opacity:0;transform:translate(var(--x,0px),var(--rise,-190px)) scale(.2);}
-  }
   @keyframes scrolldot{0%{opacity:0;transform:translateY(0);}40%{opacity:1;}100%{opacity:0;transform:translateY(14px);}}
 
   .hero .wrap > *{animation:rise .8s cubic-bezier(.2,.8,.2,1) both;}
@@ -536,10 +436,9 @@
   /* ---------- Responsive ---------- */
   @media (max-width:980px){
     .about-grid,.contact-grid{grid-template-columns:1fr;}
-    .about-photo{min-height:360px;}
+    .about-photo{min-height:360px;position:relative;top:0;}
     .service-grid{grid-template-columns:1fr 1fr;}
-    .service-card,.service-card:nth-child(4),.service-card:nth-child(5){grid-column:span 1;}
-    .service-card:nth-child(5){grid-column:span 2;}
+    .service-card{grid-column:span 1;}
     .hero-stats{grid-template-columns:1fr 1fr;}
   }
   @media (max-width:820px){
@@ -561,12 +460,10 @@
     .wrap{padding:0 16px;}
     section{padding:80px 0;}
     .hero{padding:120px 0 80px;min-height:auto;}
-    .bg-fire{width:80vw;height:90vw;}
-    .fire-fab{right:14px;bottom:14px;width:56px;height:56px;}
+    .to-top{right:14px;bottom:14px;}
     .hero h1{letter-spacing:-1px;}
     .scroll-hint{display:none;}
     .service-grid{grid-template-columns:1fr;}
-    .service-card:nth-child(5){grid-column:span 1;}
     .about-photo{padding:28px;min-height:320px;}
     .cta-inner{padding:40px 26px;border-radius:24px;}
     .contact-info{padding:26px;}
@@ -578,68 +475,26 @@
 <body>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <path id="flamePath" d="M50 2C58 30 86 54 88 95c2 34-16 61-38 61S10 130 12 95c2-26 18-36 22-56 5 14 8 22 12 25C43 40 45 22 50 2z"/>
-    <linearGradient id="gOuter" x1="0" y1="1" x2="0" y2="0">
-      <stop offset="0" stop-color="#ff4a12"/>
-      <stop offset=".55" stop-color="#ff6a2b"/>
-      <stop offset="1" stop-color="#ff9a3c" stop-opacity=".2"/>
-    </linearGradient>
-    <linearGradient id="gMid" x1="0" y1="1" x2="0" y2="0">
-      <stop offset="0" stop-color="#ff8a1a"/>
-      <stop offset=".7" stop-color="#ffb84d"/>
-      <stop offset="1" stop-color="#ffd27a" stop-opacity=".4"/>
-    </linearGradient>
-    <linearGradient id="gInner" x1="0" y1="1" x2="0" y2="0">
-      <stop offset="0" stop-color="#fff6d8"/>
-      <stop offset="1" stop-color="#ffe08a"/>
-    </linearGradient>
-    <radialGradient id="gBlue">
-      <stop offset="0" stop-color="#9fd3ff"/>
-      <stop offset=".5" stop-color="#3b8ff0" stop-opacity=".8"/>
-      <stop offset="1" stop-color="#3b8ff0" stop-opacity="0"/>
-    </radialGradient>
-    <filter id="fSoft" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="2.2"/>
-    </filter>
-  </defs>
+  <symbol id="kombi" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="12" y="8" width="40" height="48" rx="8"/>
+    <circle cx="24" cy="20" r="4"/>
+    <circle cx="40" cy="20" r="4"/>
+    <rect x="20" y="30" width="24" height="18" rx="4"/>
+    <path d="M32 33c-2.5 3.5-5 5-5 8.5a5 5 0 0 0 10 0c0-1.3-.6-2.5-1.2-3.5 0 1.2-1 2.2-2.2 2.4 1-2.3-.4-4.7-1.6-7.4z" fill="currentColor" stroke="none"/>
+  </symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+  <symbol id="i-wrench" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></symbol>
+  <symbol id="i-ruler" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/><path d="m14.5 12.5 2-2"/><path d="m11.5 9.5 2-2"/><path d="m8.5 6.5 2-2"/><path d="m17.5 15.5 2-2"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></symbol>
+  <symbol id="i-snow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20"/><path d="M12 2v20"/><path d="m20 16-4-4 4-4"/><path d="m4 8 4 4-4 4"/><path d="m16 4-4 4-4-4"/><path d="m8 20 4-4 4 4"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-badge" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
 </svg>
 
-<a href="#top" class="fire-fab" id="fireFab" aria-label="Başa dön">
-  <div class="fire">
-    <div class="fire-glow"></div>
-    <svg class="fire-svg" viewBox="0 0 100 160" aria-hidden="true">
-      <g class="fl fl-outer"><use href="#flamePath" fill="url(#gOuter)" filter="url(#fSoft)"/></g>
-      <g class="fl fl-mid"><use href="#flamePath" fill="url(#gMid)" transform="translate(50 156) scale(.72) translate(-50 -156)"/></g>
-      <g class="fl fl-inner"><use href="#flamePath" fill="url(#gInner)" transform="translate(50 156) scale(.44) translate(-50 -156)"/></g>
-      <ellipse class="fl-blue" cx="50" cy="150" rx="20" ry="8" fill="url(#gBlue)"/>
-    </svg>
-  </div>
-</a>
-
-<div class="bg-fire" aria-hidden="true">
-  <div class="fire">
-    <div class="fire-glow"></div>
-    <svg class="fire-svg" viewBox="0 0 100 160" preserveAspectRatio="xMidYMax meet">
-      <g class="fl fl-outer"><use href="#flamePath" fill="url(#gOuter)" filter="url(#fSoft)"/></g>
-      <g class="fl fl-mid"><use href="#flamePath" fill="url(#gMid)" transform="translate(50 156) scale(.72) translate(-50 -156)"/></g>
-      <g class="fl fl-inner"><use href="#flamePath" fill="url(#gInner)" transform="translate(50 156) scale(.44) translate(-50 -156)"/></g>
-      <ellipse class="fl-blue" cx="50" cy="150" rx="20" ry="8" fill="url(#gBlue)"/>
-    </svg>
-    <div class="sparks">
-      <i style="--d:0s;--x:-60px"></i>
-      <i style="--d:.4s;--x:40px;--t:2.6s"></i>
-      <i style="--d:.8s;--x:-25px;--t:1.9s"></i>
-      <i style="--d:1.1s;--x:70px"></i>
-      <i style="--d:1.5s;--x:-80px;--t:2.8s"></i>
-      <i style="--d:1.8s;--x:15px;--t:2s"></i>
-      <i style="--d:2.1s;--x:-40px;--t:2.4s"></i>
-      <i style="--d:.6s;--x:90px;--t:3s"></i>
-      <i style="--d:1.3s;--x:-100px;--t:3.2s"></i>
-      <i style="--d:2.4s;--x:55px;--t:2.2s"></i>
-    </div>
-  </div>
-</div>
+<a href="#top" class="to-top" id="toTop" aria-label="Başa dön">↑</a>
 
 <header id="siteHeader">
   <div class="wrap nav">
@@ -657,7 +512,7 @@
       <a href="#iletisim">İletişim</a>
     </nav>
     <div style="display:flex;gap:10px;align-items:center;">
-      <a class="call-btn" href="tel:+905322840750">📞 <span class="call-num">+90 532 284 07 50</span><span class="call-short">Ara</span></a>
+      <a class="call-btn" href="tel:+905322840750"><svg class="i"><use href="#i-phone"/></svg> <span class="call-num">+90 532 284 07 50</span><span class="call-short">Ara</span></a>
       <button class="menu-toggle" id="menuToggle" aria-label="Menüyü aç">☰</button>
     </div>
   </div>
@@ -667,15 +522,15 @@
   <div class="orb o2"></div>
   <div class="orb o3"></div>
   <div class="wrap">
-    <span class="eyebrow"><span class="dot">★</span>1996'DAN BU YANA · 30 YILLIK TECRÜBE</span>
-    <h1>Kombi ve doğalgaz sistemlerinde <span class="grad-text">güvenilir mühendislik bilgisi</span></h1>
+    <span class="eyebrow"><span class="dot">★</span>30 YILLIK TECRÜBE</span>
+    <h1>1996'dan beri <span class="grad-text nowrap">İGDAŞ yetki belgeli</span> mühendislik firması</h1>
     <p class="lead">
       Eksen Mühendislik, 1996 yılından bu yana kombi ve doğalgaz sistemleri alanında hizmet veriyor.
       Firmamız, İGDAŞ yetkili firması olarak ve Makine Mühendisi Burak Kara liderliğinde; doğru
       bilgilendirme, teknik danışmanlık ve güvenli tesisat anlayışıyla çalışır.
     </p>
     <div class="hero-cta">
-      <a class="btn-primary" href="tel:+905322840750">📞 Hemen Ara</a>
+      <a class="btn-primary" href="tel:+905322840750"><svg class="i"><use href="#i-phone"/></svg> Hemen Ara</a>
       <a class="btn-ghost" href="#kombiler">Kombi Bilgilerini İncele</a>
     </div>
     <div class="hero-stats">
@@ -684,16 +539,16 @@
         <div class="label">Kuruluş yılı</div>
       </div>
       <div class="stat-card">
-        <div class="num grad-text">M.Müh.</div>
-        <div class="label">Makine Mühendisi denetiminde hizmet</div>
+        <div class="num grad-text">20.000+</div>
+        <div class="label">Tamamlanan proje ve tesisat</div>
       </div>
       <div class="stat-card">
         <div class="num grad-text">İGDAŞ</div>
         <div class="label">Yetkili firma</div>
       </div>
       <div class="stat-card">
-        <div class="num grad-text">%100</div>
-        <div class="label">Yerel, güvenilir bilgi</div>
+        <div class="num grad-text">5 ★</div>
+        <div class="label">Armut'ta 5 yıldız müşteri puanı</div>
       </div>
     </div>
   </div>
@@ -702,8 +557,8 @@
 
 <div class="marquee" aria-hidden="true">
   <div class="marquee-track">
-    <span>İGDAŞ Yetkili Firma <i></i> 1996'dan Bu Yana <i></i> Makine Mühendisi Denetimi <i></i> Kombi Danışmanlığı <i></i> Doğalgaz Güvenliği <i></i> Klima Satışı <i></i></span>
-    <span>İGDAŞ Yetkili Firma <i></i> 1996'dan Bu Yana <i></i> Makine Mühendisi Denetimi <i></i> Kombi Danışmanlığı <i></i> Doğalgaz Güvenliği <i></i> Klima Satışı <i></i></span>
+    <span>İGDAŞ Yetkili Firma <i></i> 1996'dan Bu Yana <i></i> Makine Mühendisi Denetimi <i></i> Kombi Danışmanlığı <i></i> Kombi Montajı <i></i> Armut'ta 5 Yıldız <i></i> Klima Satışı <i></i></span>
+    <span>İGDAŞ Yetkili Firma <i></i> 1996'dan Bu Yana <i></i> Makine Mühendisi Denetimi <i></i> Kombi Danışmanlığı <i></i> Kombi Montajı <i></i> Armut'ta 5 Yıldız <i></i> Klima Satışı <i></i></span>
   </div>
 </div>
 
@@ -715,14 +570,14 @@
         <div class="big-label">yıllık sektör tecrübesi</div>
       </div>
       <div>
-        <span class="badge">🔧 FİRMA SAHİBİ</span>
+        <span class="badge">FİRMA SAHİBİ</span>
         <div class="name">Burak Kara</div>
         <div class="role">Makine Mühendisi</div>
       </div>
     </div>
     <div class="about-text">
       <span class="kicker">HAKKIMIZDA</span>
-      <h3>1996'dan bu yana hizmet veren bir mühendislik firması</h3>
+      <h3>Kombi ve doğalgazda mühendis gözüyle, doğru ve güvenli çözümler</h3>
       <p>
         Eksen Mühendislik, 1996 yılında kurulmuş olup kombi ve doğalgaz sistemleri konusunda
         30 yılı aşkın bir tecrübe biriktirmiştir. Firmamızın sahibi Burak Kara, Makine Mühendisi
@@ -739,6 +594,7 @@
         <li>İGDAŞ yetkili firması</li>
         <li>Makine Mühendisi gözetiminde teknik danışmanlık</li>
         <li>Kombi ve doğalgaz sistemleri hakkında güncel bilgilendirme</li>
+        <li>Armut'ta 5 yıldız müşteri puanı</li>
         <li>Yerinde ve telefonla ulaşılabilir hizmet anlayışı</li>
       </ul>
     </div>
@@ -754,48 +610,43 @@
     </div>
     <div class="service-grid">
       <div class="service-card glass">
-        <span class="ico">🛠️</span>
+        <span class="ico"><svg class="i"><use href="#i-wrench"/></svg></span>
         <h4>Kombi Bakım &amp; Kontrol Danışmanlığı</h4>
         <p>Kombinizin periyodik bakımı ve verimli çalışması için teknik yönlendirme.</p>
       </div>
       <div class="service-card glass">
-        <span class="ico">🔩</span>
+        <span class="ico"><svg class="i"><use href="#i-flame"/></svg></span>
         <h4>Doğalgaz Tesisatı Bilgilendirmesi</h4>
         <p>İç tesisat, güvenlik ve mevzuat konularında mühendislik desteği.</p>
       </div>
       <div class="service-card glass">
-        <span class="ico">📐</span>
+        <span class="ico"><svg class="i"><use href="#i-ruler"/></svg></span>
         <h4>Sistem Seçimi Danışmanlığı</h4>
         <p>İhtiyacınıza uygun kombi tipi ve kapasitesinin belirlenmesinde yönlendirme.</p>
       </div>
       <div class="service-card glass">
-        <span class="ico">🧯</span>
-        <h4>Doğalgaz Güvenliği</h4>
-        <p>Güvenli kullanım, havalandırma ve olası risklere karşı bilgilendirme.</p>
+        <span class="ico"><svg class="i"><use href="#i-bulb"/></svg></span>
+        <h4>Kombi ve Doğalgaz Hakkında Teknik Bilgi</h4>
+        <p>Kombi ve doğalgaz sistemleriyle ilgili sorularınıza mühendislik bakış açısıyla yanıt.</p>
       </div>
       <div class="service-card glass">
-        <span class="ico">❄️</span>
+        <span class="ico"><svg class="i"><use href="#kombi"/></svg></span>
+        <h4>Yeni Kombi Seçimi ve Montajı</h4>
+        <p>Evinize uygun yeni kombinin seçilmesi ve montajının yapılması.</p>
+      </div>
+      <div class="service-card glass">
+        <span class="ico"><svg class="i"><use href="#i-snow"/></svg></span>
         <h4>Klima Satışı</h4>
         <p>Yalnızca klima satışı yapılmaktadır; montaj veya tamir hizmeti verilmemektedir.</p>
       </div>
     </div>
     <p class="note">
       Not: Firmamız bünyesinde kombi tamiri hizmeti verilmemektedir. Sunduğumuz hizmetler; kombi
-      bakım ve sistem seçimi danışmanlığı, doğalgaz tesisatı/güvenliği bilgilendirmesi ile
-      yalnızca satışı yapılan klima ürünlerinden ibarettir.
+      bakım ve sistem seçimi danışmanlığı, yeni kombi seçimi ve montajı, kombi ve doğalgaz hakkında
+      teknik bilgi ile yalnızca satışı yapılan klima ürünlerinden ibarettir.
     </p>
   </div>
 </section>
-
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="kombi" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="12" y="8" width="40" height="48" rx="8"/>
-    <circle cx="24" cy="20" r="4"/>
-    <circle cx="40" cy="20" r="4"/>
-    <rect x="20" y="30" width="24" height="18" rx="4"/>
-    <path d="M32 33c-2.5 3.5-5 5-5 8.5a5 5 0 0 0 10 0c0-1.3-.6-2.5-1.2-3.5 0 1.2-1 2.2-2.2 2.4 1-2.3-.4-4.7-1.6-7.4z" fill="currentColor" stroke="none"/>
-  </symbol>
-</svg>
 
 <section class="models" id="kombiler">
   <div class="wrap">
@@ -803,62 +654,45 @@
       <span class="kicker">GENEL BİLGİLENDİRME</span>
       <h2>Piyasada En Çok Tercih Edilen <span class="grad-text">Kombi Modelleri</span></h2>
       <p>
-        Türkiye genelinde yoğun tercih edilen bazı yoğuşmalı kombi marka ve modelleri ile öne çıkan
-        özellikleri; sadece bilgilendirme amaçlıdır.
+        En çok tercih edilen yoğuşmalı kombi modelleri ve garanti süreleri.
       </p>
     </div>
     <div class="model-grid">
       <div class="model-card glass">
         <div class="top">
-          <svg class="model-icon" style="--accent:#3b8ff0"><use href="#kombi"/></svg>
+          <svg class="model-icon" style="--accent:#ff8a3d"><use href="#kombi"/></svg>
           <span class="rank">01</span>
         </div>
-        <span class="brand-tag">Vaillant</span>
-        <h4>ecoTEC / Duotec Compact</h4>
-        <ul>
-          <li>Tam yoğuşmalı, yüksek enerji verimliliği</li>
-          <li>Sessiz çalışma</li>
-          <li>Kompakt tasarım, yaygın servis ağı</li>
-        </ul>
-      </div>
-      <div class="model-card glass">
-        <div class="top">
-          <svg class="model-icon" style="--accent:#34c38f"><use href="#kombi"/></svg>
-          <span class="rank">02</span>
-        </div>
-        <span class="brand-tag">Demirdöküm</span>
-        <h4>Nitromix Serisi</h4>
-        <ul>
-          <li>Uzun yıllardır tercih edilen dayanıklı yapı</li>
-          <li>Yoğuşmalı teknoloji ile düşük yakıt tüketimi</li>
-          <li>Geniş yedek parça ve servis erişimi</li>
-        </ul>
+        <span class="brand-tag">ECA</span>
+        <h4>Citius Premix</h4>
+        <span class="warranty"><svg class="i"><use href="#i-shield"/></svg> 3 Yıl Garanti</span>
       </div>
       <div class="model-card glass">
         <div class="top">
           <svg class="model-icon" style="--accent:#ff8a3d"><use href="#kombi"/></svg>
-          <span class="rank">03</span>
+          <span class="rank">02</span>
         </div>
         <span class="brand-tag">ECA</span>
-        <h4>Proteus Serisi</h4>
-        <ul>
-          <li>Uygun fiyat/performans dengesi</li>
-          <li>Yoğuşmalı model seçenekleri</li>
-          <li>Kolay kullanım ve bakım</li>
-        </ul>
+        <h4>Proteus Premix</h4>
+        <span class="warranty"><svg class="i"><use href="#i-shield"/></svg> 5 Yıl Garanti</span>
       </div>
       <div class="model-card glass">
         <div class="top">
           <svg class="model-icon" style="--accent:#f0565a"><use href="#kombi"/></svg>
-          <span class="rank">04</span>
+          <span class="rank">03</span>
         </div>
         <span class="brand-tag">Baymak</span>
-        <h4>Duotec Serisi</h4>
-        <ul>
-          <li>Yoğuşmalı teknoloji, düşük emisyon</li>
-          <li>Kararlı ısınma performansı</li>
-          <li>Yerli üretim, yaygın satış sonrası destek</li>
-        </ul>
+        <h4>Lunatec</h4>
+        <span class="warranty"><svg class="i"><use href="#i-shield"/></svg> 5 Yıl Garanti</span>
+      </div>
+      <div class="model-card glass">
+        <div class="top">
+          <svg class="model-icon" style="--accent:#34c38f"><use href="#kombi"/></svg>
+          <span class="rank">04</span>
+        </div>
+        <span class="brand-tag">Demirdöküm</span>
+        <h4>Ademix</h4>
+        <span class="warranty"><svg class="i"><use href="#i-shield"/></svg> 2 Yıl Garanti</span>
       </div>
       <div class="model-card glass">
         <div class="top">
@@ -866,12 +700,8 @@
           <span class="rank">05</span>
         </div>
         <span class="brand-tag">Bosch</span>
-        <h4>Condens Serisi</h4>
-        <ul>
-          <li>Yüksek yapı kalitesi</li>
-          <li>Akıllı kontrol seçenekleri</li>
-          <li>Uzun ömürlü kullanım</li>
-        </ul>
+        <h4>Condens</h4>
+        <span class="warranty"><svg class="i"><use href="#i-shield"/></svg> 3 Yıl Garanti</span>
       </div>
     </div>
     <p class="note">
@@ -886,13 +716,45 @@
   <div class="wrap">
     <div class="section-head">
       <span class="kicker">REFERANSLARIMIZ</span>
-      <h2>Referanslar</h2>
-      <p>Referans listemiz yakında bu alanda yer alacaktır.</p>
+      <h2>Bazı <span class="grad-text">Referanslarımız</span></h2>
+      <p>Kamu binalarından tarihi yapılara, sitelerden iş yerlerine kadar yürüttüğümüz projelerden bazıları.</p>
     </div>
-    <div class="references-placeholder glass">
-      <span class="ico">⏳</span>
-      Yakında eklenecek
+    <div class="ref-total">
+      <span class="num grad-text">20.000+</span>
+      <span>1996'dan beri tamamlanan doğalgaz projesi ve tesisatı</span>
     </div>
+    <ul class="ref-grid">
+      <li><span class="ref-name">İstanbul Valilik Köşkü Binası</span><span class="ref-loc">Florya</span></li>
+      <li><span class="ref-name">Silivri Kaymakamı Evi</span><span class="ref-loc">Silivri</span></li>
+      <li><span class="ref-name">Avcılar Kaymakamı Evi</span><span class="ref-loc">Avcılar</span></li>
+      <li><span class="ref-name">Akşam Gazetesi</span><span class="ref-loc">Topkapı</span></li>
+      <li><span class="ref-name">Bosch Siemens BSH Binası</span><span class="ref-loc">Ümraniye</span></li>
+      <li><span class="ref-name">Uludağ Et Lokantası</span><span class="ref-loc">Florya</span></li>
+      <li><span class="ref-name">Best FM</span><span class="ref-loc">Levent</span></li>
+      <li><span class="ref-name">Alem FM</span><span class="ref-loc">Topkapı</span></li>
+      <li><span class="ref-name">Quicksilver Merkez Binası</span><span class="ref-loc">Levent</span></li>
+      <li><span class="ref-name">Borusan Halkalı Yönetim Binası</span><span class="ref-loc">Sefaköy</span></li>
+      <li><span class="ref-name">Vira Vira Balık Lokantası</span><span class="ref-loc">Arnavutköy</span></li>
+      <li><span class="ref-name">Briç Kulüp</span><span class="ref-loc">Levent</span></li>
+      <li><span class="ref-name">Yunus Emre Tıp Merkezi</span><span class="ref-loc">Üsküdar</span></li>
+      <li><span class="ref-name">Uğur Okulları Güngören Kampüs</span><span class="ref-loc">Güngören</span></li>
+      <li><span class="ref-name">THY Sitesi</span><span class="ref-loc">Ulus</span></li>
+      <li><span class="ref-name">Paşalar İş Hanı</span><span class="ref-loc">Bakırköy</span></li>
+      <li><span class="ref-name">Kalamış Park Apartmanı</span><span class="ref-loc">Kalamış</span></li>
+      <li><span class="ref-name">Özbirlik Sitesi (280 daire)</span><span class="ref-loc">Sefaköy</span></li>
+      <li><span class="ref-name">Hadım İbrahim Paşa Camii</span><span class="ref-loc">Silivri</span></li>
+      <li><span class="ref-name">Küçük Ayasofya Camii Şantiye</span><span class="ref-loc">Kumkapı</span></li>
+      <li><span class="ref-name">Mezarlıklar Müdürlüğü</span><span class="ref-loc">Zincirlikuyu</span></li>
+      <li><span class="ref-name">Gaziosmanpaşa Tiyatrosu</span><span class="ref-loc">Gaziosmanpaşa</span></li>
+      <li><span class="ref-name">Tarihi Rum Ortodoks Kilisesi</span><span class="ref-loc">Cerrahpaşa</span></li>
+      <li><span class="ref-name">Mehmetçik Vakfı (5 daire)</span><span class="ref-loc">Fatih</span></li>
+      <li><span class="ref-name">Abidin Pak Öğretmenler Evi</span><span class="ref-loc">Bahçelievler</span></li>
+      <li><span class="ref-name">İSMEK Binası (2 bina)</span><span class="ref-loc">Fatih</span></li>
+      <li><span class="ref-name">Mia Park Evleri (169 daire)</span><span class="ref-loc">Kurtköy</span></li>
+      <li><span class="ref-name">Sabiha Hanım Öğrenci Yurtları (5 bina)</span><span class="ref-loc">Fatih</span></li>
+      <li><span class="ref-name">Grand Anka Otel</span><span class="ref-loc">Fatih</span></li>
+      <li><span class="ref-name">Grand Maleka Otel</span><span class="ref-loc">Zeytinburnu</span></li>
+    </ul>
   </div>
 </section>
 
@@ -903,7 +765,7 @@
         <h3>Kombi veya doğalgaz hakkında sorunuz mu var?</h3>
         <p>Makine Mühendisi Burak Kara ile doğrudan görüşün.</p>
       </div>
-      <a href="tel:+905322840750">📞 +90 532 284 07 50</a>
+      <a href="tel:+905322840750"><svg class="i"><use href="#i-phone"/></svg> +90 532 284 07 50</a>
     </div>
   </div>
 </section>
@@ -916,39 +778,31 @@
       <p>Sorularınız için telefonla bize ulaşabilir veya haritadan adresimize göz atabilirsiniz.</p>
 
       <div class="info-row">
-        <span class="ico">📱</span>
+        <span class="ico"><svg class="i"><use href="#i-phone"/></svg></span>
         <div class="txt">
           <strong>Cep Telefonu</strong>
           <a href="tel:+905322840750">+90 532 284 07 50</a>
         </div>
       </div>
       <div class="info-row">
-        <span class="ico">📞</span>
-        <div class="txt">
-          <strong>Dükkan Telefonu</strong>
-          <a href="tel:+902125318241">0212 531 82 41</a><br>
-          <a href="tel:+902126357396">0212 635 73 96</a>
-        </div>
-      </div>
-      <div class="info-row">
-        <span class="ico">👤</span>
+        <span class="ico"><svg class="i"><use href="#i-user"/></svg></span>
         <div class="txt">
           <strong>Firma Sahibi</strong>
           <span class="sub">Burak Kara — Makine Mühendisi</span>
         </div>
       </div>
       <div class="info-row">
-        <span class="ico">📍</span>
+        <span class="ico"><svg class="i"><use href="#i-pin"/></svg></span>
         <div class="txt">
           <strong>Adres</strong>
-          <span class="sub">Halıcılar Cad. No:86, Fatih/İstanbul</span><br>
-          <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Hal%C4%B1c%C4%B1lar%20Caddesi%20No%3A86%2C%20Fatih%2C%20%C4%B0stanbul" target="_blank" rel="noopener">
+          <span class="sub">Halıcılar Cad. No:86/B, Fatih/İstanbul</span><br>
+          <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Hal%C4%B1c%C4%B1lar%20Caddesi%20No%3A86%2FB%2C%20Fatih%2C%20%C4%B0stanbul" target="_blank" rel="noopener">
             Haritada Görüntüle / Yol Tarifi Al →
           </a>
         </div>
       </div>
       <div class="info-row">
-        <span class="ico">🏢</span>
+        <span class="ico"><svg class="i"><use href="#i-badge"/></svg></span>
         <div class="txt">
           <strong>Deneyim</strong>
           <span class="sub">1996'dan bu yana hizmet veren mühendislik firması · İGDAŞ Yetkili Firması</span>
@@ -957,7 +811,7 @@
     </div>
     <div class="map-embed">
       <iframe
-        src="https://www.google.com/maps?q=Hal%C4%B1c%C4%B1lar%20Caddesi%20No%3A86%2C%20Fatih%2C%20%C4%B0stanbul&z=17&output=embed"
+        src="https://www.google.com/maps?q=Hal%C4%B1c%C4%B1lar%20Caddesi%20No%3A86%2FB%2C%20Fatih%2C%20%C4%B0stanbul&z=17&output=embed"
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade"
         title="Eksen Mühendislik Konum">
@@ -970,7 +824,7 @@
   <div class="wrap">
     <p><strong>Eksen Mühendislik</strong> — Kombi ve Doğalgaz Sistemleri Bilgilendirme<br>
     1996'dan bu yana · İGDAŞ Yetkili Firması · Makine Mühendisi Burak Kara<br>
-    <a href="tel:+905322840750">+90 532 284 07 50</a> · <a href="tel:+902125318241">0212 531 82 41</a> · <a href="tel:+902126357396">0212 635 73 96</a></p>
+    <a href="tel:+905322840750">+90 532 284 07 50</a></p>
     <p>© <span id="year"></span> Eksen Mühendislik. Tüm hakları saklıdır.</p>
   </div>
 </footer>
@@ -994,30 +848,11 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  // Alev: en üstte sönük, sayfada aşağı indikçe büyür ve o seviyede yanmaya devam eder
-  var root = document.documentElement;
-  var fab = document.getElementById('fireFab');
-  var heat = 0, boost = 0, lastY = window.scrollY, lastT = performance.now(), raf = null;
-  function tick(now){
-    var y = window.scrollY;
-    var dt = Math.max(16, now - lastT);
-    var v = Math.abs(y - lastY) / dt;             // px/ms
-    lastY = y; lastT = now;
-    boost = Math.min(1, boost * 0.93 + v * 0.3);
-    var max = root.scrollHeight - window.innerHeight;
-    var progress = max > 0 ? y / max : 0;
-    // Alevin seviyesi sayfadaki konuma bağlı; kaydırırken üstüne hafifçe harlanır
-    var target = Math.min(1, Math.pow(progress, 0.7) + boost * 0.2);
-    heat += (target - heat) * 0.1;
-    root.style.setProperty('--heat', heat.toFixed(3));
-    fab.classList.toggle('show', y > window.innerHeight * 0.6);
-    if (Math.abs(target - heat) > 0.002 || boost > 0.005) raf = requestAnimationFrame(tick);
-    else raf = null;
-  }
-  window.addEventListener('scroll', function(){
-    if (!raf) { lastT = performance.now(); raf = requestAnimationFrame(tick); }
-  }, { passive: true });
-  raf = requestAnimationFrame(tick);
+  // Aşağı inince başa dön butonu görünür
+  var toTop = document.getElementById('toTop');
+  function onScrollTop(){ toTop.classList.toggle('show', window.scrollY > window.innerHeight * 0.6); }
+  window.addEventListener('scroll', onScrollTop, { passive: true });
+  onScrollTop();
 
   // Kartlarda imleci takip eden ışık
   document.querySelectorAll('.glass').forEach(function(card){
@@ -1032,7 +867,7 @@
   if ('IntersectionObserver' in window) {
     document.documentElement.classList.add('js');
     var targets = document.querySelectorAll(
-      '.section-head, .about-photo, .about-text, .service-card, .model-card, .note, .references-placeholder, .cta-inner, .contact-info, .map-embed'
+      '.section-head, .about-photo, .about-text, .service-card, .model-card, .note, .ref-total, .ref-grid, .cta-inner, .contact-info, .map-embed'
     );
     var io = new IntersectionObserver(function(entries){
       entries.forEach(function(e){

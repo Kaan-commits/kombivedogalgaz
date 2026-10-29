@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personel Paneli | Eksen Mühendislik</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#060d17">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#060d17;
+    --bg-2:#0a1522;
+    --bg-3:#0f1d2e;
+    --glass:rgba(255,255,255,.04);
+    --glass-2:rgba(255,255,255,.07);
+    --stroke:rgba(255,255,255,.09);
+    --stroke-2:rgba(255,255,255,.16);
+    --text:#eef3f8;
+    --muted:#8fa2b6;
+    --muted-2:#6b7f94;
+    --flame:#ff6a2b;
+    --flame-2:#ffa24c;
+    --gold:#ffd38a;
+    --danger:#f0565a;
+    --ok:#34c38f;
+    --grad:linear-gradient(135deg,var(--flame) 0%,var(--flame-2) 60%,var(--gold) 100%);
+    --radius:20px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;min-height:100vh;
+    font-family:'Manrope','Segoe UI',system-ui,-apple-system,Arial,sans-serif;
+    color:var(--text);
+    background:var(--bg);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+    background-size:56px 56px;
+    mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 75%);
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 75%);
+  }
+  [hidden]{display:none !important;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px;}
+  code{font-size:.9em;background:var(--glass-2);padding:1px 6px;border-radius:6px;}
+
+  /* ---------- Ortak ---------- */
+  .brand{
+    display:flex;align-items:center;gap:12px;
+    font-weight:800;font-size:1.05rem;letter-spacing:-.2px;
+    text-decoration:none;color:var(--text);
+  }
+  .brand .flame{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:38px;height:38px;border-radius:12px;flex:0 0 auto;
+    background:var(--grad);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.35);
+  }
+  .brand .flame svg{width:19px;height:19px;}
+  .brand small{display:block;font-weight:500;font-size:.66rem;color:var(--muted);letter-spacing:.6px;text-transform:uppercase;}
+  .glass{
+    background:linear-gradient(180deg,var(--glass-2),var(--glass));
+    border:1px solid var(--stroke);
+    border-radius:var(--radius);
+  }
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    border:1px solid var(--stroke-2);background:var(--glass);color:var(--text);
+    padding:10px 18px;border-radius:30px;cursor:pointer;
+    font:inherit;font-weight:700;font-size:.9rem;white-space:nowrap;
+    transition:background .2s, transform .2s;
+  }
+  .btn:hover{background:var(--glass-2);}
+  .btn.primary{
+    background:var(--grad);color:#1a0b02;border-color:transparent;
+    box-shadow:0 6px 24px rgba(255,106,43,.3);
+  }
+  .btn.primary:hover{transform:translateY(-1px);}
+  .btn.small{padding:7px 14px;font-size:.82rem;}
+  .btn.danger{color:var(--danger);border-color:rgba(240,86,90,.35);}
+  .btn:disabled{opacity:.6;cursor:wait;}
+  label{display:block;font-size:.82rem;font-weight:700;color:var(--muted);margin-bottom:6px;}
+  input,textarea{
+    width:100%;font:inherit;font-size:1rem;color:var(--text);
+    background:var(--bg-2);border:1px solid var(--stroke-2);border-radius:12px;
+    padding:11px 14px;outline:none;transition:border-color .2s;
+  }
+  input:focus,textarea:focus{border-color:var(--flame-2);}
+  textarea{resize:vertical;min-height:110px;}
+  .field{margin-bottom:16px;}
+  .error{color:var(--danger);font-size:.9rem;font-weight:600;margin:0 0 12px;}
+  .error:empty{display:none;}
+  .muted{color:var(--muted);}
+  .hint{font-size:.78rem;color:var(--muted-2);margin-top:4px;}
+
+  /* ---------- Giriş / kurulum ---------- */
+  .login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px 16px;}
+  .login-card{width:100%;max-width:420px;padding:32px 28px;}
+  .login-card .brand{margin-bottom:26px;}
+  .login-card h1{font-size:1.4rem;margin:0 0 4px;letter-spacing:-.3px;}
+  .login-card p.muted{margin:0 0 24px;font-size:.92rem;}
+  .login-card .btn{width:100%;padding:12px;}
+  .back-link{display:block;text-align:center;margin-top:18px;color:var(--muted);font-size:.85rem;text-decoration:none;}
+  .back-link:hover{color:var(--text);}
+
+  /* ---------- Panel ---------- */
+  .topbar{
+    position:sticky;top:0;z-index:20;
+    background:rgba(6,13,23,.8);
+    backdrop-filter:blur(16px) saturate(140%);
+    -webkit-backdrop-filter:blur(16px) saturate(140%);
+    border-bottom:1px solid var(--stroke);
+  }
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px;padding-top:14px;padding-bottom:14px;}
+  .who{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+  .role{
+    font-size:.72rem;font-weight:800;letter-spacing:.6px;text-transform:uppercase;
+    padding:5px 10px;border-radius:20px;border:1px solid var(--stroke-2);color:var(--muted);
+  }
+  .role.admin{color:var(--gold);border-color:rgba(255,211,138,.4);}
+  main{padding:32px 0 60px;}
+  .head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:22px;}
+  .head h2{font-size:1.6rem;margin:0;letter-spacing:-.4px;}
+  .head p{margin:2px 0 0;font-size:.9rem;}
+  .tools{display:flex;gap:10px;flex-wrap:wrap;}
+  .tools input{width:240px;max-width:100%;border-radius:30px;padding:9px 16px;font-size:.92rem;}
+  .status{font-size:.88rem;font-weight:600;margin:0 0 16px;color:var(--ok);}
+  .status:empty{display:none;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+  .card{padding:20px;display:flex;flex-direction:column;}
+  .brand-tag{
+    align-self:flex-start;
+    font-size:.72rem;font-weight:800;letter-spacing:.6px;text-transform:uppercase;
+    color:var(--flame-2);background:rgba(255,106,43,.1);
+    padding:4px 10px;border-radius:20px;
+  }
+  .card h3{margin:10px 0 2px;font-size:1.2rem;letter-spacing:-.2px;}
+  .meta{font-size:.86rem;color:var(--muted);}
+  .price{font-size:1.6rem;font-weight:800;margin:14px 0 4px;letter-spacing:-.4px;}
+  .price.none{font-size:1rem;color:var(--muted-2);font-weight:600;}
+  .specs{margin:10px 0 0;padding-left:18px;font-size:.9rem;color:var(--muted);}
+  .specs li{margin:2px 0;}
+  .card .actions{display:flex;gap:8px;margin-top:auto;padding-top:16px;}
+  .updated{font-size:.75rem;color:var(--muted-2);margin-top:12px;}
+  .empty{padding:48px 20px;text-align:center;color:var(--muted);}
+
+  /* ---------- Pencereler ---------- */
+  dialog{
+    width:min(520px,calc(100vw - 32px));padding:0;border:none;
+    background:transparent;color:var(--text);
+  }
+  dialog::backdrop{background:rgba(2,6,12,.7);backdrop-filter:blur(4px);}
+  dialog form{background:var(--bg-3);border:1px solid var(--stroke-2);border-radius:var(--radius);padding:26px 24px;}
+  dialog h3{margin:0 0 18px;font-size:1.25rem;}
+  dialog p.muted{margin:-8px 0 18px;font-size:.88rem;}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .dialog-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:6px;}
+
+  @media (max-width:560px){
+    .brand small{display:none;}
+    .tools{width:100%;}
+    .tools input{flex:1;width:auto;}
+    .row{grid-template-columns:1fr;gap:0;}
+  }
+</style>
+</head>
+<body>
+
+<!-- İlk kurulum: fiyatlar.json henüz yoksa -->
+<section class="login" id="setupView" hidden>
+  <form class="login-card glass" id="setupForm">
+    <h1>İlk kurulum</h1>
+    <p class="muted">Fiyat listesi henüz oluşturulmamış. İki hesabın şifresini belirleyin. Bu işlem bir kez yapılır.</p>
+    <div class="field">
+      <label for="sPatron">patron şifresi</label>
+      <input id="sPatron" type="password" autocomplete="new-password" required>
+    </div>
+    <div class="field">
+      <label for="sCalisan">calisan şifresi</label>
+      <input id="sCalisan" type="password" autocomplete="new-password" required>
+      <div class="hint">En az 10 karakter. Tahmin edilemeyen şifreler seçin (örn. birkaç alakasız kelime ve sayı).</div>
+    </div>
+    <div class="field">
+      <label for="sToken">GitHub anahtarı</label>
+      <input id="sToken" type="password" autocomplete="off" spellcheck="false" required>
+      <div class="hint">Sadece bu depoya “Contents: Read and write” izni olan fine-grained token.</div>
+    </div>
+    <p class="error" id="setupError"></p>
+    <button class="btn primary" id="setupBtn" type="submit">Oluştur</button>
+  </form>
+</section>
+
+<!-- Giriş ekranı -->
+<section class="login" id="loginView" hidden>
+  <form class="login-card glass" id="loginForm" autocomplete="on">
+    <a href="./" class="brand">
+      <span class="flame">
+        <svg viewBox="0 0 24 24" fill="#1a0b02" aria-hidden="true"><path d="M12 2c.5 3.2-1.4 5-3 6.8C7.4 10.6 6 12.4 6 15a6 6 0 0 0 12 0c0-2.3-1-4-2.2-5.4.1 1.5-.5 2.7-1.6 3.2.4-2.9-.6-5.6-2.2-10.8z"/></svg>
+      </span>
+      <span>Eksen Mühendislik<small>Personel Paneli</small></span>
+    </a>
+    <h1>Giriş yap</h1>
+    <p class="muted">Fiyat listesi yalnızca personel içindir.</p>
+    <div class="field">
+      <label for="username">Kullanıcı adı</label>
+      <input id="username" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+    </div>
+    <div class="field">
+      <label for="password">Şifre</label>
+      <input id="password" name="password" type="password" autocomplete="current-password" required>
+    </div>
+    <p class="error" id="loginError"></p>
+    <button class="btn primary" id="loginBtn" type="submit">Giriş</button>
+    <a href="./" class="back-link">← Siteye dön</a>
+  </form>
+</section>
+
+<!-- Fiyat listesi -->
+<div id="appView" hidden>
+  <div class="topbar">
+    <div class="wrap">
+      <a href="./" class="brand">
+        <span class="flame">
+          <svg viewBox="0 0 24 24" fill="#1a0b02" aria-hidden="true"><path d="M12 2c.5 3.2-1.4 5-3 6.8C7.4 10.6 6 12.4 6 15a6 6 0 0 0 12 0c0-2.3-1-4-2.2-5.4.1 1.5-.5 2.7-1.6 3.2.4-2.9-.6-5.6-2.2-10.8z"/></svg>
+        </span>
+        <span>Eksen Mühendislik<small>Personel Paneli</small></span>
+      </a>
+      <div class="who">
+        <span class="role" id="roleBadge"></span>
+        <button class="btn small" id="settingsBtn" type="button" hidden>Ayarlar</button>
+        <button class="btn small" id="logoutBtn" type="button">Çıkış</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <div class="head">
+      <div>
+        <h2>Kombi Fiyat Listesi</h2>
+        <p class="muted" id="summary"></p>
+      </div>
+      <div class="tools">
+        <input type="search" id="search" placeholder="Marka veya model ara…" aria-label="Ara">
+        <button class="btn" id="reloadBtn" type="button">Yenile</button>
+        <button class="btn primary" id="addBtn" type="button" hidden>+ Yeni kombi</button>
+      </div>
+    </div>
+    <p class="error" id="listError"></p>
+    <p class="status" id="status"></p>
+    <div class="grid" id="grid"></div>
+    <div class="empty glass" id="empty" hidden></div>
+  </main>
+</div>
+
+<!-- Ekle / düzenle (sadece patron) -->
+<dialog id="editDialog">
+  <form id="editForm" method="dialog">
+    <h3 id="editTitle">Yeni kombi</h3>
+    <div class="row">
+      <div class="field">
+        <label for="fMarka">Marka</label>
+        <input id="fMarka" required>
+      </div>
+      <div class="field">
+        <label for="fModel">Model</label>
+        <input id="fModel" required>
+      </div>
+    </div>
+    <div class="row">
+      <div class="field">
+        <label for="fGuc">Güç</label>
+        <input id="fGuc" placeholder="örn. 24 kW">
+      </div>
+      <div class="field">
+        <label for="fGaranti">Garanti</label>
+        <input id="fGaranti" placeholder="örn. 3 yıl">
+      </div>
+    </div>
+    <div class="field">
+      <label for="fFiyat">Fiyat (₺)</label>
+      <input id="fFiyat" inputmode="decimal" placeholder="örn. 45.000">
+      <div class="hint">Boş bırakılırsa “Fiyat sorunuz” yazar.</div>
+    </div>
+    <div class="field">
+      <label for="fOzellik">Özellikler</label>
+      <textarea id="fOzellik" placeholder="Her satıra bir özellik yazın"></textarea>
+    </div>
+    <p class="error" id="editError"></p>
+    <div class="dialog-actions">
+      <button class="btn" type="button" data-close>Vazgeç</button>
+      <button class="btn primary" type="submit" id="saveBtn">Kaydet</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Şifre ve anahtar değiştirme (sadece patron) -->
+<dialog id="settingsDialog">
+  <form id="settingsForm" method="dialog">
+    <h3>Ayarlar</h3>
+    <p class="muted">Sadece değiştirmek istediğiniz alanı doldurun. Şifre değişince eski şifre artık hiçbir şeyi açamaz.</p>
+    <div class="field">
+      <label for="cCalisan">Yeni calisan şifresi</label>
+      <input id="cCalisan" type="password" autocomplete="new-password">
+    </div>
+    <div class="field">
+      <label for="cPatron">Yeni patron şifresi</label>
+      <input id="cPatron" type="password" autocomplete="new-password">
+    </div>
+    <div class="field">
+      <label for="cToken">Yeni GitHub anahtarı</label>
+      <input id="cToken" type="password" autocomplete="off" spellcheck="false">
+      <div class="hint">Anahtarın süresi dolduğunda buradan yenisini girin.</div>
+    </div>
+    <p class="error" id="settingsError"></p>
+    <div class="dialog-actions">
+      <button class="btn" type="button" data-close>Vazgeç</button>
+      <button class="btn primary" type="submit" id="settingsSaveBtn">Kaydet</button>
+    </div>
+  </form>
+</dialog>
+
+<script type="module">
+  // Fiyatlar depodaki fiyatlar.json içinde şifreli durur. calisan şifresi sadece okumayı,
+  // patron şifresi ayrıca GitHub anahtarını açar; kayıtlar bu anahtarla depoya yazılır.
+  const OWNER = "Kaan-commits";
+  const REPO = "kombivedogalgaz";
+  const BRANCH = "main";
+  const FILE = "fiyatlar.json";
+  const API = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
+  const ITERATIONS = 600000;
+  const MIN_PASSWORD = 10;
+
+  const $ = (id) => document.getElementById(id);
+  const show = (view) => {
+    for (const v of ["setupView", "loginView", "appView"]) $(v).hidden = v !== view;
+  };
+
+  // ---------- Şifreleme ----------
+  const enc = new TextEncoder();
+  const dec = new TextDecoder();
+  const random = (n) => crypto.getRandomValues(new Uint8Array(n));
+
+  function toB64(buf) {
+    const bytes = new Uint8Array(buf);
+    let s = "";
+    for (let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+    return btoa(s);
+  }
+  const fromB64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+
+  async function passwordKey(password, salt, iterations) {
+    const base = await crypto.subtle.importKey("raw", enc.encode(password), "PBKDF2", false, ["deriveKey"]);
+    return crypto.subtle.deriveKey(
+      { name: "PBKDF2", salt, iterations, hash: "SHA-256" },
+      base, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]);
+  }
+  const dataKey = (raw) => crypto.subtle.importKey("raw", fromB64(raw), "AES-GCM", false, ["encrypt", "decrypt"]);
+
+  async function seal(key, value) {
+    const iv = random(12);
+    const ct = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, enc.encode(JSON.stringify(value)));
+    return { iv: toB64(iv), ct: toB64(ct) };
+  }
+  async function unseal(key, box) {
+    const pt = await crypto.subtle.decrypt({ name: "AES-GCM", iv: fromB64(box.iv) }, key, fromB64(box.ct));
+    return JSON.parse(dec.decode(pt));
+  }
+
+  async function wrapFor(password, secret) {
+    const salt = random(16);
+    return { salt: toB64(salt), iterations: ITERATIONS, ...await seal(await passwordKey(password, salt, ITERATIONS), secret) };
+  }
+  // Yanlış kullanıcı adı veya şifrede hata fırlatır.
+  async function unwrap(file, user, password) {
+    if (!Object.hasOwn(file.users, user)) throw new Error("bilinmeyen kullanıcı");
+    const u = file.users[user];
+    return unseal(await passwordKey(password, fromB64(u.salt), u.iterations), u);
+  }
+
+  // İki hesabın anahtarlarını yeniden üretir. Şifre değişince veri anahtarı (k) da yenilenir;
+  // böylece eski şifreler depo geçmişindeki dosyalardan bile yeni listeyi açamaz.
+  async function wrapKeys(s, k = toB64(random(32))) {
+    return {
+      k,
+      users: {
+        calisan: await wrapFor(s.calisan, { k }),
+        patron: await wrapFor(s.patron, { k, token: s.token, calisan: s.calisan })
+      }
+    };
+  }
+
+  async function buildFile(keys, items) {
+    return { version: 1, users: keys.users, data: await seal(await dataKey(keys.k), items) };
+  }
+
+  // ---------- GitHub ----------
+  async function gh(token, method, body) {
+    const res = await fetch(method === "GET" ? `${API}?ref=${BRANCH}` : API, {
+      method,
+      cache: "no-store",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28"
+      },
+      body: body && JSON.stringify(body)
+    });
+    if (!res.ok) {
+      const err = new Error(`GitHub ${res.status}`);
+      err.status = res.status;
+      throw err;
+    }
+    return res.json();
+  }
+
+  function ghMessage(err) {
+    if (err.status === 401) return "GitHub anahtarı geçersiz veya süresi dolmuş. Ayarlar'dan yenisini girin.";
+    if (err.status === 403 || err.status === 404) return "GitHub anahtarının bu depoya yazma izni yok.";
+    if (err.status === 409 || err.status === 422) return "Liste başka bir yerden değiştirilmiş. Yenile'ye basıp tekrar deneyin.";
+    return err.message;
+  }
+
+  async function fetchFromGitHub(token) {
+    const res = await gh(token, "GET");
+    return { sha: res.sha, file: JSON.parse(atob(res.content.replace(/\n/g, ""))) };
+  }
+
+  // Herkese açık site üzerinden okur (çalışanlar için; GitHub anahtarı gerekmez).
+  async function fetchPublic() {
+    const res = await fetch(`${FILE}?t=${Date.now()}`, { cache: "no-store" });
+    if (res.status === 404) return null;
+    if (!res.ok) throw new Error(`Liste yüklenemedi (${res.status}).`);
+    return res.json();
+  }
+
+  // ---------- Oturum ----------
+  let file = null;      // fiyatlar.json'un son bilinen hali
+  let session = null;   // { role, k } — patron için ayrıca { patron, calisan, token, sha }
+  let items = [];
+  let busy = false;
+
+  try {
+    if (!crypto.subtle) throw new Error("Panel sadece güvenli bağlantıda (https://) çalışır.");
+    file = await fetchPublic();
+    show(file ? "loginView" : "setupView");
+  } catch (err) {
+    show("loginView");
+    $("loginError").textContent = err.message;
+  }
+
+  function toUser(username) {
+    const map = { "ç": "c", "ğ": "g", "ı": "i", "ö": "o", "ş": "s", "ü": "u" };
+    return username.trim().toLocaleLowerCase("tr").replace(/[çğıöşü]/g, (c) => map[c]);
+  }
+
+  async function login(user, password) {
+    if (!file) file = await fetchPublic();
+    if (!file) throw new Error("Fiyat listesi henüz oluşturulmamış.");
+    let secret;
+    try {
+      secret = await unwrap(file, user, password);
+    } catch {
+      throw new Error("Kullanıcı adı veya şifre hatalı.");
+    }
+    if (user !== "patron") {
+      session = { role: user, k: secret.k };
+      return;
+    }
+    session = { role: "patron", patron: password, sha: null, ...secret };
+    // Patron en güncel dosyayla çalışmalı; site önbelleği birkaç dakika geride olabilir.
+    try {
+      const fresh = await fetchFromGitHub(secret.token);
+      file = fresh.file;
+      session = { role: "patron", patron: password, sha: fresh.sha, ...await unwrap(file, "patron", password) };
+    } catch (err) {
+      $("listError").textContent = ghMessage(err);
+    }
+  }
+
+  function enterApp() {
+    const admin = session.role === "patron";
+    $("roleBadge").textContent = admin ? "Patron · düzenleme" : "Çalışan";
+    $("roleBadge").classList.toggle("admin", admin);
+    $("addBtn").hidden = !admin;
+    $("settingsBtn").hidden = !admin;
+    show("appView");
+  }
+
+  async function loadItems() {
+    items = await unseal(await dataKey(session.k), file.data);
+    render();
+  }
+
+  function logout() {
+    session = null;
+    items = [];
+    $("grid").replaceChildren();
+    $("listError").textContent = "";
+    $("status").textContent = "";
+    show("loginView");
+  }
+
+  $("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    $("loginError").textContent = "";
+    $("listError").textContent = "";
+    $("loginBtn").disabled = true;
+    try {
+      await login(toUser($("username").value), $("password").value);
+      $("password").value = "";
+      await loadItems();
+      enterApp();
+    } catch (err) {
+      session = null;
+      $("loginError").textContent = err.message;
+    } finally {
+      $("loginBtn").disabled = false;
+    }
+  });
+
+  $("logoutBtn").addEventListener("click", logout);
+
+  $("reloadBtn").addEventListener("click", async () => {
+    $("reloadBtn").disabled = true;
+    $("listError").textContent = "";
+    try {
+      if (session.role === "patron") {
+        const fresh = await fetchFromGitHub(session.token);
+        file = fresh.file;
+        session.sha = fresh.sha;
+      } else {
+        file = await fetchPublic();
+      }
+      await loadItems();
+    } catch (err) {
+      if (err.name === "OperationError") {
+        // Şifreler değiştirilmiş; eski oturum yeni listeyi açamaz.
+        logout();
+        $("loginError").textContent = "Şifre değişmiş. Lütfen yeniden giriş yapın.";
+      } else {
+        $("listError").textContent = err.status ? ghMessage(err) : err.message;
+      }
+    } finally {
+      $("reloadBtn").disabled = false;
+    }
+  });
+
+  // ---------- Kaydetme (sadece patron) ----------
+  async function publish(nextItems, nextSession, message, keys = { k: session.k, users: file.users }) {
+    const nextFile = await buildFile(keys, nextItems);
+    if (!nextSession.sha) nextSession.sha = (await gh(nextSession.token, "GET")).sha;
+    const res = await gh(nextSession.token, "PUT", {
+      message,
+      branch: BRANCH,
+      sha: nextSession.sha,
+      content: btoa(JSON.stringify(nextFile))
+    });
+    file = nextFile;
+    session = { ...nextSession, k: keys.k, sha: res.content.sha };
+    items = nextItems;
+    render();
+    $("listError").textContent = "";
+    $("status").textContent = "Kaydedildi. Çalışanların ekranında 1–2 dakika içinde görünür.";
+  }
+
+  async function guarded(button, errorEl, fn) {
+    if (busy) return;
+    busy = true;
+    button.disabled = true;
+    errorEl.textContent = "";
+    $("status").textContent = "";
+    try {
+      await fn();
+    } catch (err) {
+      errorEl.textContent = "Kaydedilemedi: " + (err.status ? ghMessage(err) : err.message);
+    } finally {
+      busy = false;
+      button.disabled = false;
+    }
+  }
+
+  $("setupForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const patron = $("sPatron").value;
+    const calisan = $("sCalisan").value;
+    const token = $("sToken").value.trim();
+    if (patron.length < MIN_PASSWORD || calisan.length < MIN_PASSWORD) {
+      $("setupError").textContent = `Şifreler en az ${MIN_PASSWORD} karakter olmalı.`;
+      return;
+    }
+    if (patron === calisan) {
+      $("setupError").textContent = "İki şifre farklı olmalı.";
+      return;
+    }
+    guarded($("setupBtn"), $("setupError"), async () => {
+      const s = { role: "patron", patron, calisan, token };
+      const keys = await wrapKeys(s);
+      const newFile = await buildFile(keys, []);
+      try {
+        const res = await gh(token, "PUT", {
+          message: "Fiyat listesini oluştur",
+          branch: BRANCH,
+          content: btoa(JSON.stringify(newFile))
+        });
+        s.sha = res.content.sha;
+      } catch (err) {
+        if (err.status === 422) throw new Error("Liste zaten oluşturulmuş. 1–2 dakika sonra sayfayı yenileyip giriş yapın.");
+        throw err;
+      }
+      file = newFile;
+      session = { ...s, k: keys.k };
+      items = [];
+      render();
+      enterApp();
+    });
+  });
+
+  // ---------- Liste ----------
+  const tlWhole = new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 });
+  const tlCents = new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY", minimumFractionDigits: 2 });
+  const formatPrice = (n) => (Number.isInteger(n) ? tlWhole : tlCents).format(n);
+  const dt = new Intl.DateTimeFormat("tr-TR", { dateStyle: "medium", timeStyle: "short" });
+
+  function el(tag, cls, text) {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+
+  function render() {
+    const admin = session && session.role === "patron";
+    const q = $("search").value.trim().toLocaleLowerCase("tr");
+    const sorted = [...items].sort((a, b) =>
+      (a.marka || "").localeCompare(b.marka || "", "tr") ||
+      (a.model || "").localeCompare(b.model || "", "tr"));
+    const list = q
+      ? sorted.filter((k) => [k.marka, k.model, k.ozellikler].join(" ").toLocaleLowerCase("tr").includes(q))
+      : sorted;
+
+    const grid = $("grid");
+    grid.replaceChildren();
+    for (const k of list) {
+      const card = el("article", "card glass");
+      card.append(el("span", "brand-tag", k.marka || "—"));
+      card.append(el("h3", null, k.model || ""));
+      const meta = [k.guc, k.garanti && k.garanti + " garanti"].filter(Boolean).join(" · ");
+      if (meta) card.append(el("div", "meta", meta));
+      card.append(typeof k.fiyat === "number"
+        ? el("div", "price", formatPrice(k.fiyat))
+        : el("div", "price none", "Fiyat sorunuz"));
+
+      const specs = (k.ozellikler || "").split("\n").map((s) => s.trim()).filter(Boolean);
+      if (specs.length) {
+        const ul = el("ul", "specs");
+        for (const s of specs) ul.append(el("li", null, s));
+        card.append(ul);
+      }
+      if (k.guncellendi) card.append(el("div", "updated", "Güncellendi: " + dt.format(new Date(k.guncellendi))));
+
+      if (admin) {
+        const actions = el("div", "actions");
+        const editBtn = el("button", "btn small", "Düzenle");
+        editBtn.type = "button";
+        editBtn.addEventListener("click", () => openEditor(k));
+        const delBtn = el("button", "btn small danger", "Sil");
+        delBtn.type = "button";
+        delBtn.addEventListener("click", () => removeItem(k, delBtn));
+        actions.append(editBtn, delBtn);
+        card.append(actions);
+      }
+      grid.append(card);
+    }
+
+    const empty = $("empty");
+    empty.hidden = list.length > 0;
+    empty.textContent = items.length === 0
+      ? (admin ? "Henüz kombi eklenmedi. “+ Yeni kombi” ile başlayın." : "Henüz fiyat listesi girilmedi.")
+      : "Aramaya uyan kombi bulunamadı.";
+
+    const latest = items.reduce((m, k) => (k.guncellendi && k.guncellendi > m ? k.guncellendi : m), "");
+    $("summary").textContent = items.length + " model" + (latest ? " · Son güncelleme: " + dt.format(new Date(latest)) : "");
+  }
+
+  $("search").addEventListener("input", render);
+
+  // ---------- Ekle / düzenle / sil ----------
+  const editDialog = $("editDialog");
+  const fields = { marka: "fMarka", model: "fModel", guc: "fGuc", garanti: "fGaranti", ozellikler: "fOzellik" };
+  let editingId = null;
+
+  for (const btn of document.querySelectorAll("[data-close]")) {
+    btn.addEventListener("click", () => btn.closest("dialog").close());
+  }
+
+  function openEditor(k) {
+    editingId = k ? k.id : null;
+    $("editTitle").textContent = k ? "Kombiyi düzenle" : "Yeni kombi";
+    for (const [key, id] of Object.entries(fields)) $(id).value = k ? (k[key] || "") : "";
+    $("fFiyat").value = k && typeof k.fiyat === "number" ? String(k.fiyat).replace(".", ",") : "";
+    $("editError").textContent = "";
+    editDialog.showModal();
+  }
+
+  // "45.000", "45000", "45.000,50" gibi yazımları sayıya çevirir.
+  function parsePrice(text) {
+    const t = text.trim().replace(/[₺\s]/g, "");
+    if (!t) return null;
+    const n = Number(t.replace(/\./g, "").replace(",", "."));
+    return Number.isFinite(n) && n >= 0 ? n : NaN;
+  }
+
+  $("addBtn").addEventListener("click", () => openEditor(null));
+
+  $("editForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const fiyat = parsePrice($("fFiyat").value);
+    if (Number.isNaN(fiyat)) {
+      $("editError").textContent = "Fiyat geçerli bir sayı olmalı.";
+      return;
+    }
+    const entry = { id: editingId || crypto.randomUUID(), fiyat, guncellendi: new Date().toISOString() };
+    for (const [key, id] of Object.entries(fields)) entry[key] = $(id).value.trim();
+
+    const nextItems = editingId
+      ? items.map((k) => (k.id === editingId ? entry : k))
+      : [...items, entry];
+    guarded($("saveBtn"), $("editError"), async () => {
+      // Depo herkese açık; commit mesajında model adı geçmemeli.
+      await publish(nextItems, { ...session }, "Fiyat listesi güncellendi");
+      editDialog.close();
+    });
+  });
+
+  function removeItem(k, button) {
+    if (!confirm(`${k.marka} ${k.model} silinsin mi?`)) return;
+    guarded(button, $("listError"), () =>
+      publish(items.filter((x) => x.id !== k.id), { ...session }, "Fiyat listesi güncellendi"));
+  }
+
+  // ---------- Ayarlar ----------
+  const settingsDialog = $("settingsDialog");
+
+  $("settingsBtn").addEventListener("click", () => {
+    for (const id of ["cCalisan", "cPatron", "cToken"]) $(id).value = "";
+    $("settingsError").textContent = "";
+    settingsDialog.showModal();
+  });
+
+  $("settingsForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const calisan = $("cCalisan").value;
+    const patron = $("cPatron").value;
+    const token = $("cToken").value.trim();
+    if (!calisan && !patron && !token) {
+      settingsDialog.close();
+      return;
+    }
+    if ((calisan && calisan.length < MIN_PASSWORD) || (patron && patron.length < MIN_PASSWORD)) {
+      $("settingsError").textContent = `Şifreler en az ${MIN_PASSWORD} karakter olmalı.`;
+      return;
+    }
+    const next = {
+      ...session,
+      calisan: calisan || session.calisan,
+      patron: patron || session.patron,
+      token: token || session.token
+    };
+    if (next.calisan === next.patron) {
+      $("settingsError").textContent = "İki şifre farklı olmalı.";
+      return;
+    }
+    // Yeni anahtar girildiyse dosyanın güncel halini onunla alıp öyle kaydederiz.
+    if (token) next.sha = null;
+    guarded($("settingsSaveBtn"), $("settingsError"), async () => {
+      // Sadece anahtar değiştiyse veri anahtarı aynı kalır, açık çalışan oturumları bozulmaz.
+      const keys = await wrapKeys(next, calisan || patron ? undefined : session.k);
+      await publish(items, next, "Panel ayarları güncellendi", keys);
+      settingsDialog.close();
+    });
+  });
+</script>
+</body>
+</html>

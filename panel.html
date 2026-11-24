@@ -317,6 +317,70 @@
   .kur{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
   .kur input{width:150px;}
 
+  /* ---------- Fiyat hesaplayıcı ---------- */
+  .tab.calc-tab{border-color:rgba(255,162,76,.55);color:var(--flame-2);}
+  .tab.calc-tab[aria-pressed="true"]{color:#1a0b02;}
+  .calc-grid{display:grid;grid-template-columns:minmax(0,1fr) 390px;gap:18px;align-items:start;}
+  .calc-form{padding:4px 22px;}
+  .q{padding:18px 0;border-bottom:1px solid var(--stroke);}
+  .q:last-child{border-bottom:none;}
+  .q-h{display:flex;align-items:center;gap:10px;margin-bottom:12px;font-weight:700;font-size:1.02rem;}
+  .q-n{
+    display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;
+    width:26px;height:26px;border-radius:50%;
+    background:rgba(255,162,76,.14);color:var(--flame-2);font-size:.8rem;font-weight:800;
+  }
+  .q-hint{font-size:.85rem;color:var(--muted);margin-top:10px;}
+  .q-hint.warn{color:#ffc1a6;}
+  .q .chips{margin-top:10px;}
+  .seg{display:flex;flex-wrap:wrap;gap:6px;}
+  .seg-b{
+    border:1px solid var(--stroke-2);background:transparent;color:var(--text);
+    padding:8px 15px;min-height:42px;border-radius:12px;
+    font-weight:700;font-size:.92rem;cursor:pointer;text-align:left;
+  }
+  .seg-b:hover{background:var(--glass-2);}
+  .seg-b small{font-weight:600;opacity:.7;margin-left:6px;}
+  .seg-b[aria-pressed="true"]{background:var(--text);color:var(--bg);border-color:var(--text);}
+  .calc-sum{position:sticky;top:calc(var(--tabs-h,64px) + 14px);padding:20px;}
+  .sum-pay{font-size:.86rem;color:var(--muted);margin-top:2px;}
+  .sum-lines{margin:14px 0 12px;border-top:1px solid var(--stroke);}
+  .sum-line{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:8px 0;border-bottom:1px dashed var(--stroke);font-size:.93rem;}
+  .sum-line span{color:var(--muted);}
+  .sum-line b{white-space:nowrap;font-variant-numeric:tabular-nums;}
+  .sum-line.minus b{color:var(--ok);}
+  .sum-line.warn b{color:#ffc1a6;}
+  .sum-inc{font-size:.84rem;color:var(--muted);}
+  .sum-inc b{color:var(--ok);font-weight:700;}
+  .sum-note{font-size:.8rem;color:var(--muted-2);margin-top:8px;}
+  .sum-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+  .sum-actions .btn{flex:1;}
+  .calc-bar{display:none;}
+  .calc-link{align-self:flex-start;}
+  .ek-row{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr) 110px auto;gap:8px;align-items:center;margin-bottom:8px;}
+  .eski-row{display:grid;grid-template-columns:110px auto 110px auto;gap:8px;align-items:center;margin-bottom:8px;justify-content:start;}
+  .konum-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px 16px;margin-bottom:14px;}
+  .konum-row{display:grid;grid-template-columns:minmax(0,1fr) 96px;gap:8px;align-items:center;font-size:.92rem;font-weight:600;}
+  .ek-row input,.eski-row input,.konum-row input{padding:8px 10px;}
+  @media (max-width:900px){
+    .calc-grid{grid-template-columns:1fr;}
+    .calc-sum{position:static;}
+    .calc-bar{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      position:sticky;bottom:0;z-index:20;margin:14px -14px 0;
+      padding:12px 16px calc(12px + env(safe-area-inset-bottom));
+      background:rgba(10,21,34,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+      border-top:1px solid var(--stroke-2);
+    }
+    .calc-bar.off{visibility:hidden;}
+    .calc-bar .p-val{font-size:1.25rem;}
+  }
+  @media (max-width:640px){
+    .calc-form{padding:2px 16px;}
+    .ek-row{grid-template-columns:minmax(0,1fr) 96px auto;}
+    .ek-row .ek-soru{grid-column:1/-1;}
+  }
+
   .toast{
     position:fixed;left:50%;bottom:24px;z-index:100;max-width:calc(100vw - 32px);
     transform:translate(-50%,20px);opacity:0;pointer-events:none;transition:.25s;
@@ -536,6 +600,41 @@
   </form>
 </dialog>
 
+<!-- Hesaplayıcı ayarları (sadece patron) -->
+<dialog id="calcDialog">
+  <form class="dlg" id="calcForm" novalidate>
+    <div class="d-head">
+      <h3>Hesaplayıcı ayarları</h3>
+      <button class="x" type="button" data-close aria-label="Kapat">×</button>
+    </div>
+    <div class="d-body">
+      <h4 style="margin:0 0 4px">Ek işler</h4>
+      <p class="hint" style="margin:0 0 12px">Hesaplayıcıda evet/hayır sorusu olarak çıkar. “Özetteki adı” müşteriye gönderilen metinde görünür. Fiyatı boş bırakılan iş toplama eklenmez.</p>
+      <div id="ekRows"></div>
+      <button class="btn small ghost" id="ekAddBtn" type="button">+ Soru ekle</button>
+
+      <div class="sec" style="margin-top:18px">
+        <h4>Eski kombi değeri</h4>
+        <p class="hint">Çalışan bu aralıklardan birini seçer; seçilen tutar toplamdan düşülür ve sonuç aralık olarak gösterilir.</p>
+        <div id="eskiRows"></div>
+        <button class="btn small ghost" id="eskiAddBtn" type="button">+ Aralık ekle</button>
+      </div>
+
+      <div class="sec" style="margin-top:18px">
+        <h4>Konum ücreti (git-gel toplam, ₺)</h4>
+        <p class="hint">Dükkân Fatih'te. Başlangıç değerleri Çekmeköy = 1.500 ₺ alınarak ilçe merkezine olan mesafeyle orantılı hesaplandı; Anadolu yakasına köprü/tünel için +500 ₺ eklendi.</p>
+        <div class="konum-grid" id="konumRows"></div>
+      </div>
+    </div>
+    <div class="d-foot">
+      <p class="error" id="calcError"></p>
+      <span class="grow"></span>
+      <button class="btn" type="button" data-close>Vazgeç</button>
+      <button class="btn primary" type="submit" id="calcSaveBtn">Kaydet</button>
+    </div>
+  </form>
+</dialog>
+
 <!-- Ayarlar (sadece patron) -->
 <dialog id="settingsDialog">
   <form class="dlg" id="settingsForm" novalidate>
@@ -647,6 +746,28 @@
   ];
   const KAT = Object.fromEntries(KATEGORILER.map((k) => [k.id, k]));
   const ODEMELER = [["nakit", "Nakit / tek çekim"], ["t6", "Kart 2–6 taksit"], ["t12", "Kart 7–12 taksit"]];
+
+  // Tahmini fiyat hesaplayıcısının başlangıç ayarları; patron "Hesaplayıcı ayarları"ndan değiştirir.
+  // Konum ücretleri git-gel toplamıdır: Çekmeköy = 1.500 ₺ alınıp dükkândan (Fatih) ilçe merkezine
+  // olan mesafeyle orantılı hesaplandı, Anadolu yakasına köprü/tünel için +500 ₺ eklendi.
+  const HESAP = "hesapla";
+  const VARSAYILAN_HESAP = {
+    konumlar: [["Adalar", 1500], ["Arnavutköy", 1500], ["Ataşehir", 1250], ["Avcılar", 1250], ["Bağcılar", 500],
+      ["Bahçelievler", 500], ["Bakırköy", 500], ["Başakşehir", 1000], ["Bayrampaşa", 250], ["Beşiktaş", 250],
+      ["Beykoz", 1500], ["Beylikdüzü", 1500], ["Beyoğlu", 250], ["Büyükçekmece", 1750], ["Çatalca", 2500],
+      ["Çekmeköy", 1500], ["Esenler", 500], ["Esenyurt", 1250], ["Eyüpsultan", 250], ["Fatih", 0],
+      ["Gaziosmanpaşa", 500], ["Güngören", 500], ["Kadıköy", 750], ["Kağıthane", 500], ["Kartal", 1750],
+      ["Küçükçekmece", 750], ["Maltepe", 1500], ["Pendik", 2000], ["Sancaktepe", 1750], ["Sarıyer", 1000],
+      ["Silivri", 3250], ["Sultanbeyli", 2000], ["Sultangazi", 750], ["Şile", 3750], ["Şişli", 250],
+      ["Tuzla", 2500], ["Ümraniye", 1250], ["Üsküdar", 750], ["Zeytinburnu", 250]].map(([ad, ucret]) => ({ ad, ucret })),
+    eskiKombi: [{ min: 1000, max: 1500 }, { min: 1500, max: 2000 }, { min: 2000, max: 2500 }],
+    ekler: [
+      { id: "baca", soru: "Baca uzatması gerekiyor mu?", ad: "Baca uzatması", fiyat: 1500 },
+      { id: "flex", soru: "Ocak flex'i eski tip mi?", ad: "Ocak flex'i değişimi", fiyat: 1000 },
+      { id: "dirsek", soru: "Ek dirsek gerekiyor mu?", ad: "Ek dirsek", fiyat: null },
+      { id: "proje", soru: "Yeni proje çizilecek mi?", ad: "Proje çizimi", fiyat: 7500 }
+    ]
+  };
 
   const $ = (id) => document.getElementById(id);
   const show = (view) => {
@@ -874,6 +995,7 @@
       kayit: d.kayit,
       kur: d.kur,
       kategoriler: d.kategoriler,
+      hesaplayici: d.hesaplayici || VARSAYILAN_HESAP,
       urunler: d.urunler.map((p) => ({
         id: p.id, kat: p.kat, marka: p.marka, model: p.model,
         garanti: p.garanti, ozellikler: p.ozellikler, guncellendi: p.guncellendi,
@@ -905,7 +1027,8 @@
   let session = null;   // calisan: { role, k } — patron: { role, patron, calisan, token, k, pk, sha }
   let db = null;        // patron: tam liste; çalışan: çalışan bölümü
   let busy = false;
-  let activeKat = KAT[location.hash.slice(1)] ? location.hash.slice(1) : "kombi";
+  const startHash = location.hash.slice(1);
+  let activeKat = KAT[startHash] || startHash === HESAP ? startHash : "kombi";
   let autoSeed = null;  // yerel testte klasördeki başlangıç listesi
   const isPatron = () => session?.role === "patron";
 
@@ -969,7 +1092,7 @@
     $("roleBadge").classList.toggle("admin", admin);
     $("addBtn").hidden = !admin;
     $("settingsBtn").hidden = !admin;
-    if (!admin && !db.urunler.some((p) => p.kat === activeKat)) {
+    if (!admin && activeKat !== HESAP && !db.urunler.some((p) => p.kat === activeKat)) {
       activeKat = KATEGORILER.find((k) => db.urunler.some((p) => p.kat === k.id))?.id || "kombi";
     }
     show("appView");
@@ -1161,6 +1284,18 @@
   function renderTabs(searching) {
     const wrap = $("tabs");
     wrap.replaceChildren();
+    if (isPatron() || db.urunler.some((p) => p.kat === "kombi")) {
+      const c = el("button", "tab calc-tab", "Fiyat Hesapla");
+      c.type = "button";
+      const active = !searching && activeKat === HESAP;
+      c.setAttribute("aria-pressed", String(active));
+      c.addEventListener("click", () => {
+        $("search").value = "";
+        setKat(HESAP);
+      });
+      wrap.append(c);
+      if (active) requestAnimationFrame(() => c.scrollIntoView({ block: "nearest", inline: "nearest" }));
+    }
     for (const k of KATEGORILER) {
       const n = db.urunler.filter((p) => p.kat === k.id).length;
       if (!n && !isPatron()) continue;
@@ -1184,8 +1319,11 @@
     const searching = words.length > 0;
     renderTabs(searching);
 
+    document.documentElement.style.setProperty("--tabs-h", document.querySelector(".tabs").offsetHeight + "px");
+
     const content = $("content");
     content.replaceChildren();
+    if (!searching && activeKat === HESAP) content.append(calcSection());
     for (const k of KATEGORILER) {
       if (!searching && k.id !== activeKat) continue;
       const list = db.urunler.filter((p) => p.kat === k.id && (!searching || matches(p, words)));
@@ -1405,6 +1543,13 @@
     out.push(box);
 
     if (isPatron()) out.push(bossBox(p, v, f));
+    if (p.kat === "kombi") {
+      out.push(btn("Bu kombiyle fiyat hesapla →", "small ghost calc-link", () => {
+        Object.assign(calc, { urunId: p.id, varyantId: v.id });
+        $("search").value = "";
+        setKat(HESAP);
+      }));
+    }
     return out;
   }
 
@@ -1429,6 +1574,388 @@
     }
     return box;
   }
+
+  // ---------- Tahmini fiyat hesaplayıcı ----------
+  // Seçimler sadece bu ekranda tutulur, kaydedilmez.
+  const calc = { urunId: null, varyantId: null, odeme: "nakit", konum: "Fatih", eski: -1, ekler: {} };
+  const hesapAyar = () => db.hesaplayici || VARSAYILAN_HESAP;
+  const aralikTL = (a, b) => (a === b ? fmtTL(a) : `${fmtNum(a, 0)} – ${fmtTL(b)}`);
+  const CALC_NOT = "Tahmini fiyattır; kesin fiyat keşiften sonra verilir. Keşifte gaz kaçağı veya menfez gibi ek bir iş çıkarsa ayrıca fiyatlandırılır.";
+  let calcObserver = null;
+
+  function kombiGroups() {
+    const by = new Map();
+    for (const p of db.urunler.filter((x) => x.kat === "kombi")) {
+      if (!by.has(p.marka)) by.set(p.marka, []);
+      by.get(p.marka).push(p);
+    }
+    return [...by.keys()].sort(trSort)
+      .map((m) => [m, by.get(m).sort((a, b) => minPrice(a) - minPrice(b) || trSort(a.model, b.model))]);
+  }
+
+  // Seçili kombi ve gücü; seçim geçersizse ilk uygun olana (tercihen 24 kW) düzeltir.
+  function calcSecim() {
+    const all = kombiGroups().flatMap(([, ps]) => ps);
+    let p = all.find((x) => x.id === calc.urunId);
+    if (!p) {
+      p = all[0] || null;
+      calc.urunId = p?.id || null;
+    }
+    const vs = p ? sortedVariants(p) : [];
+    let v = vs.find((x) => x.id === calc.varyantId);
+    if (!v) {
+      v = vs.find((x) => x.guc === 24) || vs[0] || null;
+      calc.varyantId = v?.id || null;
+    }
+    return { p, v };
+  }
+
+  function calcResult() {
+    const ayar = hesapAyar();
+    const { p, v } = calcSecim();
+    const f = p && v ? fiyatlar(p, v) : null;
+    const base = f?.[calc.odeme] ?? null;
+    const lines = [];
+    const eksik = [];
+    let ek = 0;
+    const konum = ayar.konumlar.find((k) => k.ad === calc.konum);
+    if (konum?.ucret) {
+      ek += konum.ucret;
+      lines.push({ ad: `Konum: ${konum.ad} (git-gel)`, tutar: "+" + fmtTL(konum.ucret) });
+    }
+    for (const e of ayar.ekler) {
+      if (!calc.ekler[e.id]) continue;
+      if (e.fiyat == null) {
+        eksik.push(e.ad);
+        lines.push({ ad: e.ad, tutar: "fiyatı girilmemiş", cls: "warn" });
+        continue;
+      }
+      ek += e.fiyat;
+      lines.push({ ad: e.ad, tutar: "+" + fmtTL(e.fiyat) });
+    }
+    const eski = ayar.eskiKombi[calc.eski] || null;
+    if (eski) lines.push({ ad: "Eski kombi (düşülür)", tutar: "−" + aralikTL(eski.min, eski.max), cls: "minus" });
+    return {
+      p, v, base, lines, eksik,
+      min: base == null ? null : base + ek - (eski?.max || 0),
+      max: base == null ? null : base + ek - (eski?.min || 0)
+    };
+  }
+
+  function seg(options, value, onChange) {
+    const w = el("div", "seg");
+    for (const [val, label, extra] of options) {
+      const b = el("button", "seg-b", label);
+      b.type = "button";
+      if (extra) b.append(el("small", null, extra));
+      b.setAttribute("aria-pressed", String(val === value));
+      b.addEventListener("click", () => {
+        for (const x of w.children) x.setAttribute("aria-pressed", String(x === b));
+        onChange(val);
+      });
+      w.append(b);
+    }
+    return w;
+  }
+
+  function question(n, title, ...body) {
+    const q = el("div", "q");
+    const h = el("div", "q-h");
+    h.append(el("span", "q-n", String(n)), el("span", null, title));
+    q.append(h, ...body);
+    return q;
+  }
+
+  function calcSection() {
+    const ayar = hesapAyar();
+    const sec = el("section", "cat calc");
+    const head = el("div", "cat-head");
+    head.append(el("h2", null, "Tahmini Fiyat Hesapla"), el("span", "cat-count", "Kombi değişimi için müşteriye söylenecek tahmini toplam"));
+    sec.append(head);
+
+    if (isPatron()) {
+      const note = el("div", "boss-only");
+      note.append(el("span", "tag", "Yalnız patron görür"), el("span", null, "Konum ücretleri, ek iş fiyatları ve eski kombi aralıkları ayarlanabilir."));
+      const missing = ayar.ekler.filter((e) => e.fiyat == null).map((e) => e.ad);
+      if (missing.length) {
+        note.classList.add("warn");
+        note.append(el("span", null, `Fiyatı girilmemiş: ${missing.join(", ")}.`));
+      }
+      note.append(btn("Hesaplayıcı ayarları", "small", openCalcSettings));
+      sec.append(note);
+    }
+
+    if (!kombiGroups().length) {
+      sec.append(el("div", "empty glass", "Listede kombi yok."));
+      return sec;
+    }
+    if (!ayar.konumlar.some((k) => k.ad === calc.konum)) calc.konum = ayar.konumlar.find((k) => !k.ucret)?.ad || ayar.konumlar[0]?.ad;
+    if (calc.eski >= ayar.eskiKombi.length) calc.eski = -1;
+
+    const grid = el("div", "calc-grid");
+    const form = el("div", "calc-form glass");
+    const sum = el("aside", "calc-sum glass");
+    const bar = el("div", "calc-bar");
+    let n = 1;
+
+    // Yeni kombi
+    const select = el("select");
+    select.setAttribute("aria-label", "Kombi modeli");
+    for (const [marka, ps] of kombiGroups()) {
+      const og = el("optgroup");
+      og.label = marka;
+      for (const x of ps) {
+        const o = el("option", null, `${marka} ${x.model}`);
+        o.value = x.id;
+        og.append(o);
+      }
+      select.append(og);
+    }
+    select.value = calcSecim().p.id;
+    const chipsBox = el("div");
+    const capHint = el("div", "q-hint");
+    const drawHint = () => {
+      const { p, v } = calcSecim();
+      const cap = kapasite(p.kat, v);
+      capHint.textContent = [v.kod, cap.alan && "≈ " + cap.alan, cap.petek && "≈ " + cap.petek].filter(Boolean).join(" · ");
+      capHint.hidden = !capHint.textContent;
+    };
+    const drawVariants = () => {
+      const { p, v } = calcSecim();
+      const vs = sortedVariants(p);
+      chipsBox.replaceChildren();
+      if (vs.length > 1) {
+        const s = seg(vs.map((x) => [x.id, x.etiket]), v.id, (id) => {
+          calc.varyantId = id;
+          drawHint();
+          update();
+        });
+        s.classList.add("chips");
+        chipsBox.append(s);
+      } else if (v) {
+        chipsBox.append(el("div", "q-hint", v.etiket));
+      }
+      drawHint();
+    };
+    select.addEventListener("change", () => {
+      calc.urunId = select.value;
+      calc.varyantId = null;
+      drawVariants();
+      update();
+    });
+    drawVariants();
+    form.append(question(n++, "Yeni kombi hangisi?", select, chipsBox, capHint));
+
+    form.append(question(n++, "Ödeme şekli",
+      seg(ODEMELER.map(([k, label]) => [k, label]), calc.odeme, (val) => { calc.odeme = val; update(); })));
+
+    const konum = el("select");
+    konum.setAttribute("aria-label", "İlçe");
+    for (const k of [...ayar.konumlar].sort((a, b) => trSort(a.ad, b.ad))) {
+      const o = el("option", null, `${k.ad} — ${k.ucret ? "+" + fmtTL(k.ucret) : "ek ücret yok"}`);
+      o.value = k.ad;
+      konum.append(o);
+    }
+    konum.value = calc.konum;
+    konum.addEventListener("change", () => { calc.konum = konum.value; update(); });
+    form.append(question(n++, "Konum (ilçe)", konum,
+      el("div", "q-hint", "Dükkân Fatih'te; ücret git-gel toplamıdır.")));
+
+    form.append(question(n++, "Eski kombi var mı? Değeri ne kadar?",
+      seg([[-1, "Eski kombi yok"], ...ayar.eskiKombi.map((r, i) => [i, aralikTL(r.min, r.max)])], calc.eski,
+        (val) => { calc.eski = val; update(); }),
+      el("div", "q-hint", "Eski kombinin değeri toplamdan düşülür; genelde 1.500–2.000 ₺.")));
+
+    for (const e of ayar.ekler) {
+      form.append(question(n++, e.soru,
+        seg([[false, "Hayır"], [true, "Evet", e.fiyat != null ? "+" + fmtTL(e.fiyat) : "fiyatı girilmemiş"]],
+          Boolean(calc.ekler[e.id]), (val) => { calc.ekler[e.id] = val; update(); })));
+    }
+
+    function metin(r, total, odeme, dahil) {
+      const L = ["Tahmini fiyat – Eksen Mühendislik", `Kombi: ${r.p.marka} ${r.p.model} ${r.v.etiket}`, `Ödeme: ${odeme}`,
+        `Kombi fiyatı: ${r.base != null ? fmtTL(r.base) : "fiyat sorunuz"}`];
+      for (const l of r.lines) L.push(`${l.ad}: ${l.tutar}`);
+      L.push(`Tahmini toplam: ${total}`);
+      if (dahil?.length) L.push(`Fiyata dahil: ${dahil.join(", ")}.`);
+      L.push(CALC_NOT);
+      return L.join("\n");
+    }
+
+    async function kopyala(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch {
+        const t = el("textarea");
+        t.value = text;
+        document.body.append(t);
+        t.select();
+        document.execCommand("copy");
+        t.remove();
+      }
+      toast("Özet kopyalandı; WhatsApp'a yapıştırabilirsiniz.");
+    }
+
+    function update() {
+      const r = calcResult();
+      const odeme = ODEMELER.find(([k]) => k === calc.odeme)[1];
+      const total = r.min == null ? "Fiyat sorunuz" : aralikTL(r.min, r.max);
+      const dahil = db.kategoriler?.kombi?.dahil;
+      sum.replaceChildren(
+        el("div", "p-lbl", "Tahmini toplam"),
+        el("div", r.min == null ? "p-none" : "p-val", total),
+        el("div", "sum-pay", odeme + (r.min !== r.max ? " · eski kombinin değerine göre" : "")));
+      const lines = el("div", "sum-lines");
+      const kombi = el("div", "sum-line");
+      kombi.append(el("span", null, `${r.p.marka} ${r.p.model} · ${r.v.etiket}`), el("b", null, r.base != null ? fmtTL(r.base) : "fiyat yok"));
+      lines.append(kombi);
+      for (const l of r.lines) {
+        const row = el("div", "sum-line" + (l.cls ? " " + l.cls : ""));
+        row.append(el("span", null, l.ad), el("b", null, l.tutar));
+        lines.append(row);
+      }
+      sum.append(lines);
+      if (r.base == null) sum.append(el("div", "q-hint warn", "Bu kombinin bu ödeme şekli için satış fiyatı girilmemiş."));
+      if (r.eksik.length) sum.append(el("div", "q-hint warn", `${r.eksik.join(", ")} fiyatı girilmemiş; toplama eklenmedi.`));
+      if (dahil?.length) {
+        const d = el("div", "sum-inc");
+        d.append(el("b", null, "Fiyata dahil: "), document.createTextNode(dahil.join(", ") + "."));
+        sum.append(d);
+      }
+      sum.append(el("div", "sum-note", CALC_NOT));
+      const actions = el("div", "sum-actions");
+      actions.append(
+        btn("Özeti kopyala", "small primary", () => kopyala(metin(r, total, odeme, dahil))),
+        btn("Sıfırla", "small", () => {
+          Object.assign(calc, { odeme: "nakit", konum: "Fatih", eski: -1, ekler: {} });
+          render();
+        }));
+      sum.append(actions);
+
+      const left = el("div");
+      left.append(el("div", "p-lbl", "Tahmini toplam"), el("div", r.min == null ? "p-none" : "p-val", total));
+      bar.replaceChildren(left, btn("Özete git", "small", () => sum.scrollIntoView({ behavior: "smooth", block: "start" })));
+    }
+    update();
+
+    grid.append(form, sum);
+    sec.append(grid, bar);
+    // Telefonda özet görünürken alttaki sabit toplam çubuğu gizlenir.
+    calcObserver?.disconnect();
+    calcObserver = new IntersectionObserver(([e]) => bar.classList.toggle("off", e.isIntersecting));
+    calcObserver.observe(sum);
+    return sec;
+  }
+
+  // ---------- Hesaplayıcı ayarları (sadece patron) ----------
+  const calcDialog = $("calcDialog");
+
+  function numInput(value, placeholder, label) {
+    const i = el("input");
+    i.inputMode = "decimal";
+    i.autocomplete = "off";
+    i.value = fmtNum(value);
+    i.placeholder = placeholder;
+    if (label) i.setAttribute("aria-label", label);
+    return i;
+  }
+
+  function ekRow(e = {}) {
+    const row = el("div", "ek-row");
+    row.dataset.id = e.id || crypto.randomUUID();
+    const soru = el("input", "ek-soru");
+    soru.dataset.f = "soru";
+    soru.value = e.soru || "";
+    soru.placeholder = "Soru (örn. Baca uzatması gerekiyor mu?)";
+    const ad = el("input");
+    ad.dataset.f = "ad";
+    ad.value = e.ad || "";
+    ad.placeholder = "Özetteki adı";
+    const fiyat = numInput(e.fiyat, "Fiyat ₺", "Fiyat");
+    fiyat.dataset.f = "fiyat";
+    row.append(soru, ad, fiyat, btn("Sil", "small danger", () => row.remove()));
+    return row;
+  }
+
+  function eskiRow(r = {}) {
+    const row = el("div", "eski-row");
+    row.append(numInput(r.min, "en az ₺", "En az"), el("span", "muted", "–"), numInput(r.max, "en çok ₺", "En çok"),
+      btn("Sil", "small danger", () => row.remove()));
+    return row;
+  }
+
+  function openCalcSettings() {
+    const a = hesapAyar();
+    $("ekRows").replaceChildren(...a.ekler.map((e) => ekRow(e)));
+    $("eskiRows").replaceChildren(...a.eskiKombi.map((r) => eskiRow(r)));
+    $("konumRows").replaceChildren(...[...a.konumlar].sort((x, y) => trSort(x.ad, y.ad)).map((k) => {
+      const row = el("label", "konum-row");
+      const i = numInput(k.ucret, "0");
+      i.dataset.ad = k.ad;
+      row.append(el("span", null, k.ad), i);
+      return row;
+    }));
+    $("calcError").textContent = "";
+    calcDialog.showModal();
+    calcDialog.querySelector(".d-body").scrollTop = 0;
+  }
+
+  $("ekAddBtn").addEventListener("click", () => {
+    const r = ekRow();
+    $("ekRows").append(r);
+    r.querySelector("input").focus();
+  });
+  $("eskiAddBtn").addEventListener("click", () => {
+    const r = eskiRow();
+    $("eskiRows").append(r);
+    r.querySelector("input").focus();
+  });
+  $("calcForm").addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && e.target.tagName === "INPUT") e.preventDefault();
+  });
+
+  $("calcForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const fail = (m) => { $("calcError").textContent = m; };
+    $("calcError").textContent = "";
+
+    const ekler = [];
+    for (const row of $("ekRows").children) {
+      const g = (f) => row.querySelector(`[data-f="${f}"]`).value.trim();
+      const soru = g("soru");
+      const ad = g("ad");
+      const fiyat = parseNum(g("fiyat"));
+      if (!soru && !ad && fiyat == null) continue;
+      if (!soru) return fail("Her ek işin bir sorusu olmalı.");
+      if (Number.isNaN(fiyat)) return fail(`“${soru}”: fiyat sayı olmalı.`);
+      ekler.push({ id: row.dataset.id, soru, ad: ad || soru.replace(/\s*\?$/, ""), fiyat });
+    }
+
+    const eskiKombi = [];
+    for (const row of $("eskiRows").children) {
+      const [a, b] = [...row.querySelectorAll("input")].map((i) => parseNum(i.value));
+      if (a == null && b == null) continue;
+      if (Number.isNaN(a) || Number.isNaN(b)) return fail("Eski kombi tutarları sayı olmalı.");
+      const lo = a ?? b;
+      const hi = b ?? a;
+      eskiKombi.push({ min: Math.min(lo, hi), max: Math.max(lo, hi) });
+    }
+    eskiKombi.sort((x, y) => x.min - y.min);
+
+    const konumlar = [];
+    for (const i of $("konumRows").querySelectorAll("input")) {
+      const u = parseNum(i.value);
+      if (Number.isNaN(u)) return fail(`${i.dataset.ad}: ücret sayı olmalı.`);
+      konumlar.push({ ad: i.dataset.ad, ucret: u ?? 0 });
+    }
+
+    const next = structuredClone(db);
+    next.hesaplayici = { konumlar, eskiKombi, ekler };
+    guarded($("calcSaveBtn"), $("calcError"), async () => {
+      await publish(next, { ...session }, "Fiyat listesi güncellendi");
+      calcDialog.close();
+    });
+  });
 
   // ---------- Pencereler ----------
   for (const b of document.querySelectorAll("[data-close]")) {
@@ -1835,6 +2362,7 @@
     // Başlangıç dosyasında kâr ayarı ve kur yoksa mevcut ayarlar korunur.
     if (!Object.keys(next.fiyatlandirma.kategoriler).length) next.fiyatlandirma = structuredClone(db.fiyatlandirma);
     if (!next.kur) next.kur = db.kur;
+    if (!next.hesaplayici && db.hesaplayici) next.hesaplayici = db.hesaplayici;
     guarded($("importBtn"), $("settingsError"), async () => {
       await publish(next, { ...session }, "Fiyat listesi güncellendi");
       settingsDialog.close();

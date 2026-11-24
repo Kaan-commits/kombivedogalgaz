@@ -2,9 +2,10 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Personel Paneli | Eksen Mühendislik</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Fiyat Listesi | Eksen Mühendislik Personel</title>
 <meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#060d17">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,23 +20,26 @@
     --stroke:rgba(255,255,255,.09);
     --stroke-2:rgba(255,255,255,.16);
     --text:#eef3f8;
-    --muted:#8fa2b6;
-    --muted-2:#6b7f94;
+    --muted:#9aacbf;
+    --muted-2:#72869b;
     --flame:#ff6a2b;
     --flame-2:#ffa24c;
     --gold:#ffd38a;
+    --blue:#a9cdfb;
     --danger:#f0565a;
-    --ok:#34c38f;
+    --ok:#3ccf98;
+    --no:#ff9a7a;
     --grad:linear-gradient(135deg,var(--flame) 0%,var(--flame-2) 60%,var(--gold) 100%);
     --radius:20px;
   }
   *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
   body{
     margin:0;min-height:100vh;
     font-family:'Manrope','Segoe UI',system-ui,-apple-system,Arial,sans-serif;
     color:var(--text);
     background:var(--bg);
-    line-height:1.6;
+    line-height:1.55;
     -webkit-font-smoothing:antialiased;
   }
   body::before{
@@ -48,8 +52,8 @@
     -webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 75%);
   }
   [hidden]{display:none !important;}
-  .wrap{max-width:1180px;margin:0 auto;padding:0 20px;}
-  code{font-size:.9em;background:var(--glass-2);padding:1px 6px;border-radius:6px;}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 20px;}
+  button{font:inherit;}
 
   /* ---------- Ortak ---------- */
   .brand{
@@ -74,7 +78,7 @@
     display:inline-flex;align-items:center;justify-content:center;gap:8px;
     border:1px solid var(--stroke-2);background:var(--glass);color:var(--text);
     padding:10px 18px;border-radius:30px;cursor:pointer;
-    font:inherit;font-weight:700;font-size:.9rem;white-space:nowrap;
+    font-weight:700;font-size:.9rem;white-space:nowrap;
     transition:background .2s, transform .2s;
   }
   .btn:hover{background:var(--glass-2);}
@@ -85,93 +89,273 @@
   .btn.primary:hover{transform:translateY(-1px);}
   .btn.small{padding:7px 14px;font-size:.82rem;}
   .btn.danger{color:var(--danger);border-color:rgba(240,86,90,.35);}
+  .btn.ghost{border-style:dashed;color:var(--muted);background:transparent;}
   .btn:disabled{opacity:.6;cursor:wait;}
   label{display:block;font-size:.82rem;font-weight:700;color:var(--muted);margin-bottom:6px;}
-  input,textarea{
-    width:100%;font:inherit;font-size:1rem;color:var(--text);
+  input,textarea,select{
+    width:100%;font:inherit;font-size:16px;color:var(--text);
     background:var(--bg-2);border:1px solid var(--stroke-2);border-radius:12px;
-    padding:11px 14px;outline:none;transition:border-color .2s;
+    padding:10px 13px;outline:none;transition:border-color .2s;
   }
-  input:focus,textarea:focus{border-color:var(--flame-2);}
-  textarea{resize:vertical;min-height:110px;}
-  .field{margin-bottom:16px;}
+  select{appearance:none;-webkit-appearance:none;padding-right:32px;cursor:pointer;
+    background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);
+    background-position:calc(100% - 17px) 55%,calc(100% - 12px) 55%;background-size:5px 5px;background-repeat:no-repeat;}
+  input:focus,textarea:focus,select:focus{border-color:var(--flame-2);}
+  input::placeholder,textarea::placeholder{color:var(--muted-2);}
+  textarea{resize:vertical;min-height:96px;}
+  .field{margin-bottom:14px;}
   .error{color:var(--danger);font-size:.9rem;font-weight:600;margin:0 0 12px;}
   .error:empty{display:none;}
   .muted{color:var(--muted);}
-  .hint{font-size:.78rem;color:var(--muted-2);margin-top:4px;}
+  .hint{font-size:.78rem;color:var(--muted-2);margin-top:5px;font-weight:500;}
+  .local-note{
+    font-size:.86rem;color:var(--blue);background:rgba(59,143,240,.1);
+    border:1px solid rgba(59,143,240,.3);border-radius:14px;padding:10px 14px;
+  }
 
   /* ---------- Giriş / kurulum ---------- */
   .login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px 16px;}
-  .login-card{width:100%;max-width:420px;padding:32px 28px;}
+  .login-card{width:100%;max-width:440px;padding:32px 28px;}
   .login-card .brand{margin-bottom:26px;}
   .login-card h1{font-size:1.4rem;margin:0 0 4px;letter-spacing:-.3px;}
-  .login-card p.muted{margin:0 0 24px;font-size:.92rem;}
+  .login-card p.muted{margin:0 0 22px;font-size:.92rem;}
   .login-card .btn{width:100%;padding:12px;}
+  .login-card .local-note{margin-top:16px;}
   .back-link{display:block;text-align:center;margin-top:18px;color:var(--muted);font-size:.85rem;text-decoration:none;}
   .back-link:hover{color:var(--text);}
+  input[type=file]{padding:8px;font-size:.9rem;}
 
-  /* ---------- Panel ---------- */
-  .topbar{
-    position:sticky;top:0;z-index:20;
-    background:rgba(6,13,23,.8);
+  /* ---------- Üst bar ve sekmeler ---------- */
+  .topbar{border-bottom:1px solid var(--stroke);}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:12px;padding-bottom:12px;}
+  .who{display:flex;align-items:center;gap:8px;}
+  .role{
+    font-size:.7rem;font-weight:800;letter-spacing:.6px;text-transform:uppercase;
+    padding:5px 10px;border-radius:20px;border:1px solid var(--stroke-2);color:var(--muted);white-space:nowrap;
+  }
+  .role.admin{color:var(--gold);border-color:rgba(255,211,138,.4);}
+  .tabs{
+    position:sticky;top:0;z-index:30;
+    background:rgba(6,13,23,.88);
     backdrop-filter:blur(16px) saturate(140%);
     -webkit-backdrop-filter:blur(16px) saturate(140%);
     border-bottom:1px solid var(--stroke);
   }
-  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px;padding-top:14px;padding-bottom:14px;}
-  .who{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
-  .role{
-    font-size:.72rem;font-weight:800;letter-spacing:.6px;text-transform:uppercase;
-    padding:5px 10px;border-radius:20px;border:1px solid var(--stroke-2);color:var(--muted);
+  .tabs .wrap{display:flex;gap:8px;overflow-x:auto;padding-top:10px;padding-bottom:10px;scrollbar-width:none;}
+  .tabs .wrap::-webkit-scrollbar{display:none;}
+  .tab{
+    flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;
+    border:1px solid var(--stroke-2);background:var(--glass);color:var(--text);
+    padding:8px 14px;border-radius:999px;font-weight:700;font-size:.9rem;cursor:pointer;white-space:nowrap;
   }
-  .role.admin{color:var(--gold);border-color:rgba(255,211,138,.4);}
-  main{padding:32px 0 60px;}
-  .head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:22px;}
-  .head h2{font-size:1.6rem;margin:0;letter-spacing:-.4px;}
-  .head p{margin:2px 0 0;font-size:.9rem;}
-  .tools{display:flex;gap:10px;flex-wrap:wrap;}
-  .tools input{width:240px;max-width:100%;border-radius:30px;padding:9px 16px;font-size:.92rem;}
-  .status{font-size:.88rem;font-weight:600;margin:0 0 16px;color:var(--ok);}
-  .status:empty{display:none;}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
-  .card{padding:20px;display:flex;flex-direction:column;}
-  .brand-tag{
-    align-self:flex-start;
-    font-size:.72rem;font-weight:800;letter-spacing:.6px;text-transform:uppercase;
-    color:var(--flame-2);background:rgba(255,106,43,.1);
-    padding:4px 10px;border-radius:20px;
+  .tab:hover{background:var(--glass-2);}
+  .tab .n{font-size:.72rem;font-weight:800;color:var(--muted);background:rgba(255,255,255,.08);padding:1px 7px;border-radius:999px;}
+  .tab[aria-pressed="true"]{background:var(--grad);color:#1a0b02;border-color:transparent;}
+  .tab[aria-pressed="true"] .n{color:#1a0b02;background:rgba(0,0,0,.12);}
+  @media (min-width:900px){
+    .tabs .wrap{flex-wrap:wrap;overflow:visible;}
+    .tab{padding:7px 13px;}
   }
-  .card h3{margin:10px 0 2px;font-size:1.2rem;letter-spacing:-.2px;}
-  .meta{font-size:.86rem;color:var(--muted);}
-  .price{font-size:1.6rem;font-weight:800;margin:14px 0 4px;letter-spacing:-.4px;}
-  .price.none{font-size:1rem;color:var(--muted-2);font-weight:600;}
-  .specs{margin:10px 0 0;padding-left:18px;font-size:.9rem;color:var(--muted);}
-  .specs li{margin:2px 0;}
-  .card .actions{display:flex;gap:8px;margin-top:auto;padding-top:16px;}
-  .updated{font-size:.75rem;color:var(--muted-2);margin-top:12px;}
-  .empty{padding:48px 20px;text-align:center;color:var(--muted);}
+
+  /* ---------- Sayfa başı ---------- */
+  main{padding:24px 0 90px;}
+  main > .local-note{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px;}
+  .head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:20px;}
+  .head h1{font-size:1.7rem;margin:0;letter-spacing:-.5px;line-height:1.2;}
+  .head p{margin:4px 0 0;font-size:.9rem;}
+  .tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+  .search{position:relative;}
+  .search svg{position:absolute;left:14px;top:50%;width:17px;height:17px;transform:translateY(-50%);color:var(--muted-2);pointer-events:none;}
+  .search input{width:280px;border-radius:999px;padding:10px 16px 10px 40px;}
+
+  /* ---------- Kategori ---------- */
+  .cat{margin-bottom:40px;}
+  .cat-head{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px;margin:0 0 14px;}
+  .cat-head h2{margin:0;font-size:1.45rem;letter-spacing:-.4px;}
+  .cat-count{color:var(--muted);font-size:.9rem;font-weight:600;}
+  .boss-only{
+    display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;
+    font-size:.86rem;color:var(--gold);
+    border:1px dashed rgba(255,211,138,.35);background:rgba(255,211,138,.05);
+    border-radius:14px;padding:10px 14px;margin-bottom:14px;
+  }
+  .boss-only.warn{color:#ffc1a6;border-color:rgba(255,154,122,.5);background:rgba(255,154,122,.07);}
+  .boss-only .btn{margin-left:auto;}
+  .boss-only .tag{font-size:.66rem;font-weight:800;letter-spacing:.6px;text-transform:uppercase;opacity:.75;}
+  .add-info{margin-bottom:14px;}
+
+  .include{display:grid;grid-template-columns:1fr 1fr;gap:10px 28px;padding:16px 20px;margin-bottom:14px;}
+  .include h3{margin:0 0 6px;font-size:.78rem;font-weight:800;letter-spacing:.6px;text-transform:uppercase;}
+  .inc-col.yes h3{color:var(--ok);}
+  .inc-col.no h3{color:var(--no);}
+  .include ul{margin:0;padding:0;list-style:none;}
+  .include li{display:flex;gap:9px;padding:3px 0;font-size:.97rem;}
+  .include li::before{font-weight:800;flex:0 0 auto;width:1em;text-align:center;}
+  .inc-col.yes li::before{content:"✓";color:var(--ok);}
+  .inc-col.no li::before{content:"✕";color:var(--no);}
+  .inc-foot{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;
+    font-size:.87rem;color:var(--muted);border-top:1px solid var(--stroke);padding-top:10px;}
+  .inc-foot:empty{display:none;}
+
+  .guide{margin-bottom:14px;}
+  .guide summary{
+    cursor:pointer;padding:13px 20px;font-weight:700;list-style:none;
+    display:flex;align-items:center;gap:10px;
+  }
+  .guide summary::-webkit-details-marker{display:none;}
+  .guide summary .ico{color:var(--blue);display:inline-flex;}
+  .guide summary::after{
+    content:"";margin-left:auto;width:8px;height:8px;flex:0 0 auto;
+    border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);
+    transform:rotate(45deg);transition:transform .2s;
+  }
+  .guide[open] summary::after{transform:rotate(225deg);}
+  .g-body{padding:0 20px 16px;overflow-x:auto;}
+  .guide table{width:100%;max-width:640px;border-collapse:collapse;font-size:.93rem;font-variant-numeric:tabular-nums;}
+  .guide th{text-align:left;font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:800;padding:6px 10px 6px 0;border-bottom:1px solid var(--stroke-2);white-space:nowrap;}
+  .guide td{padding:7px 10px 7px 0;border-bottom:1px solid var(--stroke);white-space:nowrap;}
+  .guide td:first-child{font-weight:700;}
+  .g-note{font-size:.8rem;color:var(--muted-2);margin:10px 0 0;white-space:normal;}
+
+  .brand-group{margin-top:24px;}
+  .brand-h{display:flex;align-items:center;gap:10px;margin:0 0 10px;font-size:1.05rem;font-weight:800;}
+  .brand-h::after{content:"";flex:1;height:1px;background:var(--stroke);}
+  .brand-h .n{font-size:.8rem;color:var(--muted);font-weight:600;}
+  .empty{padding:40px 20px;text-align:center;color:var(--muted);}
+
+  /* ---------- Ürün kartı ---------- */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px;}
+  .card{padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0;}
+  .card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
+  .brand-tag{font-size:.7rem;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--flame-2);}
+  .card h4{margin:2px 0 0;font-size:1.16rem;line-height:1.3;letter-spacing:-.2px;}
+  .garanti{font-size:.84rem;color:var(--muted);margin-top:-6px;}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;}
+  .chip{
+    border:1px solid var(--stroke-2);background:transparent;color:var(--text);
+    padding:6px 12px;min-height:36px;border-radius:999px;
+    font-weight:700;font-size:.86rem;cursor:pointer;font-variant-numeric:tabular-nums;
+  }
+  .chip:hover{background:var(--glass-2);}
+  .chip[aria-pressed="true"]{background:var(--text);color:var(--bg);border-color:var(--text);}
+  .card-body{display:flex;flex-direction:column;gap:10px;}
+  .v-line{font-size:.88rem;color:var(--muted);font-weight:600;}
+  .cap{display:flex;flex-wrap:wrap;gap:6px;}
+  .cap span{
+    font-size:.84rem;font-weight:700;color:var(--blue);
+    background:rgba(59,143,240,.12);border:1px solid rgba(59,143,240,.25);
+    padding:4px 10px;border-radius:8px;
+  }
+  .prices{background:rgba(0,0,0,.2);border:1px solid var(--stroke);border-radius:14px;padding:12px 14px;}
+  .p-lbl{font-size:.7rem;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);}
+  .p-val{font-size:1.85rem;font-weight:800;letter-spacing:-.5px;line-height:1.2;font-variant-numeric:tabular-nums;}
+  .p-row{
+    display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+    font-size:.93rem;padding-top:6px;margin-top:6px;border-top:1px dashed var(--stroke);
+  }
+  .p-row span{color:var(--muted);}
+  .p-row b{font-variant-numeric:tabular-nums;}
+  .p-none{font-size:1.1rem;font-weight:700;color:var(--muted);}
+  .p-note{font-size:.77rem;color:var(--muted-2);margin-top:8px;}
+  .boss-box{
+    font-size:.82rem;color:var(--gold);
+    border:1px dashed rgba(255,211,138,.35);background:rgba(255,211,138,.05);
+    border-radius:12px;padding:8px 12px;font-variant-numeric:tabular-nums;
+  }
+  .boss-box div + div{margin-top:2px;}
+  .boss-box .warn{color:#ffc1a6;}
+  .specs{
+    margin:auto 0 0;padding:10px 0 0;border-top:1px solid var(--stroke);list-style:none;
+    font-size:.86rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:2px 14px;
+  }
+  .specs li::before{content:"•";color:var(--flame-2);margin-right:6px;}
 
   /* ---------- Pencereler ---------- */
   dialog{
-    width:min(520px,calc(100vw - 32px));padding:0;border:none;
-    background:transparent;color:var(--text);
+    width:min(780px,calc(100vw - 24px));max-width:none;max-height:none;
+    padding:0;border:none;background:transparent;color:var(--text);
   }
-  dialog::backdrop{background:rgba(2,6,12,.7);backdrop-filter:blur(4px);}
-  dialog form{background:var(--bg-3);border:1px solid var(--stroke-2);border-radius:var(--radius);padding:26px 24px;}
-  dialog h3{margin:0 0 18px;font-size:1.25rem;}
-  dialog p.muted{margin:-8px 0 18px;font-size:.88rem;}
-  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-  .dialog-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:6px;}
+  dialog.narrow{width:min(520px,calc(100vw - 24px));}
+  dialog::backdrop{background:rgba(2,6,12,.72);backdrop-filter:blur(4px);}
+  .dlg{
+    display:flex;flex-direction:column;max-height:calc(100dvh - 24px);
+    background:var(--bg-3);border:1px solid var(--stroke-2);border-radius:var(--radius);overflow:hidden;
+  }
+  .d-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 22px;border-bottom:1px solid var(--stroke);}
+  .d-head h3{margin:0;font-size:1.18rem;}
+  .d-body{padding:18px 22px 6px;overflow:auto;overscroll-behavior:contain;}
+  .d-foot{display:flex;align-items:center;gap:10px;padding:12px 22px;border-top:1px solid var(--stroke);background:var(--bg-2);}
+  .d-foot .error{margin:0;flex:1 1 100%;}
+  .d-foot{flex-wrap:wrap;}
+  .grow{flex:1;}
+  .x{background:none;border:none;color:var(--muted);font-size:1.7rem;line-height:1;cursor:pointer;padding:2px 8px;border-radius:8px;}
+  .x:hover{color:var(--text);background:var(--glass-2);}
+  .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:0 12px;}
+  .sec{border-top:1px solid var(--stroke);margin-top:6px;padding-top:16px;}
+  .sec h4{margin:0 0 4px;font-size:1rem;}
+  .sec > p.hint{margin:0 0 12px;}
+  .sec-actions{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
 
-  @media (max-width:560px){
-    .brand small{display:none;}
+  .v-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px;margin:8px 0 10px;}
+  .v-head h4{margin:0;font-size:1rem;}
+  .v-edit{border:1px solid var(--stroke-2);border-radius:14px;padding:14px;margin-bottom:12px;background:rgba(0,0,0,.18);}
+  .v-top{display:grid;grid-template-columns:1.3fr 1fr 120px auto;gap:10px;align-items:end;}
+  .v-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;}
+  .v-grid.two{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .v-sec{margin-top:12px;}
+  .v-sec-h{display:flex;align-items:center;flex-wrap:wrap;gap:4px 10px;font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:6px;}
+  .v-sec-h select{width:auto;padding:4px 30px 4px 10px;border-radius:8px;}
+  .v-sec-h .hint{text-transform:none;letter-spacing:0;margin:0;}
+  .vf{margin:0;min-width:0;}
+  .mini{display:block;font-size:.72rem;color:var(--muted-2);font-weight:700;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .v-edit input{padding:9px 11px;}
+  .v-del{margin-bottom:2px;}
+  .rules{display:grid;grid-template-columns:minmax(0,1fr) 90px 130px;gap:8px 10px;align-items:center;margin-bottom:12px;}
+  .rules .rh{font-size:.72rem;font-weight:800;color:var(--muted-2);text-transform:uppercase;letter-spacing:.4px;}
+  .rules .rn{font-weight:700;font-size:.92rem;}
+  .rules input{padding:8px 10px;}
+  .kur{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+  .kur input{width:150px;}
+
+  .toast{
+    position:fixed;left:50%;bottom:24px;z-index:100;max-width:calc(100vw - 32px);
+    transform:translate(-50%,20px);opacity:0;pointer-events:none;transition:.25s;
+    background:#0f2a1f;color:#c4f5df;border:1px solid rgba(60,207,152,.45);
+    padding:10px 18px;border-radius:999px;font-weight:700;font-size:.9rem;text-align:center;
+  }
+  .toast.show{opacity:1;transform:translate(-50%,0);}
+
+  @media (max-width:640px){
+    .wrap{padding:0 14px;}
+    .head h1{font-size:1.45rem;}
     .tools{width:100%;}
-    .tools input{flex:1;width:auto;}
-    .row{grid-template-columns:1fr;gap:0;}
+    .search{flex:1 1 0;min-width:0;}
+    .search input{width:100%;}
+    #addBtn{flex:1 1 100%;order:3;}
+    .include{grid-template-columns:1fr;padding:14px 16px;}
+    .card{padding:16px;}
+    .v-top{grid-template-columns:1fr 1fr auto;grid-template-areas:"e e d" "k g g";}
+    .v-top .vf-e{grid-area:e;}
+    .v-top .vf-k{grid-area:k;}
+    .v-top .guc-field{grid-area:g;}
+    .v-top .v-del{grid-area:d;justify-self:end;}
+    .rules{grid-template-columns:minmax(0,1fr) 72px 104px;}
+  }
+  @media (max-width:520px){
+    .brand-name{display:none;}
+    dialog,dialog.narrow{width:100vw;height:100dvh;margin:0;}
+    .dlg{max-height:100dvh;height:100%;border-radius:0;border:none;}
+    .d-head,.d-body,.d-foot{padding-left:16px;padding-right:16px;}
   }
 </style>
 </head>
 <body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-flame" viewBox="0 0 24 24"><path fill="#1a0b02" d="M12 2c.5 3.2-1.4 5-3 6.8C7.4 10.6 6 12.4 6 15a6 6 0 0 0 12 0c0-2.3-1-4-2.2-5.4.1 1.5-.5 2.7-1.6 3.2.4-2.9-.6-5.6-2.2-10.8z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zm9 16-4-4"/></symbol>
+  <symbol id="i-ruler" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M3 17 17 3l4 4L7 21zm4-4 2 2m1-5 2 2m1-5 2 2"/></symbol>
+</svg>
 
 <!-- İlk kurulum: fiyatlar.json henüz yoksa -->
 <section class="login" id="setupView" hidden>
@@ -187,25 +371,29 @@
       <input id="sCalisan" type="password" autocomplete="new-password" required>
       <div class="hint">En az 10 karakter. Tahmin edilemeyen şifreler seçin (örn. birkaç alakasız kelime ve sayı).</div>
     </div>
-    <div class="field">
+    <div class="field live-only">
       <label for="sToken">GitHub anahtarı</label>
       <input id="sToken" type="password" autocomplete="off" spellcheck="false" required>
       <div class="hint">Sadece bu depoya “Contents: Read and write” izni olan fine-grained token.</div>
     </div>
+    <div class="field">
+      <label for="sSeed">Başlangıç ürün listesi</label>
+      <input id="sSeed" type="file" accept=".json,application/json">
+      <div class="hint" id="seedHint">Bilgisayarınızdaki <b>fiyat-listesi-baslangic.json</b> dosyasını seçin. Boş bırakırsanız liste boş başlar; sonradan Ayarlar › İçe aktar ile yüklenebilir.</div>
+    </div>
     <p class="error" id="setupError"></p>
     <button class="btn primary" id="setupBtn" type="submit">Oluştur</button>
+    <p class="local-note local-only" hidden>Yerel test modu: kurulum yalnızca bu tarayıcıda yapılır, canlı siteye ve GitHub'a hiçbir şey gönderilmez.</p>
   </form>
 </section>
 
 <!-- Giriş ekranı -->
 <section class="login" id="loginView" hidden>
   <form class="login-card glass" id="loginForm" autocomplete="on">
-    <a href="./" class="brand">
-      <span class="flame">
-        <svg viewBox="0 0 24 24" fill="#1a0b02" aria-hidden="true"><path d="M12 2c.5 3.2-1.4 5-3 6.8C7.4 10.6 6 12.4 6 15a6 6 0 0 0 12 0c0-2.3-1-4-2.2-5.4.1 1.5-.5 2.7-1.6 3.2.4-2.9-.6-5.6-2.2-10.8z"/></svg>
-      </span>
+    <div class="brand">
+      <span class="flame"><svg><use href="#i-flame"/></svg></span>
       <span>Eksen Mühendislik<small>Personel Paneli</small></span>
-    </a>
+    </div>
     <h1>Giriş yap</h1>
     <p class="muted">Fiyat listesi yalnızca personel içindir.</p>
     <div class="field">
@@ -218,108 +406,208 @@
     </div>
     <p class="error" id="loginError"></p>
     <button class="btn primary" id="loginBtn" type="submit">Giriş</button>
-    <a href="./" class="back-link">← Siteye dön</a>
+    <p class="local-note local-only" hidden>Yerel test modu: liste yalnızca bu tarayıcıda saklanır.</p>
+    <a href="./" class="back-link live-only">← Siteye dön</a>
   </form>
 </section>
 
 <!-- Fiyat listesi -->
 <div id="appView" hidden>
-  <div class="topbar">
+  <header class="topbar">
     <div class="wrap">
-      <a href="./" class="brand">
-        <span class="flame">
-          <svg viewBox="0 0 24 24" fill="#1a0b02" aria-hidden="true"><path d="M12 2c.5 3.2-1.4 5-3 6.8C7.4 10.6 6 12.4 6 15a6 6 0 0 0 12 0c0-2.3-1-4-2.2-5.4.1 1.5-.5 2.7-1.6 3.2.4-2.9-.6-5.6-2.2-10.8z"/></svg>
-        </span>
-        <span>Eksen Mühendislik<small>Personel Paneli</small></span>
-      </a>
+      <div class="brand">
+        <span class="flame"><svg><use href="#i-flame"/></svg></span>
+        <span class="brand-name">Eksen Mühendislik<small>Personel Paneli</small></span>
+      </div>
       <div class="who">
         <span class="role" id="roleBadge"></span>
         <button class="btn small" id="settingsBtn" type="button" hidden>Ayarlar</button>
         <button class="btn small" id="logoutBtn" type="button">Çıkış</button>
       </div>
     </div>
-  </div>
+  </header>
+
+  <nav class="tabs" aria-label="Ürün türleri">
+    <div class="wrap" id="tabs"></div>
+  </nav>
 
   <main class="wrap">
+    <div class="local-note local-only" hidden>
+      <span>Yerel test modu: değişiklikler yalnızca bu tarayıcıda saklanır, canlı siteye gitmez.</span>
+      <button class="btn small" id="localResetBtn" type="button">Yerel veriyi sil</button>
+    </div>
     <div class="head">
       <div>
-        <h2>Kombi Fiyat Listesi</h2>
+        <h1>Fiyat Listesi</h1>
         <p class="muted" id="summary"></p>
       </div>
       <div class="tools">
-        <input type="search" id="search" placeholder="Marka veya model ara…" aria-label="Ara">
+        <div class="search">
+          <svg><use href="#i-search"/></svg>
+          <input type="search" id="search" placeholder="Marka, model veya kW ara…" aria-label="Ara" autocomplete="off">
+        </div>
         <button class="btn" id="reloadBtn" type="button">Yenile</button>
-        <button class="btn primary" id="addBtn" type="button" hidden>+ Yeni kombi</button>
+        <button class="btn primary" id="addBtn" type="button" hidden>+ Ürün ekle</button>
       </div>
     </div>
     <p class="error" id="listError"></p>
-    <p class="status" id="status"></p>
-    <div class="grid" id="grid"></div>
-    <div class="empty glass" id="empty" hidden></div>
+    <div id="content"></div>
   </main>
 </div>
 
-<!-- Ekle / düzenle (sadece patron) -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- Ürün ekle / düzenle (sadece patron) -->
 <dialog id="editDialog">
-  <form id="editForm" method="dialog">
-    <h3 id="editTitle">Yeni kombi</h3>
-    <div class="row">
-      <div class="field">
-        <label for="fMarka">Marka</label>
-        <input id="fMarka" required>
+  <form class="dlg" id="editForm" novalidate>
+    <div class="d-head">
+      <h3 id="editTitle">Yeni ürün</h3>
+      <button class="x" type="button" data-close aria-label="Kapat">×</button>
+    </div>
+    <div class="d-body">
+      <div class="row">
+        <div class="field">
+          <label for="fKat">Tür</label>
+          <select id="fKat"></select>
+        </div>
+        <div class="field">
+          <label for="fMarka">Marka</label>
+          <input id="fMarka" list="markaList" autocomplete="off">
+          <datalist id="markaList"></datalist>
+        </div>
+        <div class="field">
+          <label for="fModel">Model</label>
+          <input id="fModel" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="fGaranti">Garanti</label>
+          <input id="fGaranti" placeholder="örn. 3 yıl" autocomplete="off">
+        </div>
       </div>
       <div class="field">
-        <label for="fModel">Model</label>
-        <input id="fModel" required>
+        <label for="fOzellik">Özellikler</label>
+        <textarea id="fOzellik" placeholder="Her satıra bir özellik yazın"></textarea>
       </div>
-    </div>
-    <div class="row">
-      <div class="field">
-        <label for="fGuc">Güç</label>
-        <input id="fGuc" placeholder="örn. 24 kW">
+      <div class="v-head">
+        <h4>Seçenekler</h4>
+        <span class="hint">Aynı modelin her gücü (kW, BTU, litre…) ayrı bir seçenektir.</span>
       </div>
-      <div class="field">
-        <label for="fGaranti">Garanti</label>
-        <input id="fGaranti" placeholder="örn. 3 yıl">
-      </div>
+      <div id="variants"></div>
+      <button class="btn small ghost" id="addVariantBtn" type="button">+ Seçenek ekle</button>
+      <div style="height:14px"></div>
     </div>
-    <div class="field">
-      <label for="fFiyat">Fiyat (₺)</label>
-      <input id="fFiyat" inputmode="decimal" placeholder="örn. 45.000">
-      <div class="hint">Boş bırakılırsa “Fiyat sorunuz” yazar.</div>
-    </div>
-    <div class="field">
-      <label for="fOzellik">Özellikler</label>
-      <textarea id="fOzellik" placeholder="Her satıra bir özellik yazın"></textarea>
-    </div>
-    <p class="error" id="editError"></p>
-    <div class="dialog-actions">
+    <div class="d-foot">
+      <p class="error" id="editError"></p>
+      <button class="btn small danger" id="deleteBtn" type="button">Ürünü sil</button>
+      <span class="grow"></span>
       <button class="btn" type="button" data-close>Vazgeç</button>
       <button class="btn primary" type="submit" id="saveBtn">Kaydet</button>
     </div>
   </form>
 </dialog>
 
-<!-- Şifre ve anahtar değiştirme (sadece patron) -->
+<!-- Fiyata dahil / hariç (sadece patron) -->
+<dialog id="infoDialog" class="narrow">
+  <form class="dlg" id="infoForm" novalidate>
+    <div class="d-head">
+      <h3 id="infoTitle">Fiyata dahil olanlar</h3>
+      <button class="x" type="button" data-close aria-label="Kapat">×</button>
+    </div>
+    <div class="d-body">
+      <div class="field">
+        <label for="iDahil">Fiyata dahil olanlar</label>
+        <textarea id="iDahil" placeholder="Her satıra bir madde"></textarea>
+      </div>
+      <div class="field">
+        <label for="iHaric">Fiyata dahil olmayanlar</label>
+        <textarea id="iHaric" placeholder="Her satıra bir madde"></textarea>
+      </div>
+      <div class="field">
+        <label for="iNot">Alt not</label>
+        <input id="iNot" placeholder="örn. Dahil olmayan işler gerekirse ayrıca ücretlendirilir.">
+      </div>
+    </div>
+    <div class="d-foot">
+      <p class="error" id="infoError"></p>
+      <span class="grow"></span>
+      <button class="btn" type="button" data-close>Vazgeç</button>
+      <button class="btn primary" type="submit" id="infoSaveBtn">Kaydet</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Ayarlar (sadece patron) -->
 <dialog id="settingsDialog">
-  <form id="settingsForm" method="dialog">
-    <h3>Ayarlar</h3>
-    <p class="muted">Sadece değiştirmek istediğiniz alanı doldurun. Şifre değişince eski şifre artık hiçbir şeyi açamaz.</p>
-    <div class="field">
-      <label for="cCalisan">Yeni calisan şifresi</label>
-      <input id="cCalisan" type="password" autocomplete="new-password">
+  <form class="dlg" id="settingsForm" novalidate>
+    <div class="d-head">
+      <h3>Ayarlar</h3>
+      <button class="x" type="button" data-close aria-label="Kapat">×</button>
     </div>
-    <div class="field">
-      <label for="cPatron">Yeni patron şifresi</label>
-      <input id="cPatron" type="password" autocomplete="new-password">
+    <div class="d-body">
+      <h4 style="margin:0 0 4px">Satış fiyatı hesabı</h4>
+      <p class="hint" style="margin:0 0 12px">
+        Nakit satış = alış × (1 + kâr %) + montaj/ek bedel. Kartlı fiyatlar, tedarikçinin nakit–kart farkı oranında artırılır.
+        Kâr ve montaj boş bırakılan türde çalışanlar fiyat yerine “Fiyat sorunuz” görür. Üründe elle girilen satış fiyatı her zaman önceliklidir.
+      </p>
+      <div class="rules" id="ruleRows"></div>
+      <div class="field" style="max-width:260px">
+        <label for="cYuvarla">Yukarı yuvarla</label>
+        <select id="cYuvarla">
+          <option value="1">Yuvarlama yok</option>
+          <option value="10">10 ₺</option>
+          <option value="50">50 ₺</option>
+          <option value="100">100 ₺</option>
+          <option value="500">500 ₺</option>
+          <option value="1000">1.000 ₺</option>
+        </select>
+      </div>
+
+      <div class="sec">
+        <h4>Euro kuru</h4>
+        <p class="hint">€ fiyatlı ürünlerin TL karşılığı bu kurla hesaplanır. Kaydettiğinizde çalışanların listesi de bu kurla güncellenir.</p>
+        <div class="field">
+          <label for="cKur">1 € kaç ₺?</label>
+          <div class="kur">
+            <input id="cKur" inputmode="decimal" placeholder="örn. 55,34" autocomplete="off">
+            <button class="btn small" id="kurFetchBtn" type="button">Güncel kuru getir</button>
+          </div>
+          <div class="hint" id="kurHint"></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <h4>Yedek</h4>
+        <p class="hint">Dışa aktarılan dosyada alış fiyatları şifresiz durur; güvenli bir yerde saklayın, kimseyle paylaşmayın.</p>
+        <div class="sec-actions">
+          <button class="btn small" id="exportBtn" type="button">Dışa aktar</button>
+          <button class="btn small" id="importBtn" type="button">Dosyadan içe aktar</button>
+          <input type="file" id="importFile" accept=".json,application/json" hidden>
+        </div>
+      </div>
+
+      <div class="sec">
+        <h4>Hesaplar</h4>
+        <p class="hint">Sadece değiştirmek istediğiniz alanı doldurun. Şifre değişince eski şifre artık hiçbir şeyi açamaz.</p>
+        <div class="row">
+          <div class="field">
+            <label for="cCalisan">Yeni calisan şifresi</label>
+            <input id="cCalisan" type="password" autocomplete="new-password">
+          </div>
+          <div class="field">
+            <label for="cPatron">Yeni patron şifresi</label>
+            <input id="cPatron" type="password" autocomplete="new-password">
+          </div>
+        </div>
+        <div class="field live-only">
+          <label for="cToken">Yeni GitHub anahtarı</label>
+          <input id="cToken" type="password" autocomplete="off" spellcheck="false">
+          <div class="hint">Anahtarın süresi dolduğunda buradan yenisini girin.</div>
+        </div>
+      </div>
     </div>
-    <div class="field">
-      <label for="cToken">Yeni GitHub anahtarı</label>
-      <input id="cToken" type="password" autocomplete="off" spellcheck="false">
-      <div class="hint">Anahtarın süresi dolduğunda buradan yenisini girin.</div>
-    </div>
-    <p class="error" id="settingsError"></p>
-    <div class="dialog-actions">
+    <div class="d-foot">
+      <p class="error" id="settingsError"></p>
+      <span class="grow"></span>
       <button class="btn" type="button" data-close>Vazgeç</button>
       <button class="btn primary" type="submit" id="settingsSaveBtn">Kaydet</button>
     </div>
@@ -327,8 +615,10 @@
 </dialog>
 
 <script type="module">
-  // Fiyatlar depodaki fiyatlar.json içinde şifreli durur. calisan şifresi sadece okumayı,
-  // patron şifresi ayrıca GitHub anahtarını açar; kayıtlar bu anahtarla depoya yazılır.
+  // Liste depodaki fiyatlar.json içinde şifreli durur ve iki bölümden oluşur:
+  //  - data: çalışanların gördüğü liste (ürünler, özellikler, hesaplanmış satış fiyatları)
+  //  - ozel: sadece patron şifresiyle açılan tam liste (alış fiyatları, kâr/montaj ayarları)
+  // Patron her kaydettiğinde satış fiyatları yeniden hesaplanıp "data" bölümüne yazılır.
   const OWNER = "Kaan-commits";
   const REPO = "kombivedogalgaz";
   const BRANCH = "main";
@@ -336,11 +626,35 @@
   const API = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
   const ITERATIONS = 600000;
   const MIN_PASSWORD = 10;
+  const FORMAT = "eksen-fiyat-listesi";
+  const SEED_FILE = "fiyat-listesi-baslangic.json";
+  const KUR_API = "https://api.frankfurter.dev/v1/latest?base=EUR&symbols=TRY";
+  // localhost'ta açılınca her şey bu tarayıcının hafızasında kalır; gerçek listeye dokunulmaz.
+  const LOCAL = ["localhost", "127.0.0.1", "[::1]"].includes(location.hostname);
+  const LOCAL_KEY = "eksen-panel-yerel";
+
+  // kapasite: "ev" → m² + petek, "alan" → sadece m², "btu" → klima m². guc: editördeki güç alanının adı.
+  const KATEGORILER = [
+    { id: "kombi", ad: "Kombi", kapasite: "ev", guc: "Isıtma gücü (kW)" },
+    { id: "elektrikli", ad: "Elektrikli Kombi", kapasite: "ev", guc: "Güç (kW)" },
+    { id: "isipompasi", ad: "Isı Pompası", kapasite: "alan", guc: "Güç (kW)" },
+    { id: "klima", ad: "Klima", kapasite: "btu", guc: "Kapasite (BTU/h)" },
+    { id: "sofben", ad: "Şofben & Termosifon", guc: "Kapasite (lt / kW)" },
+    { id: "panel", ad: "Panel & Havlupan" },
+    { id: "soba", ad: "Soba", guc: "Güç (kW)" },
+    { id: "radyant", ad: "Radyant & Sıcak Hava", guc: "Güç (kW)" },
+    { id: "yerden", ad: "Yerden Isıtma" }
+  ];
+  const KAT = Object.fromEntries(KATEGORILER.map((k) => [k.id, k]));
+  const ODEMELER = [["nakit", "Nakit / tek çekim"], ["t6", "Kart 2–6 taksit"], ["t12", "Kart 7–12 taksit"]];
 
   const $ = (id) => document.getElementById(id);
   const show = (view) => {
     for (const v of ["setupView", "loginView", "appView"]) $(v).hidden = v !== view;
   };
+  for (const n of document.querySelectorAll(".local-only")) n.hidden = !LOCAL;
+  for (const n of document.querySelectorAll(".live-only")) n.hidden = LOCAL;
+  if (LOCAL) $("sToken").required = false;
 
   // ---------- Şifreleme ----------
   const enc = new TextEncoder();
@@ -354,6 +668,7 @@
     return btoa(s);
   }
   const fromB64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+  const newKey = () => toB64(random(32));
 
   async function passwordKey(password, salt, iterations) {
     const base = await crypto.subtle.importKey("raw", enc.encode(password), "PBKDF2", false, ["deriveKey"]);
@@ -378,29 +693,34 @@
     return { salt: toB64(salt), iterations: ITERATIONS, ...await seal(await passwordKey(password, salt, ITERATIONS), secret) };
   }
   // Yanlış kullanıcı adı veya şifrede hata fırlatır.
-  async function unwrap(file, user, password) {
-    if (!Object.hasOwn(file.users, user)) throw new Error("bilinmeyen kullanıcı");
-    const u = file.users[user];
+  async function unwrap(f, user, password) {
+    if (!Object.hasOwn(f.users, user)) throw new Error("bilinmeyen kullanıcı");
+    const u = f.users[user];
     return unseal(await passwordKey(password, fromB64(u.salt), u.iterations), u);
   }
 
-  // İki hesabın anahtarlarını yeniden üretir. Şifre değişince veri anahtarı (k) da yenilenir;
-  // böylece eski şifreler depo geçmişindeki dosyalardan bile yeni listeyi açamaz.
-  async function wrapKeys(s, k = toB64(random(32))) {
+  // k: çalışan listesinin anahtarı, pk: patrona özel listenin anahtarı. Şifre değişince ikisi de
+  // yenilenir; böylece eski şifreler depo geçmişindeki dosyalardan bile yeni listeyi açamaz.
+  async function wrapKeys(s, k = newKey(), pk = newKey()) {
     return {
-      k,
+      k, pk,
       users: {
         calisan: await wrapFor(s.calisan, { k }),
-        patron: await wrapFor(s.patron, { k, token: s.token, calisan: s.calisan })
+        patron: await wrapFor(s.patron, { k, pk, token: s.token, calisan: s.calisan })
       }
     };
   }
 
-  async function buildFile(keys, items) {
-    return { version: 1, users: keys.users, data: await seal(await dataKey(keys.k), items) };
+  async function buildFile(keys, full) {
+    return {
+      version: 2,
+      users: keys.users,
+      data: await seal(await dataKey(keys.k), publicView(full)),
+      ozel: await seal(await dataKey(keys.pk), full)
+    };
   }
 
-  // ---------- GitHub ----------
+  // ---------- Depolama (GitHub veya yerel test) ----------
   async function gh(token, method, body) {
     const res = await fetch(method === "GET" ? `${API}?ref=${BRANCH}` : API, {
       method,
@@ -420,49 +740,202 @@
     return res.json();
   }
 
-  function ghMessage(err) {
-    if (err.status === 401) return "GitHub anahtarı geçersiz veya süresi dolmuş. Ayarlar'dan yenisini girin.";
-    if (err.status === 403 || err.status === 404) return "GitHub anahtarının bu depoya yazma izni yok.";
-    if (err.status === 409 || err.status === 422) return "Liste başka bir yerden değiştirilmiş. Yenile'ye basıp tekrar deneyin.";
-    return err.message;
-  }
+  const localRead = () => JSON.parse(localStorage.getItem(LOCAL_KEY) || "null");
 
-  async function fetchFromGitHub(token) {
-    const res = await gh(token, "GET");
-    return { sha: res.sha, file: JSON.parse(atob(res.content.replace(/\n/g, ""))) };
-  }
-
-  // Herkese açık site üzerinden okur (çalışanlar için; GitHub anahtarı gerekmez).
-  async function fetchPublic() {
+  // Çalışanlar herkese açık site üzerinden okur (GitHub anahtarı gerekmez).
+  async function readPublic() {
+    if (LOCAL) return localRead()?.file || null;
     const res = await fetch(`${FILE}?t=${Date.now()}`, { cache: "no-store" });
     if (res.status === 404) return null;
     if (!res.ok) throw new Error(`Liste yüklenemedi (${res.status}).`);
     return res.json();
   }
 
+  // Patron en güncel dosyayla çalışmalı; site önbelleği birkaç dakika geride olabilir.
+  async function readFresh(token) {
+    if (LOCAL) {
+      const s = localRead();
+      if (!s) throw Object.assign(new Error("Yerel liste bulunamadı."), { status: 404 });
+      return s;
+    }
+    const res = await gh(token, "GET");
+    return { sha: res.sha, file: JSON.parse(atob(res.content.replace(/\n/g, ""))) };
+  }
+
+  // sha null ise dosya ilk kez oluşturulur. Yeni sürümün sha'sını döndürür.
+  async function writeFile(token, nextFile, sha, message) {
+    if (LOCAL) {
+      const cur = localRead();
+      if (!sha && cur) throw Object.assign(new Error("var"), { status: 422 });
+      if (sha && (!cur || cur.sha !== sha)) throw Object.assign(new Error("çakışma"), { status: 409 });
+      const next = { sha: crypto.randomUUID(), file: nextFile };
+      localStorage.setItem(LOCAL_KEY, JSON.stringify(next));
+      return next.sha;
+    }
+    const res = await gh(token, "PUT", {
+      message,
+      branch: BRANCH,
+      content: btoa(JSON.stringify(nextFile)),
+      ...(sha ? { sha } : {})
+    });
+    return res.content.sha;
+  }
+
+  function storeMessage(err) {
+    if (!err.status) return err.message;
+    if (err.status === 401) return "GitHub anahtarı geçersiz veya süresi dolmuş. Ayarlar'dan yenisini girin.";
+    if (err.status === 403 || err.status === 404) return LOCAL ? "Yerel liste bulunamadı." : "GitHub anahtarının bu depoya yazma izni yok.";
+    if (err.status === 409 || err.status === 422) return "Liste başka bir yerden değiştirilmiş. Yenile'ye basıp tekrar deneyin.";
+    return err.message;
+  }
+
+  // ---------- Sayılar ve biçim ----------
+  const trSort = (a, b) => String(a || "").localeCompare(String(b || ""), "tr");
+  const fmtNum = (n, digits = 2) =>
+    n == null ? "" : new Intl.NumberFormat("tr-TR", { maximumFractionDigits: digits }).format(n);
+  const fmtTL = (n) => fmtNum(Math.round(n), 0) + " ₺";
+  const fmtEUR = (n) => fmtNum(n) + " €";
+  const dtFull = new Intl.DateTimeFormat("tr-TR", { dateStyle: "medium", timeStyle: "short" });
+  const dtDay = new Intl.DateTimeFormat("tr-TR", { dateStyle: "medium" });
+  const fmtDay = (iso) => dtDay.format(new Date(iso + "T12:00:00"));
+  function today() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  }
+
+  // "45.000", "45000", "45.000,50", "21,84", "21.84" gibi yazımları sayıya çevirir. Boş → null, hatalı → NaN.
+  function parseNum(text) {
+    let t = String(text ?? "").trim().replace(/[₺€%\s]|TL|EUR/gi, "");
+    if (!t) return null;
+    if (t.includes(",")) t = t.replace(/\./g, "").replace(",", ".");
+    else if (/^\d{1,3}(\.\d{3})+$/.test(t)) t = t.replace(/\./g, "");
+    const n = Number(t);
+    return Number.isFinite(n) && n >= 0 ? n : NaN;
+  }
+  // "20/26 kW" → 20, "9.000 BTU" → 9000, "11,2 kW" → 11.2
+  function gucFromLabel(s) {
+    const m = String(s || "").replace(/(\d)\.(?=\d{3}\b)/g, "$1").match(/\d+(?:,\d+)?/);
+    return m ? Number(m[0].replace(",", ".")) : null;
+  }
+  const lines = (s) => String(s || "").split("\n").map((x) => x.trim()).filter(Boolean);
+  const TR = { ç: "c", ğ: "g", ı: "i", ö: "o", ş: "s", ü: "u", â: "a", î: "i", û: "u" };
+  const norm = (s) => String(s || "").toLocaleLowerCase("tr")
+    .replace(/[çğıöşüâîû]/g, (c) => TR[c])
+    .replace(/(\d)[.,](?=\d{3}\b)/g, "$1")
+    .replace(/[^a-z0-9]+/g, " ").trim();
+
+  // ---------- Fiyat ve kapasite hesabı ----------
+  function yuvarla(x, adim) {
+    const n = Math.round(x);
+    return adim > 1 ? Math.ceil(n / adim) * adim : n;
+  }
+
+  // Patron tarafı: alış + kategori kuralı (+ elle girilen satış) → { nakit, t6, t12 } veya null
+  function satisHesapla(d, p, v) {
+    const a = v.alis;
+    const elle = v.satis || {};
+    const kural = d.fiyatlandirma.kategoriler[p.kat];
+    const adim = d.fiyatlandirma.yuvarla || 1;
+    const kur = a && a.para === "EUR" ? d.kur?.eur : 1;
+    let nakit = elle.nakit ?? null;
+    if (nakit == null && kural && a?.nakit != null && kur) {
+      nakit = yuvarla(a.nakit * kur * (1 + (kural.kar || 0) / 100) + (kural.ek || 0), adim);
+    }
+    const kart = (c) => elle[c] ?? (nakit != null && a?.[c] != null && a.nakit
+      ? yuvarla(nakit * a[c] / a.nakit, adim)
+      : null);
+    const out = { nakit, t6: kart("t6"), t12: kart("t12") };
+    return out.nakit == null && out.t6 == null && out.t12 == null ? null : out;
+  }
+
+  const fiyatlar = (p, v) => (isPatron() ? satisHesapla(db, p, v) : v.satis || null);
+
+  // Ortalama yalıtımlı daire için kaba kurallar. Üründe elle girilen değer önceliklidir.
+  const r5 = (x) => Math.round(x / 5) * 5;
+  const aralik = ([a, b], birim) => (a === b ? `${a} ${birim}` : `${a}–${b} ${birim}`);
+  function kapasite(kat, v) {
+    const mod = KAT[kat]?.kapasite;
+    const g = v.guc;
+    let alan = null, petek = null;
+    if (g > 0 && (mod === "ev" || mod === "alan")) alan = [r5(g * 4.5), r5(g * 6)];
+    if (g > 0 && mod === "btu") alan = [r5(g / 600), r5(g / 400)];
+    if (g > 0 && mod === "ev") petek = [Math.round(g * 0.42), Math.round(g * 0.5)];
+    const elle = (s, birim, re) => (re.test(s) ? s : `${s} ${birim}`);
+    return {
+      alan: v.alan?.trim() ? elle(v.alan.trim(), "m²", /m²|m2/i) : alan && aralik(alan, "m²"),
+      petek: v.petek?.trim() ? elle(v.petek.trim(), "petek", /petek/i) : petek && aralik(petek, "petek")
+    };
+  }
+
+  // Çalışanların açabildiği bölüm: alış fiyatı ve kâr ayarı içermez.
+  function publicView(d) {
+    return {
+      surum: 2,
+      kayit: d.kayit,
+      kur: d.kur,
+      kategoriler: d.kategoriler,
+      urunler: d.urunler.map((p) => ({
+        id: p.id, kat: p.kat, marka: p.marka, model: p.model,
+        garanti: p.garanti, ozellikler: p.ozellikler, guncellendi: p.guncellendi,
+        varyantlar: p.varyantlar.map((v) => ({
+          id: v.id, etiket: v.etiket, kod: v.kod, guc: v.guc, alan: v.alan, petek: v.petek,
+          doviz: v.alis?.para === "EUR",
+          satis: satisHesapla(d, p, v)
+        }))
+      }))
+    };
+  }
+
+  const emptyDb = () => ({
+    tur: FORMAT, surum: 2, kaynak: "", kayit: null, kur: null,
+    fiyatlandirma: { yuvarla: 100, kategoriler: {} },
+    kategoriler: {},
+    urunler: []
+  });
+
+  function parseList(text) {
+    let d;
+    try { d = JSON.parse(text); } catch { d = null; }
+    if (!d || d.tur !== FORMAT || !Array.isArray(d.urunler)) throw new Error("Bu dosya bir fiyat listesi yedeği değil.");
+    return { ...emptyDb(), ...d, fiyatlandirma: { ...emptyDb().fiyatlandirma, ...d.fiyatlandirma } };
+  }
+
   // ---------- Oturum ----------
   let file = null;      // fiyatlar.json'un son bilinen hali
-  let session = null;   // { role, k } — patron için ayrıca { patron, calisan, token, sha }
-  let items = [];
+  let session = null;   // calisan: { role, k } — patron: { role, patron, calisan, token, k, pk, sha }
+  let db = null;        // patron: tam liste; çalışan: çalışan bölümü
   let busy = false;
+  let activeKat = KAT[location.hash.slice(1)] ? location.hash.slice(1) : "kombi";
+  let autoSeed = null;  // yerel testte klasördeki başlangıç listesi
+  const isPatron = () => session?.role === "patron";
 
   try {
     if (!crypto.subtle) throw new Error("Panel sadece güvenli bağlantıda (https://) çalışır.");
-    file = await fetchPublic();
+    file = await readPublic();
     show(file ? "loginView" : "setupView");
+    if (!file && LOCAL) loadAutoSeed();
   } catch (err) {
     show("loginView");
     $("loginError").textContent = err.message;
   }
 
+  async function loadAutoSeed() {
+    try {
+      const res = await fetch(`${SEED_FILE}?t=${Date.now()}`, { cache: "no-store" });
+      if (!res.ok) return;
+      autoSeed = parseList(await res.text());
+      $("seedHint").textContent = `Klasördeki başlangıç listesi bulundu (${autoSeed.urunler.length} model). Dosya seçmezseniz bu yüklenir.`;
+    } catch { /* dosya yoksa liste boş başlar */ }
+  }
+
   function toUser(username) {
-    const map = { "ç": "c", "ğ": "g", "ı": "i", "ö": "o", "ş": "s", "ü": "u" };
-    return username.trim().toLocaleLowerCase("tr").replace(/[çğıöşü]/g, (c) => map[c]);
+    return username.trim().toLocaleLowerCase("tr").replace(/[çğıöşü]/g, (c) => TR[c]);
   }
 
   async function login(user, password) {
-    if (!file) file = await fetchPublic();
+    if (!file) file = await readPublic();
     if (!file) throw new Error("Fiyat listesi henüz oluşturulmamış.");
+    if (file.version !== 2) throw new Error("Fiyat dosyası eski biçimde; depodaki fiyatlar.json silinip kurulum yeniden yapılmalı.");
     let secret;
     try {
       secret = await unwrap(file, user, password);
@@ -474,36 +947,41 @@
       return;
     }
     session = { role: "patron", patron: password, sha: null, ...secret };
-    // Patron en güncel dosyayla çalışmalı; site önbelleği birkaç dakika geride olabilir.
     try {
-      const fresh = await fetchFromGitHub(secret.token);
+      const fresh = await readFresh(secret.token);
       file = fresh.file;
       session = { role: "patron", patron: password, sha: fresh.sha, ...await unwrap(file, "patron", password) };
     } catch (err) {
-      $("listError").textContent = ghMessage(err);
+      $("listError").textContent = storeMessage(err);
     }
   }
 
+  async function loadDb() {
+    db = isPatron()
+      ? await unseal(await dataKey(session.pk), file.ozel)
+      : await unseal(await dataKey(session.k), file.data);
+    render();
+  }
+
   function enterApp() {
-    const admin = session.role === "patron";
-    $("roleBadge").textContent = admin ? "Patron · düzenleme" : "Çalışan";
+    const admin = isPatron();
+    $("roleBadge").textContent = admin ? "Patron" : "Çalışan";
     $("roleBadge").classList.toggle("admin", admin);
     $("addBtn").hidden = !admin;
     $("settingsBtn").hidden = !admin;
+    if (!admin && !db.urunler.some((p) => p.kat === activeKat)) {
+      activeKat = KATEGORILER.find((k) => db.urunler.some((p) => p.kat === k.id))?.id || "kombi";
+    }
     show("appView");
-  }
-
-  async function loadItems() {
-    items = await unseal(await dataKey(session.k), file.data);
     render();
   }
 
   function logout() {
     session = null;
-    items = [];
-    $("grid").replaceChildren();
+    db = null;
+    $("content").replaceChildren();
     $("listError").textContent = "";
-    $("status").textContent = "";
+    $("search").value = "";
     show("loginView");
   }
 
@@ -515,7 +993,7 @@
     try {
       await login(toUser($("username").value), $("password").value);
       $("password").value = "";
-      await loadItems();
+      await loadDb();
       enterApp();
     } catch (err) {
       session = null;
@@ -531,43 +1009,46 @@
     $("reloadBtn").disabled = true;
     $("listError").textContent = "";
     try {
-      if (session.role === "patron") {
-        const fresh = await fetchFromGitHub(session.token);
+      if (isPatron()) {
+        const fresh = await readFresh(session.token);
         file = fresh.file;
         session.sha = fresh.sha;
       } else {
-        file = await fetchPublic();
+        file = await readPublic();
       }
-      await loadItems();
+      await loadDb();
+      toast("Liste güncel.");
     } catch (err) {
       if (err.name === "OperationError") {
         // Şifreler değiştirilmiş; eski oturum yeni listeyi açamaz.
         logout();
         $("loginError").textContent = "Şifre değişmiş. Lütfen yeniden giriş yapın.";
       } else {
-        $("listError").textContent = err.status ? ghMessage(err) : err.message;
+        $("listError").textContent = storeMessage(err);
       }
     } finally {
       $("reloadBtn").disabled = false;
     }
   });
 
+  $("localResetBtn").addEventListener("click", () => {
+    if (!confirm("Bu tarayıcıdaki yerel test listesi silinsin mi? Kurulum ekranına dönülür.")) return;
+    localStorage.removeItem(LOCAL_KEY);
+    location.reload();
+  });
+
   // ---------- Kaydetme (sadece patron) ----------
-  async function publish(nextItems, nextSession, message, keys = { k: session.k, users: file.users }) {
-    const nextFile = await buildFile(keys, nextItems);
-    if (!nextSession.sha) nextSession.sha = (await gh(nextSession.token, "GET")).sha;
-    const res = await gh(nextSession.token, "PUT", {
-      message,
-      branch: BRANCH,
-      sha: nextSession.sha,
-      content: btoa(JSON.stringify(nextFile))
-    });
+  async function publish(nextDb, nextSession, message, keys = { k: session.k, pk: session.pk, users: file.users }) {
+    nextDb.kayit = new Date().toISOString();
+    const nextFile = await buildFile(keys, nextDb);
+    if (!nextSession.sha) nextSession.sha = (await readFresh(nextSession.token)).sha;
+    const sha = await writeFile(nextSession.token, nextFile, nextSession.sha, message);
     file = nextFile;
-    session = { ...nextSession, k: keys.k, sha: res.content.sha };
-    items = nextItems;
+    session = { ...nextSession, k: keys.k, pk: keys.pk, sha };
+    db = nextDb;
     render();
     $("listError").textContent = "";
-    $("status").textContent = "Kaydedildi. Çalışanların ekranında 1–2 dakika içinde görünür.";
+    toast(LOCAL ? "Kaydedildi (yerel test)." : "Kaydedildi. Çalışanların ekranında 1–2 dakika içinde görünür.");
   }
 
   async function guarded(button, errorEl, fn) {
@@ -575,22 +1056,30 @@
     busy = true;
     button.disabled = true;
     errorEl.textContent = "";
-    $("status").textContent = "";
     try {
       await fn();
     } catch (err) {
-      errorEl.textContent = "Kaydedilemedi: " + (err.status ? ghMessage(err) : err.message);
+      errorEl.textContent = "Kaydedilemedi: " + storeMessage(err);
     } finally {
       busy = false;
       button.disabled = false;
     }
   }
 
-  $("setupForm").addEventListener("submit", (e) => {
+  function toast(msg) {
+    const t = $("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(toast.timer);
+    toast.timer = setTimeout(() => t.classList.remove("show"), 3500);
+  }
+
+  $("setupForm").addEventListener("submit", async (e) => {
     e.preventDefault();
+    $("setupError").textContent = "";
     const patron = $("sPatron").value;
     const calisan = $("sCalisan").value;
-    const token = $("sToken").value.trim();
+    const token = LOCAL ? "yerel" : $("sToken").value.trim();
     if (patron.length < MIN_PASSWORD || calisan.length < MIN_PASSWORD) {
       $("setupError").textContent = `Şifreler en az ${MIN_PASSWORD} karakter olmalı.`;
       return;
@@ -599,190 +1088,755 @@
       $("setupError").textContent = "İki şifre farklı olmalı.";
       return;
     }
+    let start = autoSeed || emptyDb();
+    const picked = $("sSeed").files[0];
+    if (picked) {
+      try {
+        start = parseList(await picked.text());
+      } catch (err) {
+        $("setupError").textContent = err.message;
+        return;
+      }
+    }
     guarded($("setupBtn"), $("setupError"), async () => {
       const s = { role: "patron", patron, calisan, token };
       const keys = await wrapKeys(s);
-      const newFile = await buildFile(keys, []);
+      start.kayit = new Date().toISOString();
+      const newFile = await buildFile(keys, start);
       try {
-        const res = await gh(token, "PUT", {
-          message: "Fiyat listesini oluştur",
-          branch: BRANCH,
-          content: btoa(JSON.stringify(newFile))
-        });
-        s.sha = res.content.sha;
+        s.sha = await writeFile(token, newFile, null, "Fiyat listesini oluştur");
       } catch (err) {
         if (err.status === 422) throw new Error("Liste zaten oluşturulmuş. 1–2 dakika sonra sayfayı yenileyip giriş yapın.");
         throw err;
       }
       file = newFile;
-      session = { ...s, k: keys.k };
-      items = [];
-      render();
+      session = { ...s, k: keys.k, pk: keys.pk };
+      db = start;
       enterApp();
     });
   });
 
   // ---------- Liste ----------
-  const tlWhole = new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 });
-  const tlCents = new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY", minimumFractionDigits: 2 });
-  const formatPrice = (n) => (Number.isInteger(n) ? tlWhole : tlCents).format(n);
-  const dt = new Intl.DateTimeFormat("tr-TR", { dateStyle: "medium", timeStyle: "short" });
-
   function el(tag, cls, text) {
     const n = document.createElement(tag);
     if (cls) n.className = cls;
     if (text != null) n.textContent = text;
     return n;
   }
+  function btn(text, cls, onClick) {
+    const b = el("button", "btn " + (cls || ""), text);
+    b.type = "button";
+    if (onClick) b.addEventListener("click", onClick);
+    return b;
+  }
+
+  const sortedVariants = (p) => (p.varyantlar.every((v) => typeof v.guc === "number")
+    ? [...p.varyantlar].sort((a, b) => a.guc - b.guc)
+    : p.varyantlar);
+
+  function minPrice(p) {
+    let m = Infinity;
+    for (const v of p.varyantlar) {
+      const n = fiyatlar(p, v)?.nakit;
+      if (n != null && n < m) m = n;
+    }
+    return m;
+  }
+
+  function matches(p, words) {
+    const hay = norm([KAT[p.kat]?.ad, p.marka, p.model, p.ozellikler,
+      ...p.varyantlar.flatMap((v) => [v.etiket, v.kod])].join(" "));
+    return words.every((w) => hay.includes(w));
+  }
+
+  function setKat(id) {
+    activeKat = id;
+    history.replaceState(null, "", "#" + id);
+    render();
+    const tabsBottom = document.querySelector(".tabs").getBoundingClientRect().bottom;
+    const head = $("content").getBoundingClientRect().top;
+    if (head < tabsBottom) window.scrollBy({ top: head - tabsBottom - 12 });
+  }
+
+  function renderTabs(searching) {
+    const wrap = $("tabs");
+    wrap.replaceChildren();
+    for (const k of KATEGORILER) {
+      const n = db.urunler.filter((p) => p.kat === k.id).length;
+      if (!n && !isPatron()) continue;
+      const b = el("button", "tab");
+      b.type = "button";
+      b.append(el("span", null, k.ad), el("span", "n", String(n)));
+      const active = !searching && k.id === activeKat;
+      b.setAttribute("aria-pressed", String(active));
+      b.addEventListener("click", () => {
+        $("search").value = "";
+        setKat(k.id);
+      });
+      wrap.append(b);
+      if (active) requestAnimationFrame(() => b.scrollIntoView({ block: "nearest", inline: "nearest" }));
+    }
+  }
 
   function render() {
-    const admin = session && session.role === "patron";
-    const q = $("search").value.trim().toLocaleLowerCase("tr");
-    const sorted = [...items].sort((a, b) =>
-      (a.marka || "").localeCompare(b.marka || "", "tr") ||
-      (a.model || "").localeCompare(b.model || "", "tr"));
-    const list = q
-      ? sorted.filter((k) => [k.marka, k.model, k.ozellikler].join(" ").toLocaleLowerCase("tr").includes(q))
-      : sorted;
+    if (!db) return;
+    const words = norm($("search").value).split(" ").filter(Boolean);
+    const searching = words.length > 0;
+    renderTabs(searching);
 
-    const grid = $("grid");
-    grid.replaceChildren();
-    for (const k of list) {
-      const card = el("article", "card glass");
-      card.append(el("span", "brand-tag", k.marka || "—"));
-      card.append(el("h3", null, k.model || ""));
-      const meta = [k.guc, k.garanti && k.garanti + " garanti"].filter(Boolean).join(" · ");
-      if (meta) card.append(el("div", "meta", meta));
-      card.append(typeof k.fiyat === "number"
-        ? el("div", "price", formatPrice(k.fiyat))
-        : el("div", "price none", "Fiyat sorunuz"));
-
-      const specs = (k.ozellikler || "").split("\n").map((s) => s.trim()).filter(Boolean);
-      if (specs.length) {
-        const ul = el("ul", "specs");
-        for (const s of specs) ul.append(el("li", null, s));
-        card.append(ul);
-      }
-      if (k.guncellendi) card.append(el("div", "updated", "Güncellendi: " + dt.format(new Date(k.guncellendi))));
-
-      if (admin) {
-        const actions = el("div", "actions");
-        const editBtn = el("button", "btn small", "Düzenle");
-        editBtn.type = "button";
-        editBtn.addEventListener("click", () => openEditor(k));
-        const delBtn = el("button", "btn small danger", "Sil");
-        delBtn.type = "button";
-        delBtn.addEventListener("click", () => removeItem(k, delBtn));
-        actions.append(editBtn, delBtn);
-        card.append(actions);
-      }
-      grid.append(card);
+    const content = $("content");
+    content.replaceChildren();
+    for (const k of KATEGORILER) {
+      if (!searching && k.id !== activeKat) continue;
+      const list = db.urunler.filter((p) => p.kat === k.id && (!searching || matches(p, words)));
+      if (searching && !list.length) continue;
+      content.append(kategoriSection(k, list, searching));
+    }
+    if (!content.children.length) {
+      content.append(el("div", "empty glass", searching
+        ? "Aramaya uyan ürün bulunamadı."
+        : "Henüz fiyat listesi girilmedi."));
     }
 
-    const empty = $("empty");
-    empty.hidden = list.length > 0;
-    empty.textContent = items.length === 0
-      ? (admin ? "Henüz kombi eklenmedi. “+ Yeni kombi” ile başlayın." : "Henüz fiyat listesi girilmedi.")
-      : "Aramaya uyan kombi bulunamadı.";
-
-    const latest = items.reduce((m, k) => (k.guncellendi && k.guncellendi > m ? k.guncellendi : m), "");
-    $("summary").textContent = items.length + " model" + (latest ? " · Son güncelleme: " + dt.format(new Date(latest)) : "");
+    const models = db.urunler.length;
+    const opts = db.urunler.reduce((n, p) => n + p.varyantlar.length, 0);
+    $("summary").textContent = `${models} model · ${opts} seçenek` +
+      (db.kayit ? ` · Son güncelleme: ${dtFull.format(new Date(db.kayit))}` : "");
   }
 
   $("search").addEventListener("input", render);
 
-  // ---------- Ekle / düzenle / sil ----------
+  function kategoriSection(k, list, searching) {
+    const sec = el("section", "cat");
+    const head = el("div", "cat-head");
+    const opts = list.reduce((n, p) => n + p.varyantlar.length, 0);
+    head.append(el("h2", null, k.ad), el("span", "cat-count", `${list.length} model · ${opts} seçenek`));
+    sec.append(head);
+
+    if (isPatron() && !searching) sec.append(ruleNote(k, list));
+
+    const info = db.kategoriler?.[k.id];
+    if (info && (info.dahil?.length || info.haric?.length || info.not)) {
+      sec.append(includeBox(k, info));
+    } else if (isPatron() && !searching) {
+      sec.append(btn("+ Fiyata dahil / dahil değil bilgisi ekle", "small ghost add-info", () => openInfo(k.id)));
+    }
+
+    if (!searching && k.kapasite) {
+      const g = guide(k, list);
+      if (g) sec.append(g);
+    }
+
+    if (!list.length) {
+      sec.append(el("div", "empty glass", isPatron() ? "Bu türde ürün yok. “+ Ürün ekle” ile ekleyebilirsiniz." : "Bu türde ürün yok."));
+      return sec;
+    }
+
+    const byBrand = new Map();
+    for (const p of list) {
+      if (!byBrand.has(p.marka)) byBrand.set(p.marka, []);
+      byBrand.get(p.marka).push(p);
+    }
+    for (const marka of [...byBrand.keys()].sort(trSort)) {
+      const ps = byBrand.get(marka).sort((a, b) => minPrice(a) - minPrice(b) || trSort(a.model, b.model));
+      const group = el("div", "brand-group");
+      const bh = el("h3", "brand-h");
+      bh.append(el("span", null, marka || "—"), el("span", "n", `${ps.length} model`));
+      const grid = el("div", "grid");
+      for (const p of ps) grid.append(card(p));
+      group.append(bh, grid);
+      sec.append(group);
+    }
+    return sec;
+  }
+
+  function ruleNote(k, list) {
+    const r = db.fiyatlandirma.kategoriler[k.id];
+    const note = el("div", "boss-only" + (r ? "" : " warn"));
+    note.append(el("span", "tag", "Yalnız patron görür"));
+    if (r) {
+      const adim = db.fiyatlandirma.yuvarla || 1;
+      note.append(el("span", null,
+        `Satış = alış + %${fmtNum(r.kar || 0)} kâr + ${fmtTL(r.ek || 0)} montaj/ek` +
+        (adim > 1 ? ` · ${fmtTL(adim)}’ye yukarı yuvarlanır` : "")));
+    } else if (list.length) {
+      note.append(el("span", null, "Bu türde kâr/montaj ayarı yok; çalışanlar fiyat yerine “Fiyat sorunuz” görüyor."));
+    } else {
+      note.append(el("span", null, "Bu türde kâr/montaj ayarı yok."));
+    }
+    if (!db.kur && list.some((p) => p.varyantlar.some((v) => v.alis?.para === "EUR"))) {
+      note.classList.add("warn");
+      note.append(el("span", null, "€ fiyatlı ürünler için Euro kuru girilmemiş."));
+    }
+    note.append(btn(r ? "Değiştir" : "Ayarla", "small", openSettings));
+    return note;
+  }
+
+  function includeBox(k, info) {
+    const box = el("div", "include glass");
+    const col = (cls, title, items) => {
+      const c = el("div", "inc-col " + cls);
+      c.append(el("h3", null, title));
+      const ul = el("ul");
+      for (const t of items) ul.append(el("li", null, t));
+      c.append(ul);
+      return c;
+    };
+    if (info.dahil?.length) box.append(col("yes", "Fiyata dahil", info.dahil));
+    if (info.haric?.length) box.append(col("no", "Fiyata dahil değil", info.haric));
+    const foot = el("div", "inc-foot");
+    if (info.not) foot.append(el("span", null, info.not));
+    if (isPatron()) foot.append(btn("Düzenle", "small", () => openInfo(k.id)));
+    box.append(foot);
+    return box;
+  }
+
+  function guide(k, list) {
+    const gucs = [...new Set(list.flatMap((p) => p.varyantlar.map((v) => v.guc)).filter((g) => g > 0))]
+      .sort((a, b) => a - b);
+    if (!gucs.length) return null;
+    const btu = k.kapasite === "btu";
+    const petek = k.kapasite === "ev";
+    const d = el("details", "guide glass");
+    const s = el("summary");
+    const ico = el("span", "ico");
+    ico.innerHTML = '<svg width="18" height="18"><use href="#i-ruler"/></svg>';
+    s.append(ico, el("span", null, btu ? "Kaç BTU kaç m²’ye yeter?" : petek ? "Kaç kW kaç m² ısıtır, kaç petek çalıştırır?" : "Kaç kW kaç m² ısıtır?"));
+    d.append(s);
+    const body = el("div", "g-body");
+    const table = el("table");
+    const tr = el("tr");
+    for (const h of [btu ? "Kapasite" : "Isıtma gücü", "Rahat ısıtacağı alan", ...(petek ? ["Ortalama petek"] : [])]) tr.append(el("th", null, h));
+    const thead = el("thead");
+    thead.append(tr);
+    const tbody = el("tbody");
+    for (const g of gucs) {
+      const cap = kapasite(k.id, { guc: g });
+      const row = el("tr");
+      row.append(el("td", null, btu ? `${fmtNum(g)} BTU` : `${fmtNum(g)} kW`), el("td", null, "≈ " + cap.alan));
+      if (petek) row.append(el("td", null, "≈ " + cap.petek));
+      tbody.append(row);
+    }
+    table.append(thead, tbody);
+    body.append(table, el("p", "g-note", btu
+      ? "Ortalama bir oda için yaklaşık değerlerdir. Güneş alan, çok camlı veya tavanı yüksek odalarda bir üst kapasite seçin."
+      : "Ortalama yalıtımlı bir daire için yaklaşık değerlerdir; kat, cephe, yalıtım ve tavan yüksekliğine göre değişir. " +
+        "Hesap cihazın ısıtma gücüne göre yapılır (örn. 20/26 kW kombide 20 kW)." +
+        (petek ? " Petek: 600×1000 panel radyatör." : "")));
+    d.append(body);
+    return d;
+  }
+
+  function card(p) {
+    const vs = sortedVariants(p);
+    const art = el("article", "card glass");
+    const head = el("div", "card-head");
+    const title = el("div");
+    title.append(el("div", "brand-tag", p.marka), el("h4", null, p.model));
+    head.append(title);
+    if (isPatron()) head.append(btn("Düzenle", "small", () => openEditor(p)));
+    art.append(head);
+    if (p.garanti) art.append(el("div", "garanti", p.garanti + " garanti"));
+
+    let sel = 0;
+    let chips = [];
+    if (vs.length > 1) {
+      const row = el("div", "chips");
+      chips = vs.map((v, i) => {
+        const c = el("button", "chip", v.etiket);
+        c.type = "button";
+        c.addEventListener("click", () => {
+          sel = i;
+          draw();
+        });
+        row.append(c);
+        return c;
+      });
+      art.append(row);
+    }
+    const body = el("div", "card-body");
+    art.append(body);
+
+    const specs = lines(p.ozellikler);
+    if (specs.length) {
+      const ul = el("ul", "specs");
+      for (const s of specs) ul.append(el("li", null, s));
+      art.append(ul);
+    }
+
+    function draw() {
+      chips.forEach((c, i) => c.setAttribute("aria-pressed", String(i === sel)));
+      body.replaceChildren(...(vs.length ? detail(p, vs[sel], vs.length === 1) : [el("div", "p-none", "Seçenek yok")]));
+    }
+    draw();
+    return art;
+  }
+
+  function detail(p, v, single) {
+    const out = [];
+    const line = [single ? v.etiket : null, v.kod].filter(Boolean).join(" · ");
+    if (line) out.push(el("div", "v-line", line));
+
+    const cap = kapasite(p.kat, v);
+    if (cap.alan || cap.petek) {
+      const c = el("div", "cap");
+      if (cap.alan) c.append(el("span", null, "≈ " + cap.alan));
+      if (cap.petek) c.append(el("span", null, "≈ " + cap.petek));
+      out.push(c);
+    }
+
+    const f = fiyatlar(p, v);
+    const box = el("div", "prices");
+    if (f?.nakit != null) {
+      box.append(el("div", "p-lbl", ODEMELER[0][1]), el("div", "p-val", fmtTL(f.nakit)));
+      for (const [key, label] of ODEMELER.slice(1)) {
+        if (f[key] == null) continue;
+        const row = el("div", "p-row");
+        row.append(el("span", null, label), el("b", null, fmtTL(f[key])));
+        box.append(row);
+      }
+    } else {
+      box.append(el("div", "p-none", "Fiyat sorunuz"));
+    }
+    const eur = isPatron() ? v.alis?.para === "EUR" : v.doviz;
+    if (eur && f?.nakit != null && db.kur) {
+      box.append(el("div", "p-note", `€ bazlı ürün · ${fmtDay(db.kur.tarih)} kuruyla (1 € = ${fmtNum(db.kur.eur, 4)} ₺) hesaplandı`));
+    }
+    out.push(box);
+
+    if (isPatron()) out.push(bossBox(p, v, f));
+    return out;
+  }
+
+  // Patrona alış fiyatını, farkı ve fiyatın neden hesaplanamadığını gösterir.
+  function bossBox(p, v, f) {
+    const box = el("div", "boss-box");
+    const a = v.alis;
+    if (!a) {
+      box.append(el("div", null, "Alış fiyatı yok (tedarikçide “fiyat sorunuz”)."));
+      return box;
+    }
+    const cur = a.para === "EUR" ? fmtEUR : fmtTL;
+    box.append(el("div", null, "Alış: " + [a.nakit, a.t6, a.t12].map((x) => (x == null ? "—" : cur(x))).join(" · ")));
+    const alisTL = a.nakit == null ? null : a.para === "EUR" ? (db.kur ? a.nakit * db.kur.eur : null) : a.nakit;
+    if (f?.nakit != null && alisTL != null) {
+      box.append(el("div", null, `Fark (nakit): ${fmtTL(f.nakit - alisTL)}` + (v.satis ? " · elle girilmiş satış fiyatı" : "")));
+    } else if (f?.nakit == null) {
+      const why = a.para === "EUR" && !db.kur ? "Euro kuru girilmemiş."
+        : !db.fiyatlandirma.kategoriler[p.kat] ? "Bu tür için kâr/montaj ayarı yok."
+        : "Satış fiyatı hesaplanamadı.";
+      box.append(el("div", "warn", why + " Çalışanlar “Fiyat sorunuz” görür."));
+    }
+    return box;
+  }
+
+  // ---------- Pencereler ----------
+  for (const b of document.querySelectorAll("[data-close]")) {
+    b.addEventListener("click", () => b.closest("dialog").close());
+  }
+
+  // ---------- Ürün ekle / düzenle / sil ----------
   const editDialog = $("editDialog");
-  const fields = { marka: "fMarka", model: "fModel", guc: "fGuc", garanti: "fGaranti", ozellikler: "fOzellik" };
   let editingId = null;
 
-  for (const btn of document.querySelectorAll("[data-close]")) {
-    btn.addEventListener("click", () => btn.closest("dialog").close());
+  function fillKatSelect(value) {
+    $("fKat").replaceChildren(...KATEGORILER.map((k) => {
+      const o = el("option", null, k.ad);
+      o.value = k.id;
+      return o;
+    }));
+    $("fKat").value = KAT[value] ? value : "kombi";
   }
 
-  function openEditor(k) {
-    editingId = k ? k.id : null;
-    $("editTitle").textContent = k ? "Kombiyi düzenle" : "Yeni kombi";
-    for (const [key, id] of Object.entries(fields)) $(id).value = k ? (k[key] || "") : "";
-    $("fFiyat").value = k && typeof k.fiyat === "number" ? String(k.fiyat).replace(".", ",") : "";
+  function openEditor(p) {
+    editingId = p ? p.id : null;
+    $("editTitle").textContent = p ? "Ürünü düzenle" : "Yeni ürün";
+    fillKatSelect(p ? p.kat : activeKat);
+    $("fMarka").value = p?.marka || "";
+    $("fModel").value = p?.model || "";
+    $("fGaranti").value = p?.garanti || "";
+    $("fOzellik").value = p?.ozellikler || "";
+    $("markaList").replaceChildren(...[...new Set(db.urunler.map((x) => x.marka))].sort(trSort).map((m) => {
+      const o = el("option");
+      o.value = m;
+      return o;
+    }));
+    $("variants").replaceChildren(...(p ? sortedVariants(p) : [{}]).map(variantEditor));
+    $("deleteBtn").hidden = !p;
     $("editError").textContent = "";
+    refreshAllVariants();
     editDialog.showModal();
+    editDialog.querySelector(".d-body").scrollTop = 0;
   }
 
-  // "45.000", "45000", "45.000,50" gibi yazımları sayıya çevirir.
-  function parsePrice(text) {
-    const t = text.trim().replace(/[₺\s]/g, "");
-    if (!t) return null;
-    const n = Number(t.replace(/\./g, "").replace(",", "."));
-    return Number.isFinite(n) && n >= 0 ? n : NaN;
+  function vField(label, f, value, opts = {}) {
+    const w = el("label", "vf");
+    const span = el("span", "mini", label);
+    if (opts.labelClass) span.classList.add(opts.labelClass);
+    const i = el("input");
+    i.dataset.f = f;
+    i.value = value ?? "";
+    i.autocomplete = "off";
+    if (opts.num) i.inputMode = "decimal";
+    if (opts.ph) i.placeholder = opts.ph;
+    w.append(span, i);
+    return w;
   }
 
-  $("addBtn").addEventListener("click", () => openEditor(null));
+  function variantEditor(v) {
+    const box = el("div", "v-edit");
+    box.dataset.id = v.id || crypto.randomUUID();
+
+    const top = el("div", "v-top");
+    const gucField = vField("Güç", "guc", fmtNum(v.guc), { num: true, labelClass: "guc-label" });
+    gucField.classList.add("guc-field");
+    const etiketField = vField("Seçenek adı", "etiket", v.etiket, { ph: "örn. 24 kW" });
+    etiketField.classList.add("vf-e");
+    const kodField = vField("Model kodu", "kod", v.kod, { ph: "isteğe bağlı" });
+    kodField.classList.add("vf-k");
+    top.append(
+      etiketField,
+      kodField,
+      gucField,
+      btn("Sil", "small danger v-del", () => {
+        if ($("variants").children.length === 1) {
+          $("editError").textContent = "En az bir seçenek olmalı.";
+          return;
+        }
+        box.remove();
+      })
+    );
+
+    const aSec = el("div", "v-sec");
+    const aHead = el("div", "v-sec-h");
+    const para = el("select");
+    para.dataset.f = "para";
+    para.setAttribute("aria-label", "Alış para birimi");
+    for (const [val, txt] of [["TL", "₺ TL"], ["EUR", "€ EUR"]]) {
+      const o = el("option", null, txt);
+      o.value = val;
+      para.append(o);
+    }
+    para.value = v.alis?.para || "TL";
+    aHead.append(el("span", null, "Alış fiyatı"), para);
+    const aGrid = el("div", "v-grid");
+    aGrid.append(
+      vField("Nakit", "a_nakit", fmtNum(v.alis?.nakit), { num: true }),
+      vField("2–6 taksit", "a_t6", fmtNum(v.alis?.t6), { num: true }),
+      vField("7–12 taksit", "a_t12", fmtNum(v.alis?.t12), { num: true }));
+    aSec.append(aHead, aGrid);
+
+    const sSec = el("div", "v-sec");
+    const sHead = el("div", "v-sec-h");
+    sHead.append(el("span", null, "Satış fiyatı (₺)"), el("span", "hint", "Boş bırakılırsa otomatik hesaplanır"));
+    const sGrid = el("div", "v-grid");
+    sGrid.append(
+      vField("Nakit", "s_nakit", fmtNum(v.satis?.nakit), { num: true }),
+      vField("2–6 taksit", "s_t6", fmtNum(v.satis?.t6), { num: true }),
+      vField("7–12 taksit", "s_t12", fmtNum(v.satis?.t12), { num: true }));
+    sSec.append(sHead, sGrid);
+
+    const cSec = el("div", "v-sec");
+    const cHead = el("div", "v-sec-h");
+    cHead.append(el("span", null, "Kapasite bilgisi"), el("span", "hint", "Boş bırakılırsa güce göre otomatik"));
+    const cGrid = el("div", "v-grid two");
+    cGrid.append(
+      vField("Isıtılan alan (m²)", "alan", v.alan, {}),
+      vField("Ortalama petek", "petek", v.petek, {}));
+    cSec.append(cHead, cGrid);
+
+    box.append(top, aSec, sSec, cSec);
+    box.addEventListener("input", () => refreshVariant(box));
+    box.addEventListener("change", () => refreshVariant(box));
+    return box;
+  }
+
+  // strict=false: yazarken önizleme için hatalı alanları boş sayar.
+  function readVariant(box, kat, strict) {
+    const g = (f) => box.querySelector(`[data-f="${f}"]`).value.trim();
+    const etiket = g("etiket");
+    const n = {};
+    for (const f of ["guc", "a_nakit", "a_t6", "a_t12", "s_nakit", "s_t6", "s_t12"]) {
+      n[f] = parseNum(g(f));
+      if (Number.isNaN(n[f])) {
+        if (strict) throw new Error(`“${etiket || "Yeni seçenek"}”: sayı alanlarından biri hatalı.`);
+        n[f] = null;
+      }
+    }
+    if (strict && !etiket) throw new Error("Her seçeneğin bir adı olmalı (örn. 24 kW).");
+    const any = (...xs) => xs.some((x) => x != null);
+    return {
+      id: box.dataset.id,
+      etiket,
+      kod: g("kod"),
+      guc: n.guc ?? (KAT[kat]?.guc ? gucFromLabel(etiket) : null),
+      alan: g("alan"),
+      petek: g("petek"),
+      alis: any(n.a_nakit, n.a_t6, n.a_t12) ? { para: g("para"), nakit: n.a_nakit, t6: n.a_t6, t12: n.a_t12 } : null,
+      satis: any(n.s_nakit, n.s_t6, n.s_t12) ? { nakit: n.s_nakit, t6: n.s_t6, t12: n.s_t12 } : null
+    };
+  }
+
+  // Boş alanlara otomatik değerleri gri yazı olarak gösterir.
+  function refreshVariant(box) {
+    const kat = $("fKat").value;
+    const k = KAT[kat];
+    const v = readVariant(box, kat, false);
+    const p = { kat };
+    const ph = (f, text) => { box.querySelector(`[data-f="${f}"]`).placeholder = text; };
+    const auto = satisHesapla(db, p, { ...v, satis: null });
+    const kart = satisHesapla(db, p, { ...v, satis: v.satis?.nakit != null ? { nakit: v.satis.nakit } : null });
+    ph("s_nakit", auto?.nakit != null ? fmtNum(auto.nakit) : "—");
+    ph("s_t6", kart?.t6 != null ? fmtNum(kart.t6) : "—");
+    ph("s_t12", kart?.t12 != null ? fmtNum(kart.t12) : "—");
+    const cap = kapasite(kat, { ...v, alan: "", petek: "" });
+    ph("alan", cap.alan || "—");
+    ph("petek", cap.petek || "—");
+    box.querySelector(".guc-field").hidden = !k?.guc;
+    box.querySelector(".guc-label").textContent = k?.guc || "Güç";
+    const fromLabel = gucFromLabel(v.etiket);
+    ph("guc", fromLabel != null ? "otomatik: " + fmtNum(fromLabel) : "");
+  }
+  const refreshAllVariants = () => [...$("variants").children].forEach(refreshVariant);
+  $("fKat").addEventListener("change", refreshAllVariants);
+
+  $("addVariantBtn").addEventListener("click", () => {
+    const box = variantEditor({});
+    $("variants").append(box);
+    refreshVariant(box);
+    box.querySelector("input").focus();
+  });
+
+  // Enter yanlışlıkla yarım formu kaydetmesin.
+  $("editForm").addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && e.target.tagName === "INPUT") e.preventDefault();
+  });
 
   $("editForm").addEventListener("submit", (e) => {
     e.preventDefault();
-    const fiyat = parsePrice($("fFiyat").value);
-    if (Number.isNaN(fiyat)) {
-      $("editError").textContent = "Fiyat geçerli bir sayı olmalı.";
+    $("editError").textContent = "";
+    const kat = $("fKat").value;
+    const marka = $("fMarka").value.trim();
+    const model = $("fModel").value.trim();
+    if (!marka || !model) {
+      $("editError").textContent = "Marka ve model gerekli.";
       return;
     }
-    const entry = { id: editingId || crypto.randomUUID(), fiyat, guncellendi: new Date().toISOString() };
-    for (const [key, id] of Object.entries(fields)) entry[key] = $(id).value.trim();
-
-    const nextItems = editingId
-      ? items.map((k) => (k.id === editingId ? entry : k))
-      : [...items, entry];
+    let varyantlar;
+    try {
+      varyantlar = [...$("variants").children].map((b) => readVariant(b, kat, true));
+    } catch (err) {
+      $("editError").textContent = err.message;
+      return;
+    }
+    if (!varyantlar.length) {
+      $("editError").textContent = "En az bir seçenek olmalı.";
+      return;
+    }
+    const entry = {
+      id: editingId || crypto.randomUUID(),
+      kat, marka, model,
+      garanti: $("fGaranti").value.trim(),
+      ozellikler: lines($("fOzellik").value).join("\n"),
+      guncellendi: new Date().toISOString(),
+      varyantlar
+    };
+    const next = structuredClone(db);
+    next.urunler = editingId ? next.urunler.map((p) => (p.id === editingId ? entry : p)) : [...next.urunler, entry];
     guarded($("saveBtn"), $("editError"), async () => {
       // Depo herkese açık; commit mesajında model adı geçmemeli.
-      await publish(nextItems, { ...session }, "Fiyat listesi güncellendi");
+      await publish(next, { ...session }, "Fiyat listesi güncellendi");
+      editDialog.close();
+      if (!$("search").value) setKat(kat);
+    });
+  });
+
+  $("deleteBtn").addEventListener("click", () => {
+    const p = db.urunler.find((x) => x.id === editingId);
+    if (!p || !confirm(`${p.marka} ${p.model} (tüm seçenekleriyle) silinsin mi?`)) return;
+    const next = structuredClone(db);
+    next.urunler = next.urunler.filter((x) => x.id !== p.id);
+    guarded($("deleteBtn"), $("editError"), async () => {
+      await publish(next, { ...session }, "Fiyat listesi güncellendi");
       editDialog.close();
     });
   });
 
-  function removeItem(k, button) {
-    if (!confirm(`${k.marka} ${k.model} silinsin mi?`)) return;
-    guarded(button, $("listError"), () =>
-      publish(items.filter((x) => x.id !== k.id), { ...session }, "Fiyat listesi güncellendi"));
+  $("addBtn").addEventListener("click", () => openEditor(null));
+
+  // ---------- Fiyata dahil / dahil değil ----------
+  const infoDialog = $("infoDialog");
+  let infoKat = null;
+
+  function openInfo(katId) {
+    infoKat = katId;
+    const i = db.kategoriler?.[katId] || {};
+    $("infoTitle").textContent = `${KAT[katId].ad} · fiyat kapsamı`;
+    $("iDahil").value = (i.dahil || []).join("\n");
+    $("iHaric").value = (i.haric || []).join("\n");
+    $("iNot").value = i.not || "";
+    $("infoError").textContent = "";
+    infoDialog.showModal();
   }
+
+  $("infoForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const info = { dahil: lines($("iDahil").value), haric: lines($("iHaric").value), not: $("iNot").value.trim() };
+    const next = structuredClone(db);
+    next.kategoriler = next.kategoriler || {};
+    if (info.dahil.length || info.haric.length || info.not) next.kategoriler[infoKat] = info;
+    else delete next.kategoriler[infoKat];
+    guarded($("infoSaveBtn"), $("infoError"), async () => {
+      await publish(next, { ...session }, "Fiyat listesi güncellendi");
+      infoDialog.close();
+    });
+  });
 
   // ---------- Ayarlar ----------
   const settingsDialog = $("settingsDialog");
+  let kurMeta = null;   // "Güncel kuru getir" ile gelen kurun tarihi ve kaynağı
 
-  $("settingsBtn").addEventListener("click", () => {
+  function kurHint() {
+    $("kurHint").textContent = db.kur
+      ? `Kayıtlı kur: 1 € = ${fmtNum(db.kur.eur, 4)} ₺ · ${fmtDay(db.kur.tarih)} · ${db.kur.kaynak === "ECB" ? "Avrupa Merkez Bankası kuru" : "elle girildi"}. ` +
+        "Tedarikçi ödeme günündeki TCMB satış kurunu kullanır; arada küçük fark olabilir."
+      : "Kur girilmemiş; € fiyatlı ürünlerde çalışanlar “Fiyat sorunuz” görür.";
+  }
+
+  function openSettings() {
+    const rows = $("ruleRows");
+    rows.replaceChildren(el("span", "rh", "Tür"), el("span", "rh", "Kâr %"), el("span", "rh", "Montaj / ek ₺"));
+    for (const k of KATEGORILER) {
+      const r = db.fiyatlandirma.kategoriler[k.id];
+      const kar = el("input");
+      kar.inputMode = "decimal";
+      kar.dataset.kat = k.id;
+      kar.dataset.f = "kar";
+      kar.value = r ? fmtNum(r.kar) : "";
+      kar.placeholder = "—";
+      kar.setAttribute("aria-label", `${k.ad} kâr yüzdesi`);
+      const ek = el("input");
+      ek.inputMode = "decimal";
+      ek.dataset.kat = k.id;
+      ek.dataset.f = "ek";
+      ek.value = r ? fmtNum(r.ek) : "";
+      ek.placeholder = "—";
+      ek.setAttribute("aria-label", `${k.ad} montaj veya ek bedel`);
+      rows.append(el("span", "rn", k.ad), kar, ek);
+    }
+    $("cYuvarla").value = String(db.fiyatlandirma.yuvarla || 1);
+    $("cKur").value = db.kur ? fmtNum(db.kur.eur, 4) : "";
+    kurMeta = null;
+    kurHint();
     for (const id of ["cCalisan", "cPatron", "cToken"]) $(id).value = "";
     $("settingsError").textContent = "";
     settingsDialog.showModal();
+    settingsDialog.querySelector(".d-body").scrollTop = 0;
+  }
+
+  $("settingsBtn").addEventListener("click", openSettings);
+  $("cKur").addEventListener("input", () => { kurMeta = null; });
+
+  $("kurFetchBtn").addEventListener("click", async () => {
+    $("settingsError").textContent = "";
+    $("kurFetchBtn").disabled = true;
+    try {
+      const res = await fetch(KUR_API, { cache: "no-store" });
+      const j = await res.json();
+      const rate = j?.rates?.TRY;
+      if (!(rate > 0)) throw new Error();
+      $("cKur").value = fmtNum(rate, 4);
+      kurMeta = { tarih: j.date || today(), kaynak: "ECB" };
+      $("kurHint").textContent = `${fmtDay(kurMeta.tarih)} tarihli Avrupa Merkez Bankası kuru getirildi. Kaydet'e basınca fiyatlar bu kurla hesaplanır.`;
+    } catch {
+      $("settingsError").textContent = "Kur alınamadı; elle girebilirsiniz.";
+    } finally {
+      $("kurFetchBtn").disabled = false;
+    }
   });
 
   $("settingsForm").addEventListener("submit", (e) => {
     e.preventDefault();
+    const fail = (msg) => { $("settingsError").textContent = msg; };
+    $("settingsError").textContent = "";
+
+    const kurallar = {};
+    for (const k of KATEGORILER) {
+      const kar = parseNum(document.querySelector(`#ruleRows [data-kat="${k.id}"][data-f="kar"]`).value);
+      const ek = parseNum(document.querySelector(`#ruleRows [data-kat="${k.id}"][data-f="ek"]`).value);
+      if (Number.isNaN(kar) || Number.isNaN(ek)) return fail(`${k.ad}: kâr ve montaj sayı olmalı.`);
+      if (kar != null || ek != null) kurallar[k.id] = { kar: kar ?? 0, ek: ek ?? 0 };
+    }
+    const kurVal = parseNum($("cKur").value);
+    if (Number.isNaN(kurVal) || kurVal === 0) return fail("Euro kuru geçerli bir sayı olmalı.");
+    let kur = db.kur;
+    if (kurVal == null) kur = null;
+    else if (kurMeta || !db.kur || kurVal !== db.kur.eur) {
+      kur = { eur: kurVal, tarih: kurMeta?.tarih || today(), kaynak: kurMeta?.kaynak || "elle" };
+    }
+
+    const next = structuredClone(db);
+    next.fiyatlandirma = { yuvarla: Number($("cYuvarla").value) || 1, kategoriler: kurallar };
+    next.kur = kur;
+
     const calisan = $("cCalisan").value;
     const patron = $("cPatron").value;
-    const token = $("cToken").value.trim();
-    if (!calisan && !patron && !token) {
+    const token = LOCAL ? "" : $("cToken").value.trim();
+    const accountChanged = Boolean(calisan || patron || token);
+    if (!accountChanged && JSON.stringify(next) === JSON.stringify(db)) {
       settingsDialog.close();
       return;
     }
     if ((calisan && calisan.length < MIN_PASSWORD) || (patron && patron.length < MIN_PASSWORD)) {
-      $("settingsError").textContent = `Şifreler en az ${MIN_PASSWORD} karakter olmalı.`;
-      return;
+      return fail(`Şifreler en az ${MIN_PASSWORD} karakter olmalı.`);
     }
-    const next = {
+    const nextSession = {
       ...session,
       calisan: calisan || session.calisan,
       patron: patron || session.patron,
       token: token || session.token
     };
-    if (next.calisan === next.patron) {
-      $("settingsError").textContent = "İki şifre farklı olmalı.";
+    if (nextSession.calisan === nextSession.patron) return fail("İki şifre farklı olmalı.");
+    // Yeni anahtar girildiyse dosyanın güncel halini onunla alıp öyle kaydederiz.
+    if (token) nextSession.sha = null;
+
+    guarded($("settingsSaveBtn"), $("settingsError"), async () => {
+      // Sadece GitHub anahtarı değiştiyse liste anahtarları aynı kalır, açık çalışan oturumları bozulmaz.
+      const keys = calisan || patron ? await wrapKeys(nextSession)
+        : token ? await wrapKeys(nextSession, session.k, session.pk)
+        : undefined;
+      await publish(next, nextSession, accountChanged ? "Panel ayarları güncellendi" : "Fiyat listesi güncellendi", keys);
+      settingsDialog.close();
+    });
+  });
+
+  $("exportBtn").addEventListener("click", () => {
+    const blob = new Blob([JSON.stringify(db, null, 1)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `fiyat-listesi-${today()}.yedek.json`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  });
+
+  $("importBtn").addEventListener("click", () => $("importFile").click());
+  $("importFile").addEventListener("change", async () => {
+    const f = $("importFile").files[0];
+    $("importFile").value = "";
+    if (!f) return;
+    let next;
+    try {
+      next = parseList(await f.text());
+    } catch (err) {
+      $("settingsError").textContent = err.message;
       return;
     }
-    // Yeni anahtar girildiyse dosyanın güncel halini onunla alıp öyle kaydederiz.
-    if (token) next.sha = null;
-    guarded($("settingsSaveBtn"), $("settingsError"), async () => {
-      // Sadece anahtar değiştiyse veri anahtarı aynı kalır, açık çalışan oturumları bozulmaz.
-      const keys = await wrapKeys(next, calisan || patron ? undefined : session.k);
-      await publish(items, next, "Panel ayarları güncellendi", keys);
+    if (!confirm(`Mevcut liste (${db.urunler.length} model) silinip dosyadaki ${next.urunler.length} model yüklenecek. Devam edilsin mi?`)) return;
+    // Başlangıç dosyasında kâr ayarı ve kur yoksa mevcut ayarlar korunur.
+    if (!Object.keys(next.fiyatlandirma.kategoriler).length) next.fiyatlandirma = structuredClone(db.fiyatlandirma);
+    if (!next.kur) next.kur = db.kur;
+    guarded($("importBtn"), $("settingsError"), async () => {
+      await publish(next, { ...session }, "Fiyat listesi güncellendi");
       settingsDialog.close();
     });
   });

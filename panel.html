@@ -864,12 +864,21 @@
   const localRead = () => JSON.parse(localStorage.getItem(LOCAL_KEY) || "null");
 
   // Çalışanlar herkese açık site üzerinden okur (GitHub anahtarı gerekmez).
+  // GitHub Pages olmayan dosya için arada bir 404 yerine 503 döndürüyor; geçici hatalarda tekrar denenir.
   async function readPublic() {
     if (LOCAL) return localRead()?.file || null;
-    const res = await fetch(`${FILE}?t=${Date.now()}`, { cache: "no-store" });
-    if (res.status === 404) return null;
-    if (!res.ok) throw new Error(`Liste yüklenemedi (${res.status}).`);
-    return res.json();
+    for (let i = 0; ; i++) {
+      let res = null;
+      try {
+        res = await fetch(`${FILE}?t=${Date.now()}`, { cache: "no-store" });
+      } catch { /* bağlantı hatası: tekrar dene */ }
+      if (res?.status === 404) return null;
+      if (res?.ok) return res.json();
+      if (i >= 4 || (res && res.status < 500)) {
+        throw new Error(`Liste yüklenemedi${res ? ` (${res.status})` : ""}. Sayfayı yenileyin.`);
+      }
+      await new Promise((r) => setTimeout(r, 500 * (i + 1)));
+    }
   }
 
   // Patron en güncel dosyayla çalışmalı; site önbelleği birkaç dakika geride olabilir.
@@ -1057,7 +1066,7 @@
 
   async function login(user, password) {
     if (!file) file = await readPublic();
-    if (!file) throw new Error("Fiyat listesi henüz oluşturulmamış.");
+    if (!file) throw Object.assign(new Error("Fiyat listesi henüz oluşturulmamış."), { kurulum: true });
     if (file.version !== 2) throw new Error("Fiyat dosyası eski biçimde; depodaki fiyatlar.json silinip kurulum yeniden yapılmalı.");
     let secret;
     try {
@@ -1120,7 +1129,9 @@
       enterApp();
     } catch (err) {
       session = null;
-      $("loginError").textContent = err.message;
+      // Liste hiç oluşturulmamışsa giriş yerine kurulum ekranı açılır.
+      if (err.kurulum) show("setupView");
+      else $("loginError").textContent = err.message;
     } finally {
       $("loginBtn").disabled = false;
     }
